@@ -1,5 +1,5 @@
 :root {
-    --gridSize: 3;
+    --gridSize: 10;
 }
 
 h1 {
@@ -9,17 +9,18 @@ h1 {
 .gameMap {
     display: grid;
     grid-template-columns: repeat(var(--gridSize), auto);
-    height: 550px;
-    width: 550px;
+    height: 700px;
+    width: 700px;
 }
 
 .gameTile {
     font-size: 50px;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    padding: 50px;
     border: solid white 2px;
     background-color: gray;
+    height: 65px;
+    width: 65px;
 }
 
 .gameTile:hover {
@@ -31,4 +32,39 @@ h1 {
 
 .activeTile {
     background-color: green;
+}
+
+.enemyTile {
+    background-color: red;
+}
+
+#endGameOverlay {
+    position: fixed;
+    display: none;
+    padding: 200px 0 0 0;
+    width: 100%;
+    height: 25%;
+    top:25%;
+    left:0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    text-align: center;
+    font-size: 6em;
+    font-weight: bold;
+    color: white;
+}
+
+#replayDiv {
+    display: block;
+}
+
+#replayButton {
+    border: none;
+    background-color: transparent;
+}
+
+#replayButton:hover {
+    font-size: 28px;
 }

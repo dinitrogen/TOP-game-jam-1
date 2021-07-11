@@ -3,10 +3,12 @@
 <head>
     <link rel="stylesheet" href="./style.css">
     <meta charset="UTF-8">
-    <title>TOP game jam</title>
+    <title>Melody Madness</title>
 </head>
 <body>
-    <h1>TOP game jam!</h1>
+    <h1>Melody Madness!</h1>
+
+    <div id="lifeDisplay">Life: 5</div>
 
     <div id="scoreDisplay">Score: 0</div>
 
@@ -17,16 +19,26 @@
     </div>
 
     <div class="gameMap">
-        <div></div>
+        
         <!-- generate a grid here-->
 
     </div>
 
-    <hr>
+    
 
-    <button id="newQuestion">New question</button>
+    <!-- <button id="newQuestion">New question</button> -->
 
+    <div id="endGameOverlay">
+
+        <div id="gameOver"></div>
+    
+        <div id="replayDiv">
+            <button id='replayButton'>Play again?</button>
+        </div>
+    
+    </div>
 
     <script src="./script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.26/Tone.js"></script>
 </body>
 </html>
