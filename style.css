@@ -58,6 +58,7 @@ h1 {
 
 #replayDiv {
     display: block;
+    align-items: center;
 }
 
 #replayButton {
@@ -66,5 +67,14 @@ h1 {
 }
 
 #replayButton:hover {
+    font-size: 28px;
+}
+
+#nextLevelButton {
+    border: none;
+    background-color: transparent;
+}
+
+#nextLevelButton:hover {
     font-size: 28px;
 }

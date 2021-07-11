@@ -1,5 +1,7 @@
+
 const staffDiv = document.querySelector('.staffDiv');
 const gameMap = document.querySelector('.gameMap');
+const levelDisplay = document.querySelector('#levelDisplay');
 const resultDisplay = document.querySelector('#resultDisplay');
 const scoreDisplay = document.querySelector('#scoreDisplay');
 const lifeDisplay = document.querySelector('#lifeDisplay');
@@ -7,10 +9,12 @@ const endGameOverlay = document.querySelector('#endGameOverlay');
 const gameOver = document.querySelector('#gameOver');
 const replayButton = document.querySelector('#replayButton');
 replayButton.addEventListener('click', startNewGame);
+const nextLevelButton = document.querySelector('#nextLevelButton');
+nextLevelButton.addEventListener('click', goToNextLevel);
 
 const notesLibrary = ['A','B','C','D','E','F','G'];
 let notesList = [];
-let correctAnswer = getRandomNote();
+let correctAnswer;
 let gridSize = 10;
 let gridArea = gridSize ** 2;
 let activeTileIndex = 0;
@@ -19,6 +23,27 @@ let enemyTileIndex = gridArea - 1
 let enemyTile;
 let score = 0;
 let life = 5;
+
+let levels = [
+    ['C', 'D', 'E', 'F', 'G'],
+    ['A', 'B', 'C', 'D', 'E'],
+    ['C', 'E', 'G', 'Eb', 'C', 'G']
+];
+
+let levelIndex = 0;
+let melodyIndex = 0;
+correctAnswer = levels[0][melodyIndex];
+
+function getNextNote(melody, currentNoteIndex) {
+    if (currentNoteIndex >= melody.length - 1) {
+        return;
+    } else {
+        let nextNote = melody[currentNoteIndex + 1];
+        return nextNote;
+    }
+}
+
+
 
 
 // const newQuestionButton = document.querySelector('#newQuestion');
@@ -68,18 +93,23 @@ function movePlayer(event) {
         }
     } else if (event.code === "Space") {
         console.log(activeTile.textContent);
-        if (activeTile.textContent === " ") {
+        if (activeTile.textContent === ' ') {
             return;
         } else if (activeTile.textContent === correctAnswer) {
-            activeTile.textContent = 'Correct!'; // Doesn't show, try timeout?
             resultDisplay.textContent = 'Correct!';
             let note = `${correctAnswer}4`;
             playNote(note);
             increaseScore();
-            correctAnswer = getRandomNote();
-            generateNotesList(gridArea);
-            populateMap(gridArea);
-            staffDiv.textContent = `Find this note: "${correctAnswer}"`
+            // correctAnswer = getRandomNote();
+            correctAnswer = getNextNote(levels[levelIndex], melodyIndex);
+            if (melodyIndex >= levels[levelIndex].length - 1) {
+                levelComplete(levels[levelIndex]);
+            } else {
+                melodyIndex++;
+                generateNotesList(gridArea);
+                populateMap(gridArea);
+                staffDiv.textContent = `Find this note: "${correctAnswer}"`
+            }
         } else {
             activeTile.textContent = 'X';
             resultDisplay.textContent = 'Wrong!';
@@ -186,9 +216,12 @@ function drawGrid() {
                 generateNotesList(gridArea);
                 populateMap(gridArea);
                 staffDiv.textContent = `Find this note: "${correctAnswer}"`
+            } else if (this.textContent === ' ') {
+                return;
             } else {
                 this.textContent = 'X';
                 resultDisplay.textContent = 'Wrong!';
+                decreaseLife();
             }
             // TODO: remove the event listener to disable further clicks 
         });
@@ -256,7 +289,18 @@ function displayGameOver() {
     resultDisplay.textContent = 'GAME OVER';
     gameOver.textContent = 'GAME OVER';
     endGameOverlay.style.display = 'block';
+    nextLevelButton.style.display = 'none';
+    replayButton.style.display = 'block';
     // TODO Game over screen
+}
+
+function levelComplete(level) {
+    resultDisplay.textContent = 'LEVEL COMPLETE';
+    gameOver.textContent = 'LEVEL COMPLETE';
+    endGameOverlay.style.display = 'block';
+    nextLevelButton.style.display = 'block';
+    replayButton.style.display = 'none';
+    playMelody(level);
 }
 
 function playNote(note) {
@@ -264,12 +308,48 @@ function playNote(note) {
     synth.triggerAttackRelease(note, "4n");
 }
 
-function startNewGame() {
+function playMelody(notes) {
+    const synth = new Tone.Synth().toDestination();
+    const now = Tone.now();
+    notes.forEach((note, i) => {
+        synth.triggerAttackRelease(`${note}4`, "0.5", now + (i * 0.5));
+    });
+}
+
+function goToNextLevel() {
+    levelIndex++;
+    if (levelIndex >= levels.length) {
+        return; // TODO: Display win screen
+    } else {
+        levelDisplay.textContent = `Level ${levelIndex + 1}`;
+        startNewLevel(levels[levelIndex]);
+    }
+}
+
+function startNewLevel(level) {
     endGameOverlay.style.display = 'none';
+    activeTileIndex = 0;
+    melodyIndex = 0;
+    correctAnswer = level[melodyIndex]
     staffDiv.textContent = `Find this note: "${correctAnswer}"`
     drawGrid();
     generateNotesList(gridArea);
     populateMap(gridArea);
+    resultDisplay.textContent = '';
+    resetEnemyPosition();
+}
+
+function startNewGame() {
+    endGameOverlay.style.display = 'none';
+    activeTileIndex = 0;
+    melodyIndex = 0;
+    levelIndex = 0;
+    correctAnswer = levels[0][melodyIndex];
+    staffDiv.textContent = `Find this note: "${correctAnswer}"`;
+    drawGrid();
+    generateNotesList(gridArea);
+    populateMap(gridArea);
+    levelDisplay.textContent = `Level ${levelIndex + 1}`
     life = 5;
     lifeDisplay.textContent = `Life: ${life}`;
     score = 0;
