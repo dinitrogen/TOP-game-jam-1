@@ -9,11 +9,16 @@ const lifeDisplay = document.querySelector('#lifeDisplay');
 const endGameOverlay = document.querySelector('#endGameOverlay');
 const gameOver = document.querySelector('#gameOver');
 const replayButton = document.querySelector('#replayButton');
-replayButton.addEventListener('click', startNewGame);
+replayButton.addEventListener('click', () => {
+    startNewGame();
+    playBGMusic(bgMusic[0]);
+    bgMusicDelay = 0.5;
+});
+
 const nextLevelButton = document.querySelector('#nextLevelButton');
 nextLevelButton.addEventListener('click', goToNextLevel);
 
-const notesLibrary = ['A','Ab','A#','B','Bb','B#','C','C#','D','Db','D#','E','E#','F','F#','G','Gb','G#'];
+const notesLibrary = ['A','Ab','A#','B','Bb','C','C#','D','Db','D#','E','Eb','F','F#','G','Gb','G#'];
 console.log(notesLibrary.length);
 let notesList = [];
 let correctAnswer;
@@ -26,6 +31,14 @@ let enemyTile;
 let score = 0;
 let life = 5;
 
+let bgMusicDelay = 0.5;
+let bgMusic = [
+    {
+        name: "Level start",
+        notes: ['B2', 'B3', 'A3', 'B3', 'B2', 'B3', 'A3', 'F#3', 'B3', 'F#4', 'D#4'],
+        durations: [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.5, 0.5, 0.5]
+    }
+];
 
 let levels = [
     {
@@ -266,7 +279,7 @@ function getNextNote(level, currentNoteIndex) {
 }
 
 function getRandomNote() {
-    let randomNote = notesLibrary[Math.floor(Math.random() * 18)];
+    let randomNote = notesLibrary[Math.floor(Math.random() * 17)];
     return randomNote;
 }
 
@@ -338,6 +351,16 @@ function playMelody(level) {
     }
 }
 
+
+function playBGMusic(track) {
+    for (let i = 0; i < track.notes.length; i++) {
+        let now = Tone.now();
+        let note = `${track.notes[i]}`;
+        let duration = track.durations[i];
+        playNote(note, duration, now + bgMusicDelay);
+        bgMusicDelay = bgMusicDelay + track.durations[i];
+    }
+}
 
 function goToNextLevel() {
     levelIndex++;
