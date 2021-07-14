@@ -68,6 +68,20 @@ let levels = [
 
 ];
 
+let maps = [
+    {
+        id: 1,
+        walls: [
+            {
+                type: 'vertical',
+                length: 4,
+                startX: 3,
+                startY: 2
+            }
+        ]
+    }
+]
+
 let levelIndex = 0;
 let noteIndex = 0;
 let noteDelay = 2;
@@ -244,6 +258,10 @@ function drawGrid() {
     activeTile.classList.add('activeTile');
     enemyTile = document.querySelector(`#tile${gridArea - 1}`);
     enemyTile.classList.add('enemyTile');
+}
+
+function loadMap(mapId) {
+
 }
 
 function generateNotesList(numTiles) {

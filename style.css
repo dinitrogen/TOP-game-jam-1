@@ -23,6 +23,22 @@ h1 {
     width: 65px;
 }
 
+.wall-right {
+    border-right: solid black 2px;
+}
+
+.wall-left {
+    border-left: solid black 2px;
+}
+
+.wall-top {
+    border-top: solid black 2px;
+}
+
+.wall-bottom {
+    border-bottom: solid black 2px;
+}
+
 /* .gameTile:hover {
     background-color: rgb(218, 218, 218);
     font-size: 50px;
