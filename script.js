@@ -18,7 +18,29 @@ replayButton.addEventListener('click', () => {
 const nextLevelButton = document.querySelector('#nextLevelButton');
 nextLevelButton.addEventListener('click', goToNextLevel);
 
-const notesLibrary = ['A','Ab','A#','B','Bb','C','C#','D','Db','D#','E','Eb','F','F#','G','Gb','G#'];
+// const notesLibrary = ['A','Ab','A#','B','Bb','C','C#','D','Db','D#','E','Eb','F','F#','G','Gb','G#'];
+
+const notesLibrary = [
+    { note: 'Ab', svgName: 'a4-flat' },
+    { note: 'A', svgName: 'a4' },
+    { note: 'A#', svgName: 'a4-sharp' },
+    { note: 'Bb', svgName: 'b4-flat' },
+    { note: 'B', svgName: 'b4' },
+    { note: 'C', svgName: 'c4' },
+    { note: 'C#', svgName: 'c5-sharp' },
+    { note: 'Db', svgName: 'd5-flat' },
+    { note: 'D', svgName: 'd5' },
+    { note: 'D#', svgName: 'd5-sharp' },
+    { note: 'Eb', svgName: 'e4-flat' },
+    { note: 'E', svgName: 'e4' },
+    { note: 'F', svgName: 'f4' },
+    { note: 'F#', svgName: 'f4-sharp' },
+    { note: 'Gb', svgName: 'g4-flat' },
+    { note: 'G', svgName: 'g4' },
+    { note: 'G#', svgName: 'g4-sharp' },
+];
+
+
 console.log(notesLibrary.length);
 let notesList = [];
 let correctAnswer;
@@ -122,7 +144,7 @@ function movePlayer(event) {
                 noteIndex++;
                 generateNotesList(gridArea);
                 populateMap(gridArea);
-                staffDiv.textContent = `Find this note: "${correctAnswer}"`
+                updateStaffDiv(correctAnswer);
             }
         } else {
             activeTile.textContent = 'X';
@@ -279,7 +301,7 @@ function getNextNote(level, currentNoteIndex) {
 }
 
 function getRandomNote() {
-    let randomNote = notesLibrary[Math.floor(Math.random() * 17)];
+    let randomNote = notesLibrary[Math.floor(Math.random() * 17)].note;
     return randomNote;
 }
 
@@ -378,7 +400,7 @@ function startNewLevel(level) {
     activeTileIndex = 0;
     noteIndex = 0;
     correctAnswer = level.notes[noteIndex];
-    staffDiv.textContent = `Find this note: "${correctAnswer}"`
+    updateStaffDiv(correctAnswer);
     drawGrid();
     generateNotesList(gridArea);
     populateMap(gridArea);
@@ -392,7 +414,7 @@ function startNewGame() {
     noteIndex = 0;
     levelIndex = 0;
     correctAnswer = levels[0].notes[noteIndex];
-    staffDiv.textContent = `Find this note: "${correctAnswer}"`;
+    updateStaffDiv(correctAnswer);
     drawGrid();
     generateNotesList(gridArea);
     populateMap(gridArea);
@@ -407,4 +429,30 @@ function startNewGame() {
 }
 
 
+function createTrebleStaffNote(note) {
+    let noteIndex = notesLibrary.map(function(e) {
+        return e.note;
+    }).indexOf(note);
+
+    let svgNoteName = notesLibrary[noteIndex].svgName;
+
+    const svgStaffNote = document.createElement('object');
+    svgStaffNote.setAttribute('data', `./img/staff-notes/${svgNoteName}.svg`);
+    svgStaffNote.setAttribute('type', 'image/svg+xml');
+    svgStaffNote.setAttribute('class', 'svgNote');
+    return svgStaffNote
+}
+
+function updateStaffDiv(note) {
+    staffDiv.innerHTML = '';
+    staffDiv.appendChild(createTrebleStaffNote(note));
+}
+
+
 startNewGame();
+
+
+
+
+
+
