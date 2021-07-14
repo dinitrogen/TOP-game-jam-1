@@ -131,6 +131,11 @@ function movePlayer(event) {
     } else if (event.code === "Space") {
         if (activeTile.textContent === ' ') {
             return;
+        } else if (activeTile.classList.contains('hasHeart')) {
+            increaseLife();
+            activeTile.classList.remove('hasHeart');
+            activeTile.innerHTML = '';
+            // activeTile.removeChild(firstChild);
         } else if (activeTile.textContent === correctAnswer) {
             resultDisplay.textContent = 'Correct!';
             let note = `${correctAnswer}${levels[levelIndex].octaves[noteIndex]}`;
@@ -270,13 +275,14 @@ function drawGrid() {
 
 function generateNotesList(numTiles) {
     notesList[0] = correctAnswer;
+    notesList[1] = 'H';
     
-    for (i = 1; i < numTiles; i++) {
+    for (i = 2; i < numTiles; i++) {
         notesList[i] = " ";
     }
     
     // Change the i increment to adjust how populated the map is
-    for (i = 1; i < numTiles; i = i + 7) {
+    for (i = 2; i < numTiles; i = i + 7) {
         notesList[i] = getRandomNote();
     }
 
@@ -287,7 +293,18 @@ function generateNotesList(numTiles) {
 
 function populateMap(numTiles) {
     for (i = 0; i < numTiles; i++) {
-        document.getElementById(`tile${i}`).textContent = notesList[i];
+        if (notesList[i] === 'H') {
+            let heart = document.createElement('object');
+            heart.setAttribute('data', `./img/map-icons/heart.svg`);
+            heart.setAttribute('type', 'image/svg+xml');
+            heart.setAttribute('class', 'mapHeart');
+            document.getElementById(`tile${i}`).innerHTML = '';
+            document.getElementById(`tile${i}`).appendChild(heart)
+            document.getElementById(`tile${i}`).classList.add('hasHeart');
+
+        } else {
+            document.getElementById(`tile${i}`).textContent = notesList[i];
+        }
     }
 }
 
@@ -323,10 +340,18 @@ function increaseScore() {
 
 function decreaseLife() {
     life--;
-    lifeDisplay.textContent = `Life: ${life}`;
+    updateLifeBar(life);
+    //lifeDisplay.textContent = `Life: ${life}`;
     if (life <= 0) {
         displayGameOver();
     }
+}
+
+function increaseLife() {
+    if (life < 5) {
+        life++;
+    }
+    updateLifeBar(life);
 }
 
 function displayGameOver() {
@@ -421,7 +446,8 @@ function startNewGame() {
     levelDisplay.textContent = `Level ${levelIndex + 1}`
     levelNameDisplay.textContent = `${levels[levelIndex].name}`;
     life = 5;
-    lifeDisplay.textContent = `Life: ${life}`;
+    updateLifeBar(life);
+    // lifeDisplay.textContent = `Life: ${life}`;
     score = 0;
     scoreDisplay.textContent = `Score: ${score}`;
     resultDisplay.textContent = '';
@@ -446,6 +472,18 @@ function createTrebleStaffNote(note) {
 function updateStaffDiv(note) {
     staffDiv.innerHTML = '';
     staffDiv.appendChild(createTrebleStaffNote(note));
+}
+
+function updateLifeBar(life) {
+    lifeDisplay.textContent = 'LIFE: ';
+    
+    for (let i = 0; i < life; i++) {
+        let heart = document.createElement('object');
+        heart.setAttribute('data', `./img/map-icons/heart.svg`);
+        heart.setAttribute('type', 'image/svg+xml');
+        heart.setAttribute('class', 'heart');
+        lifeDisplay.appendChild(heart);
+    }
 }
 
 
