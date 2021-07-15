@@ -113,7 +113,7 @@ let maps = [
                 length: 3,
                 startX: 7,
                 startY: 5
-            },
+            }
         ]
     }
 ]
