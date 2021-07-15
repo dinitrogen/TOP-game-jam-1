@@ -518,6 +518,7 @@ function startNewLevel(level) {
 function startNewGame() {
     endGameOverlay.style.display = 'none';
     activeTileIndex = 0;
+    
     noteIndex = 0;
     levelIndex = 0;
     correctAnswer = levels[0].notes[noteIndex];
@@ -537,6 +538,7 @@ function startNewGame() {
     scoreDisplay.textContent = `Score: ${score}`;
     resultDisplay.textContent = '';
     resetEnemyPosition();
+    
 }
 
 
