@@ -513,6 +513,7 @@ function startNewLevel(level) {
     resetEnemyPosition();
     haveKey = false;
     keyDisplay.innerHTML = '';
+    renderHeroSprite(activeTileIndex);
 }
 
 function startNewGame() {
@@ -537,6 +538,7 @@ function startNewGame() {
     scoreDisplay.textContent = `Score: ${score}`;
     resultDisplay.textContent = '';
     resetEnemyPosition();
+    renderHeroSprite(activeTileIndex);
 }
 
 
@@ -582,6 +584,22 @@ function getKey() {
     }
 }
 
+function renderHeroSprite(tileIndex) {
+    let hero = document.createElement('object');
+    hero.setAttribute('data', `./img/map-icons/mage.svg`);
+    hero.setAttribute('type', 'image/svg+xml');
+    hero.setAttribute('class', 'hero');
+    
+    let tile = document.getElementById(`tile${tileIndex}`);
+    if (!tile.classList.contains('hasHero')) {
+        tile.appendChild(hero);
+        tile.classList.add('hasHero');
+    }
+}
+
+function removeSprite(tileIndex, sprite) {
+    document.getElementById(`tile${tileIndex}`).removeChild(sprite);
+}
 
 startNewGame();
 
