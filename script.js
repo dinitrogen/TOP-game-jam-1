@@ -193,6 +193,7 @@ function movePlayer(event) {
     }
     activeTile = document.querySelector(`#tile${activeTileIndex}`);
     activeTile.classList.add('activeTile');
+    renderHeroSprite(activeTileIndex);
     decideEnemyMove();
 }
 
