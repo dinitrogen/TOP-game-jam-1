@@ -101,7 +101,19 @@ let maps = [
                 length: 4,
                 startX: 3,
                 startY: 2
-            }
+            },
+            {
+                type: 'horizontal',
+                length: 4,
+                startX: 4,
+                startY: 1
+            },
+            {
+                type: 'vertical',
+                length: 3,
+                startX: 7,
+                startY: 5
+            },
         ]
     }
 ]
@@ -294,7 +306,40 @@ function drawGrid() {
 }
 
 function loadMap(mapId) {
+    // retrieve the map from the map collection which matches the requested map ID
+    let map = maps.filter(obj => {
+        return obj.id === mapId
+    })[0];
 
+    // process each wall in the map
+    map.walls.forEach(wall => {
+
+        // vertical walls advance along the Y axis
+        if (wall.type === 'vertical') {
+            for (let i=wall.startY; i<wall.startY+wall.length; i++) {
+
+                // find and apply the CSS classes to the borders in between the correct tiles
+                let rightWallTile = document.querySelector(`#tile${(i * gridSize) + wall.startX}`),
+                    leftWallTile = document.querySelector(`#tile${(i * gridSize) + wall.startX + 1}`);
+                    
+                    rightWallTile.classList.add('wall-right');
+                    leftWallTile.classList.add('wall-left');
+            }
+        }
+
+        // horizontal walls advance along the X axis
+        else if (wall.type === 'horizontal') {
+            for (let i=wall.startX; i<wall.startX+wall.length; i++) {
+
+                // find and apply the CSS classes to the borders in between the correct tiles
+                let topWallTile = document.querySelector(`#tile${((wall.startY + 1) * gridSize) + i}`),
+                    bottomWallTile = document.querySelector(`#tile${(wall.startY * gridSize) + i}`);
+                
+                    topWallTile.classList.add('wall-top');
+                    bottomWallTile.classList.add('wall-bottom');
+            }
+        }
+    });
 }
 
 function generateNotesList(numTiles) {
@@ -461,6 +506,7 @@ function startNewLevel(level) {
     correctAnswer = level.notes[noteIndex];
     updateStaffDiv(correctAnswer);
     drawGrid();
+    loadMap(1);
     generateNotesList(gridArea);
     populateMap(gridArea);
     resultDisplay.textContent = '';
@@ -477,6 +523,7 @@ function startNewGame() {
     correctAnswer = levels[0].notes[noteIndex];
     updateStaffDiv(correctAnswer);
     drawGrid();
+    loadMap(1);
     generateNotesList(gridArea);
     populateMap(gridArea);
     levelDisplay.textContent = `Level ${levelIndex + 1}`
