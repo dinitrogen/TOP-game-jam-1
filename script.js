@@ -6,6 +6,7 @@ const levelNameDisplay = document.querySelector('#levelNameDisplay');
 const resultDisplay = document.querySelector('#resultDisplay');
 const scoreDisplay = document.querySelector('#scoreDisplay');
 const lifeDisplay = document.querySelector('#lifeDisplay');
+const keyDisplay = document.querySelector('#keyDisplay');
 const endGameOverlay = document.querySelector('#endGameOverlay');
 const gameOver = document.querySelector('#gameOver');
 const replayButton = document.querySelector('#replayButton');
@@ -52,6 +53,7 @@ let enemyTileIndex = gridArea - 1
 let enemyTile;
 let score = 0;
 let life = 5;
+let haveKey = false;
 
 let bgMusicDelay = 0.5;
 let bgMusic = [
@@ -136,6 +138,10 @@ function movePlayer(event) {
             activeTile.classList.remove('hasHeart');
             activeTile.innerHTML = '';
             // activeTile.removeChild(firstChild);
+        } else if (activeTile.classList.contains('hasKey')) {
+            getKey();
+            activeTile.classList.remove('hasKey');
+            activeTile.innerHTML = '';
         } else if (activeTile.textContent === correctAnswer) {
             resultDisplay.textContent = 'Correct!';
             let note = `${correctAnswer}${levels[levelIndex].octaves[noteIndex]}`;
@@ -276,13 +282,14 @@ function drawGrid() {
 function generateNotesList(numTiles) {
     notesList[0] = correctAnswer;
     notesList[1] = 'H';
+    notesList[2] = 'K';
     
-    for (i = 2; i < numTiles; i++) {
+    for (i = 3; i < numTiles; i++) {
         notesList[i] = " ";
     }
     
     // Change the i increment to adjust how populated the map is
-    for (i = 2; i < numTiles; i = i + 7) {
+    for (i = 3; i < numTiles; i = i + 7) {
         notesList[i] = getRandomNote();
     }
 
@@ -301,6 +308,15 @@ function populateMap(numTiles) {
             document.getElementById(`tile${i}`).innerHTML = '';
             document.getElementById(`tile${i}`).appendChild(heart)
             document.getElementById(`tile${i}`).classList.add('hasHeart');
+        
+        } else if (notesList[i] === 'K') {
+            let key = document.createElement('object');
+            key.setAttribute('data', `./img/map-icons/key.svg`);
+            key.setAttribute('type', 'image/svg+xml');
+            key.setAttribute('class', 'mapKey');
+            document.getElementById(`tile${i}`).innerHTML = '';
+            document.getElementById(`tile${i}`).appendChild(key)
+            document.getElementById(`tile${i}`).classList.add('hasKey');
 
         } else {
             document.getElementById(`tile${i}`).textContent = notesList[i];
@@ -431,6 +447,8 @@ function startNewLevel(level) {
     populateMap(gridArea);
     resultDisplay.textContent = '';
     resetEnemyPosition();
+    haveKey = false;
+    keyDisplay.innerHTML = '';
 }
 
 function startNewGame() {
@@ -447,6 +465,8 @@ function startNewGame() {
     levelNameDisplay.textContent = `${levels[levelIndex].name}`;
     life = 5;
     updateLifeBar(life);
+    haveKey = false;
+    keyDisplay.innerHTML = '';
     // lifeDisplay.textContent = `Life: ${life}`;
     score = 0;
     scoreDisplay.textContent = `Score: ${score}`;
@@ -483,6 +503,17 @@ function updateLifeBar(life) {
         heart.setAttribute('type', 'image/svg+xml');
         heart.setAttribute('class', 'heart');
         lifeDisplay.appendChild(heart);
+    }
+}
+
+function getKey() {
+    if (haveKey === false) {
+        let key = document.createElement('object');
+        key.setAttribute('data', `./img/map-icons/key.svg`);
+        key.setAttribute('type', 'image/svg+xml');
+        key.setAttribute('class', 'key');
+        keyDisplay.appendChild(key);
+        haveKey = true;
     }
 }
 
