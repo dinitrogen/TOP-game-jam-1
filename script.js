@@ -190,6 +190,8 @@ function movePlayer(event) {
             resultDisplay.textContent = 'Wrong!';
             decreaseLife();
         }
+        // Prevent "hero" class from being removed after space is pressed.
+        return;
     } else {
         return;
     }
@@ -200,6 +202,7 @@ function movePlayer(event) {
 }
 
 function moveEnemyLeft() {
+    let previousEnemyTileIndex = enemyTileIndex;
     if (enemyTileIndex === 0 || enemyTileIndex % gridSize === 0) {
         return;
     } else {
@@ -208,9 +211,11 @@ function moveEnemyLeft() {
     }
     enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
     enemyTile.classList.add('enemyTile');
+    renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
 }
 
 function moveEnemyRight() {
+    let previousEnemyTileIndex = enemyTileIndex;
     if (enemyTileIndex === gridArea - 1 || (enemyTileIndex + 1) % gridSize === 0) {
         return;
     } else {
@@ -219,9 +224,11 @@ function moveEnemyRight() {
     }
     enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
     enemyTile.classList.add('enemyTile');
+    renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
 }
 
 function moveEnemyUp() {
+    let previousEnemyTileIndex = enemyTileIndex;
     if (enemyTileIndex < gridSize) {
         return;
     } else {
@@ -230,9 +237,11 @@ function moveEnemyUp() {
     }
     enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
     enemyTile.classList.add('enemyTile');
+    renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
 }
 
 function moveEnemyDown() {
+    let previousEnemyTileIndex = enemyTileIndex;
     if (enemyTileIndex >= gridArea - gridSize) {
         return;
     } else {
@@ -241,6 +250,7 @@ function moveEnemyDown() {
     }
     enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
     enemyTile.classList.add('enemyTile');
+    renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
 }
 
 // Enemy movement alogorithm -- needs work!
@@ -265,10 +275,12 @@ function decideEnemyMove() {
 }
 
 function resetEnemyPosition() {
+    let previousEnemyTileIndex = enemyTileIndex;
     enemyTile.classList.remove('enemyTile');
-    enemyTileIndex = gridArea -1;
+    enemyTileIndex = gridArea - 1;
     enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
     enemyTile.classList.add('enemyTile');
+    renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
 }
 
 function drawGrid() {
@@ -282,25 +294,6 @@ function drawGrid() {
         gameTile.setAttribute('id',`tile${i}`)
         gameMap.appendChild(gameTile);
 
-        // gameTile.addEventListener('click', function() {
-        //     if (this.textContent === correctAnswer) {
-        //         resultDisplay.textContent = 'Correct!';
-        //         increaseScore();
-        //         let note = `${correctAnswer}4`;
-        //         playNote(note);
-        //         correctAnswer = getRandomNote();
-        //         generateNotesList(gridArea);
-        //         populateMap(gridArea);
-        //         staffDiv.textContent = `Find this note: "${correctAnswer}"`
-        //     } else if (this.textContent === ' ') {
-        //         return;
-        //     } else {
-        //         this.textContent = 'X';
-        //         resultDisplay.textContent = 'Wrong!';
-        //         decreaseLife();
-        //     }
-        //     // TODO: remove the event listener to disable further clicks 
-        // });
     }
     activeTile = document.querySelector('#tile0');
     activeTile.classList.add('activeTile');
@@ -505,6 +498,7 @@ function goToNextLevel() {
 function startNewLevel(level) {
     endGameOverlay.style.display = 'none';
     activeTileIndex = 0;
+    enemyTileIndex = gridArea - 1;
     noteIndex = 0;
     correctAnswer = level.notes[noteIndex];
     updateStaffDiv(correctAnswer);
@@ -513,15 +507,17 @@ function startNewLevel(level) {
     generateNotesList(gridArea);
     populateMap(gridArea);
     resultDisplay.textContent = '';
-    resetEnemyPosition();
     haveKey = false;
     keyDisplay.innerHTML = '';
+    // resetEnemyPosition();
+    renderEnemySprite(enemyTileIndex);
     renderHeroSprite(activeTileIndex);
 }
 
 function startNewGame() {
     endGameOverlay.style.display = 'none';
     activeTileIndex = 0;
+    enemyTileIndex = gridArea - 1;
     noteIndex = 0;
     levelIndex = 0;
     correctAnswer = levels[0].notes[noteIndex];
@@ -540,7 +536,8 @@ function startNewGame() {
     score = 0;
     scoreDisplay.textContent = `Score: ${score}`;
     resultDisplay.textContent = '';
-    resetEnemyPosition();
+    // resetEnemyPosition();
+    renderEnemySprite(enemyTileIndex);
     renderHeroSprite(activeTileIndex);
 }
 
@@ -594,8 +591,15 @@ function renderHeroSprite(tileIndex, previousTileIndex) {
     if (previousTile) previousTile.classList.remove('hero');
 }
 
-function removeSprite(tileIndex, sprite) {
-    document.getElementById(`tile${tileIndex}`).removeChild(sprite);
+function renderEnemySprite(tileIndex, previousTileIndex) {
+    let tile = document.getElementById(`tile${tileIndex}`)
+        previousTile = document.getElementById(`tile${previousTileIndex}`);
+    tile.classList.add('enemy');
+    if (previousTile) previousTile.classList.remove('enemy');
+}
+
+function removeSprite(tileIndex, spriteClass) {
+    document.getElementById(`tile${tileIndex}`).classList.remove(spriteClass);
 }
 
 startNewGame();
