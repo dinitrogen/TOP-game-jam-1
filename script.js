@@ -12,33 +12,69 @@ const gameOver = document.querySelector('#gameOver');
 const replayButton = document.querySelector('#replayButton');
 replayButton.addEventListener('click', () => {
     startNewGame();
-    playBGMusic(bgMusic[0]);
+    playAudioTrack('new-game', false);
     bgMusicDelay = 0.5;
 });
 
 const nextLevelButton = document.querySelector('#nextLevelButton');
 nextLevelButton.addEventListener('click', goToNextLevel);
 
-// const notesLibrary = ['A','Ab','A#','B','Bb','C','C#','D','Db','D#','E','Eb','F','F#','G','Gb','G#'];
 
 const notesLibrary = [
-    { note: 'Ab', svgName: 'treble-a4-flat' },
-    { note: 'A', svgName: 'treble-a4' },
-    { note: 'A#', svgName: 'treble-a4-sharp' },
-    { note: 'Bb', svgName: 'treble-b4-flat' },
-    { note: 'B', svgName: 'treble-b4' },
-    { note: 'C', svgName: 'treble-c5' },
-    { note: 'C#', svgName: 'treble-c5-sharp' },
-    { note: 'Db', svgName: 'treble-d5-flat' },
-    { note: 'D', svgName: 'treble-d5' },
-    { note: 'D#', svgName: 'treble-d5-sharp' },
-    { note: 'Eb', svgName: 'treble-e4-flat' },
-    { note: 'E', svgName: 'treble-e4' },
-    { note: 'F', svgName: 'treble-f4' },
-    { note: 'F#', svgName: 'treble-f4-sharp' },
-    { note: 'Gb', svgName: 'treble-g4-flat' },
-    { note: 'G', svgName: 'treble-g4' },
-    { note: 'G#', svgName: 'treble-g4-sharp' },
+    // bass clef notes
+    { note: 'Gb', octave: 2, noteRef: 'Gb2', svgName: 'bass-g2-flat' },
+    { note: 'G', octave: 2, noteRef: 'G2', svgName: 'bass-g2' },
+    { note: 'G#', octave: 2, noteRef: 'G#2', svgName: 'bass-g2-sharp' }, 
+    { note: 'Ab', octave: 2, noteRef: 'Ab2', svgName: 'bass-a2-flat' },
+    { note: 'A', octave: 2, noteRef: 'A2', svgName: 'bass-a2' },
+    { note: 'A#', octave: 2, noteRef: 'A#2', svgName: 'bass-a2-sharp' },
+    { note: 'Bb', octave: 2, noteRef: 'Bb2', svgName: 'bass-b2-flat' },
+    { note: 'B', octave: 2, noteRef: 'B2', svgName: 'bass-b2' },
+    { note: 'C', octave: 3, noteRef: 'C3', svgName: 'bass-c3' },
+    { note: 'C#', octave: 3, noteRef: 'C#3', svgName: 'bass-c3-sharp' },
+    { note: 'Db', octave: 3, noteRef: 'Db3', svgName: 'bass-d3-flat' },
+    { note: 'D', octave: 3, noteRef: 'D3', svgName: 'bass-d3' },
+    { note: 'D#', octave: 3, noteRef: 'D#3', svgName: 'bass-d3-sharp' },
+    { note: 'Eb', octave: 3, noteRef: 'Eb3', svgName: 'bass-e3-flat' },
+    { note: 'E', octave: 3, noteRef: 'E3', svgName: 'bass-e3' },
+    { note: 'F', octave: 3, noteRef: 'F3', svgName: 'bass-f3' },
+    { note: 'F#', octave: 3, noteRef: 'F#3', svgName: 'bass-f3-sharp' },
+    { note: 'Gb', octave: 3, noteRef: 'Gb3', svgName: 'bass-g3-flat' },
+    { note: 'G', octave: 3, noteRef: 'G3', svgName: 'bass-g3' },
+    { note: 'G#', octave: 3, noteRef: 'G#3', svgName: 'bass-g3-sharp' },   
+    { note: 'Ab', octave: 3, noteRef: 'Ab3', svgName: 'bass-a3-flat' },
+    { note: 'A', octave: 3, noteRef: 'A3', svgName: 'bass-a3' },
+    { note: 'A#', octave: 3, noteRef: 'A#3', svgName: 'bass-a3-sharp' }, 
+
+    // TODO: Missing these svgs
+    { note: 'Bb', octave: 3, noteRef: 'Bb3', svgName: '#' },
+    { note: 'B', octave: 3, noteRef: 'B3', svgName: '#' },
+    
+
+    // treble clef notes
+    { note: 'C', octave: 4, noteRef: 'C4', svgName: 'treble-c4' },
+    { note: 'C#', octave: 4, noteRef: 'C#4', svgName: 'treble-c4-sharp' },
+    { note: 'Db', octave: 4, noteRef: 'Db4', svgName: 'treble-d4-flat' },
+    { note: 'D', octave: 4, noteRef: 'D4', svgName: 'treble-d4' },
+    { note: 'D#', octave: 4, noteRef: 'D#4', svgName: 'treble-d4-sharp' },
+    { note: 'Eb', octave: 4, noteRef: 'Eb4', svgName: 'treble-e4-flat' },
+    { note: 'E', octave: 4, noteRef: 'E4', svgName: 'treble-e4' },
+    { note: 'F', octave: 4, noteRef: 'F4', svgName: 'treble-f4' },
+    { note: 'F#', octave: 4, noteRef: 'F#4', svgName: 'treble-f4-sharp' },
+    { note: 'Gb', octave: 4, noteRef: 'Gb4', svgName: 'treble-g4-flat' },
+    { note: 'G', octave: 4, noteRef: 'G4', svgName: 'treble-g4' },
+    { note: 'G#', octave: 4, noteRef: 'G#4', svgName: 'treble-g4-sharp' },
+    { note: 'Ab', octave: 4, noteRef: 'Ab4', svgName: 'treble-a4-flat' },
+    { note: 'A', octave: 4, noteRef: 'A4', svgName: 'treble-a4' },
+    { note: 'A#', octave: 4, noteRef: 'A#4', svgName: 'treble-a4-sharp' },
+    { note: 'Bb', octave: 4, noteRef: 'Bb4', svgName: 'treble-b4-flat' },
+    { note: 'B', octave: 4, noteRef: 'B4', svgName: 'treble-b4' },
+    { note: 'C', octave: 5, noteRef: 'C5', svgName: 'treble-c5' },
+    { note: 'C#', octave: 5, noteRef: 'C#5', svgName: 'treble-c5-sharp' },
+    { note: 'Db', octave: 5, noteRef: 'Db5', svgName: 'treble-d5-flat' },
+    { note: 'D', octave: 5, noteRef: 'D5', svgName: 'treble-d5' },
+    { note: 'D#', octave: 5, noteRef: 'D#5', svgName: 'treble-d5-sharp' },
+    
 ];
 
 
@@ -181,7 +217,8 @@ function movePlayer(event) {
                 noteIndex++;
                 generateNotesList(gridArea);
                 populateMap(gridArea);
-                updateStaffDiv(correctAnswer);
+                let octave = `${levels[levelIndex].octaves[noteIndex]}`;
+                updateStaffDiv(correctAnswer, octave);
             }
         } else {
             activeTile.textContent = 'X';
@@ -459,14 +496,21 @@ function playMelody(level) {
 }
 
 
-function playBGMusic(track) {
-    for (let i = 0; i < track.notes.length; i++) {
-        let now = Tone.now();
-        let note = `${track.notes[i]}`;
-        let duration = track.durations[i];
-        playNote(note, duration, now + bgMusicDelay);
-        bgMusicDelay = bgMusicDelay + track.durations[i];
-    }
+// function playBGMusic(track) {
+//     for (let i = 0; i < track.notes.length; i++) {
+//         let now = Tone.now();
+//         let note = `${track.notes[i]}`;
+//         let duration = track.durations[i];
+//         playNote(note, duration, now + bgMusicDelay);
+//         bgMusicDelay = bgMusicDelay + track.durations[i];
+//     }
+// }
+
+// Plays background music/sounds from .wav files
+function playAudioTrack(trackName, loopStatus) {
+    const musicTrack = new Tone.Player(`./music/${trackName}.wav`).toDestination();
+    musicTrack.autostart = true;
+    musicTrack.loop = loopStatus; // boolean
 }
 
 function goToNextLevel() {
@@ -485,7 +529,8 @@ function startNewLevel(level) {
     activeTileIndex = 0;
     noteIndex = 0;
     correctAnswer = level.notes[noteIndex];
-    updateStaffDiv(correctAnswer);
+    let octave = level.octaves[noteIndex];
+    updateStaffDiv(correctAnswer, octave);
     drawGrid();
     loadMap(1);
     generateNotesList(gridArea);
@@ -494,6 +539,7 @@ function startNewLevel(level) {
     resetEnemyPosition();
     haveKey = false;
     keyDisplay.innerHTML = '';
+    // playAudioTrack('new-game', false);
 }
 
 function startNewGame() {
@@ -503,7 +549,8 @@ function startNewGame() {
     noteIndex = 0;
     levelIndex = 0;
     correctAnswer = levels[0].notes[noteIndex];
-    updateStaffDiv(correctAnswer);
+    let octave = levels[0].octaves[noteIndex];
+    updateStaffDiv(correctAnswer, octave);
     drawGrid();
     loadMap(1);
     generateNotesList(gridArea);
@@ -523,10 +570,11 @@ function startNewGame() {
 }
 
 
-function createTrebleStaffNote(note) {
+function createTrebleStaffNote(note, octave) {
+    let fullNote = `${note}${octave}`;
     let noteIndex = notesLibrary.map(function(e) {
-        return e.note;
-    }).indexOf(note);
+        return e.noteRef;
+    }).indexOf(fullNote);
 
     let svgNoteName = notesLibrary[noteIndex].svgName;
 
@@ -537,9 +585,9 @@ function createTrebleStaffNote(note) {
     return svgStaffNote
 }
 
-function updateStaffDiv(note) {
+function updateStaffDiv(note, octave) {
     staffDiv.innerHTML = '';
-    staffDiv.appendChild(createTrebleStaffNote(note));
+    staffDiv.appendChild(createTrebleStaffNote(note, octave));
 }
 
 function updateLifeBar(life) {
