@@ -128,6 +128,8 @@ correctAnswer = levels[0].notes[noteIndex];
 document.addEventListener('keydown', movePlayer)
 
 function movePlayer(event) {
+    let previousTileIndex = activeTileIndex;
+    
     if (event.code === "ArrowLeft") {
         if (activeTileIndex === 0 || activeTileIndex % gridSize === 0) {
             return;
@@ -193,7 +195,7 @@ function movePlayer(event) {
     }
     activeTile = document.querySelector(`#tile${activeTileIndex}`);
     activeTile.classList.add('activeTile');
-    renderHeroSprite(activeTileIndex);
+    renderHeroSprite(activeTileIndex, previousTileIndex);
     decideEnemyMove();
 }
 
@@ -585,17 +587,11 @@ function getKey() {
     }
 }
 
-function renderHeroSprite(tileIndex) {
-    let hero = document.createElement('object');
-    hero.setAttribute('data', `./img/map-icons/mage.svg`);
-    hero.setAttribute('type', 'image/svg+xml');
-    hero.setAttribute('class', 'hero');
-    
-    let tile = document.getElementById(`tile${tileIndex}`);
-    if (!tile.classList.contains('hasHero')) {
-        tile.appendChild(hero);
-        tile.classList.add('hasHero');
-    }
+function renderHeroSprite(tileIndex, previousTileIndex) {
+    let tile = document.getElementById(`tile${tileIndex}`)
+        previousTile = document.getElementById(`tile${previousTileIndex}`);
+    tile.classList.add('hero');
+    if (previousTile) previousTile.classList.remove('hero');
 }
 
 function removeSprite(tileIndex, sprite) {
