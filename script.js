@@ -278,27 +278,8 @@ function drawGrid() {
         gameTile.classList = 'gameTile';
         gameTile.setAttribute('id',`tile${i}`)
         gameMap.appendChild(gameTile);
-
-        // gameTile.addEventListener('click', function() {
-        //     if (this.textContent === correctAnswer) {
-        //         resultDisplay.textContent = 'Correct!';
-        //         increaseScore();
-        //         let note = `${correctAnswer}4`;
-        //         playNote(note);
-        //         correctAnswer = getRandomNote();
-        //         generateNotesList(gridArea);
-        //         populateMap(gridArea);
-        //         staffDiv.textContent = `Find this note: "${correctAnswer}"`
-        //     } else if (this.textContent === ' ') {
-        //         return;
-        //     } else {
-        //         this.textContent = 'X';
-        //         resultDisplay.textContent = 'Wrong!';
-        //         decreaseLife();
-        //     }
-        //     // TODO: remove the event listener to disable further clicks 
-        // });
     }
+
     activeTile = document.querySelector('#tile0');
     activeTile.classList.add('activeTile');
     enemyTile = document.querySelector(`#tile${gridArea - 1}`);
