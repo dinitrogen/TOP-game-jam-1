@@ -1,3 +1,4 @@
+import { levels } from './levels.js';
 
 const staffDiv = document.querySelector('.staffDiv');
 const gameMap = document.querySelector('.gameMap');
@@ -100,18 +101,7 @@ let bgMusic = [
     }
 ];
 
-let levels = [
-    {
-        name: "C triad",
-        notes: [
-            {letter: 'C', octave: '4', duration: 1},
-            {letter: 'E', octave: '4', duration: 1},
-            {letter: 'G', octave: '4', duration: 2}
-        ]
-    },
 
-    // More levels...
-];
 
 
 let maps = [
@@ -296,7 +286,7 @@ function drawGrid() {
         gameMap.removeChild(gameMap.lastChild);
     }
 
-    for  (i = 0; i < gridArea; i++) {
+    for  (let i = 0; i < gridArea; i++) {
         const gameTile = document.createElement('div');
         gameTile.classList = 'gameTile';
         gameTile.setAttribute('id',`tile${i}`)
@@ -351,12 +341,12 @@ function generateNotesList(numTiles) {
     notesList[1] = 'H';
     notesList[2] = 'K';
     
-    for (i = 3; i < numTiles; i++) {
+    for (let i = 3; i < numTiles; i++) {
         notesList[i] = " ";
     }
     
     // Change the i increment to adjust how populated the map is
-    for (i = 3; i < numTiles; i = i + 7) {
+    for (let i = 3; i < numTiles; i = i + 7) {
         notesList[i] = getRandomNote();
     }
 
@@ -366,7 +356,7 @@ function generateNotesList(numTiles) {
 
 
 function populateMap(numTiles) {
-    for (i = 0; i < numTiles; i++) {
+    for (let i = 0; i < numTiles; i++) {
         if (notesList[i] === 'H') {
             let heart = document.createElement('object');
             heart.setAttribute('data', `./img/map-icons/heart.svg`);
