@@ -12,8 +12,8 @@ const gameOver = document.querySelector('#gameOver');
 const replayButton = document.querySelector('#replayButton');
 replayButton.addEventListener('click', () => {
     startNewGame();
+    bgMusicTrack.stop();
     playAudioTrack('new-game', false);
-    bgMusicDelay = 0.5;
 });
 
 const nextLevelButton = document.querySelector('#nextLevelButton');
@@ -90,15 +90,8 @@ let enemyTile;
 let score = 0;
 let life = 5;
 let haveKey = false;
+let bgMusicTrack;
 
-let bgMusicDelay = 0.5;
-let bgMusic = [
-    {
-        name: "Level start",
-        notes: ['B2', 'B3', 'A3', 'B3', 'B2', 'B3', 'A3', 'F#3', 'B3', 'F#4', 'D#4'],
-        durations: [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.5, 0.5, 0.5]
-    }
-];
 
 let levels = [
     {
@@ -113,18 +106,18 @@ let levels = [
         octaves: ['3', '3', '4'],
         durations: [1, 1, 2]
     },
-    {
-        name: "Mary Had a Little Lamb",
-        notes: ['E', 'D', 'C', 'D', 'E', 'E', 'E', 'D', 'D', 'D', 'E', 'G', 'G'],
-        octaves: ['4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4'],
-        durations: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1]
-    },
-    {
-        name: "Song of Storms",
-        notes: ['G', 'Bb', 'G', 'G', 'Bb', 'G', 'A', 'Bb', 'A', 'Bb', 'A', 'F', 'D'],
-        octaves: ['3', '3', '4', '3', '3', '4', '4', '4', '4', '4', '4', '4', '4'],
-        durations: [0.25, 0.25, 1, 0.25, 0.25, 1, 0.75, 0.25, 0.25, 0.25, 0.25, 0.25, 1]
-    }
+    // {
+    //     name: "Mary Had a Little Lamb",
+    //     notes: ['E', 'D', 'C', 'D', 'E', 'E', 'E', 'D', 'D', 'D', 'E', 'G', 'G'],
+    //     octaves: ['4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4'],
+    //     durations: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1]
+    // },
+    // {
+    //     name: "Song of Storms",
+    //     notes: ['G', 'Bb', 'G', 'G', 'Bb', 'G', 'A', 'Bb', 'A', 'Bb', 'A', 'F', 'D'],
+    //     octaves: ['3', '3', '4', '3', '3', '4', '4', '4', '4', '4', '4', '4', '4'],
+    //     durations: [0.25, 0.25, 1, 0.25, 0.25, 1, 0.75, 0.25, 0.25, 0.25, 0.25, 0.25, 1]
+    // }
 
 ];
 
@@ -461,6 +454,7 @@ function displayGameOver() {
 }
 
 function displayWinScreen() {
+    playAudioTrack('map-theme', true);
     resultDisplay.textContent = 'You are a melody master!';
     gameOver.textContent = 'YOU ARE A MELODY MASTER!';
     endGameOverlay.style.display = 'block';
@@ -496,21 +490,11 @@ function playMelody(level) {
 }
 
 
-// function playBGMusic(track) {
-//     for (let i = 0; i < track.notes.length; i++) {
-//         let now = Tone.now();
-//         let note = `${track.notes[i]}`;
-//         let duration = track.durations[i];
-//         playNote(note, duration, now + bgMusicDelay);
-//         bgMusicDelay = bgMusicDelay + track.durations[i];
-//     }
-// }
-
 // Plays background music/sounds from .wav files
 function playAudioTrack(trackName, loopStatus) {
-    const musicTrack = new Tone.Player(`./music/${trackName}.wav`).toDestination();
-    musicTrack.autostart = true;
-    musicTrack.loop = loopStatus; // boolean
+    bgMusicTrack = new Tone.Player(`./music/${trackName}.wav`).toDestination();
+    bgMusicTrack.autostart = true;
+    bgMusicTrack.loop = loopStatus; // boolean
 }
 
 function goToNextLevel() {
