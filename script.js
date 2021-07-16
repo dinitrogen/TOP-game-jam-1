@@ -103,30 +103,16 @@ let bgMusic = [
 let levels = [
     {
         name: "C triad",
-        notes: ['C', 'E', 'G'],
-        octaves: ['4', '4', '4'],
-        durations: [1, 1, 2] // in seconds
+        notes: [
+            {letter: 'C', octave: '4', duration: 1},
+            {letter: 'E', octave: '4', duration: 1},
+            {letter: 'G', octave: '4', duration: 2}
+        ]
     },
-    {
-        name: "Easy as 1-2-3",
-        notes: ['A', 'B', 'C'],
-        octaves: ['3', '3', '4'],
-        durations: [1, 1, 2]
-    },
-    {
-        name: "Mary Had a Little Lamb",
-        notes: ['E', 'D', 'C', 'D', 'E', 'E', 'E', 'D', 'D', 'D', 'E', 'G', 'G'],
-        octaves: ['4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4'],
-        durations: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1]
-    },
-    {
-        name: "Song of Storms",
-        notes: ['G', 'Bb', 'G', 'G', 'Bb', 'G', 'A', 'Bb', 'A', 'Bb', 'A', 'F', 'D'],
-        octaves: ['3', '3', '4', '3', '3', '4', '4', '4', '4', '4', '4', '4', '4'],
-        durations: [0.25, 0.25, 1, 0.25, 0.25, 1, 0.75, 0.25, 0.25, 0.25, 0.25, 0.25, 1]
-    }
 
+    // More levels...
 ];
+
 
 let maps = [
     {
@@ -157,7 +143,7 @@ let maps = [
 let levelIndex = 0;
 let noteIndex = 0;
 let noteDelay = 2;
-correctAnswer = levels[0].notes[noteIndex];
+correctAnswer = levels[0].notes[noteIndex].letter;
 
 
 
@@ -206,7 +192,7 @@ function movePlayer(event) {
             activeTile.innerHTML = '';
         } else if (activeTile.textContent === correctAnswer) {
             resultDisplay.textContent = 'Correct!';
-            let note = `${correctAnswer}${levels[levelIndex].octaves[noteIndex]}`;
+            let note = `${correctAnswer}${levels[levelIndex].notes[noteIndex].octave}`;
             playNote(note, 1);
             increaseScore();
             // correctAnswer = getRandomNote();
@@ -217,7 +203,7 @@ function movePlayer(event) {
                 noteIndex++;
                 generateNotesList(gridArea);
                 populateMap(gridArea);
-                let octave = `${levels[levelIndex].octaves[noteIndex]}`;
+                let octave = `${levels[levelIndex].notes[noteIndex].octave}`;
                 updateStaffDiv(correctAnswer, octave);
             }
         } else {
@@ -409,7 +395,7 @@ function getNextNote(level, currentNoteIndex) {
     if (currentNoteIndex >= level.notes.length - 1) {
         return;
     } else {
-        let nextNote = level.notes[currentNoteIndex + 1];
+        let nextNote = level.notes[currentNoteIndex + 1].letter;
         return nextNote;
     }
 }
@@ -488,10 +474,10 @@ function playNote(note, duration, delay) {
 function playMelody(level) {
     for (let i = 0; i < level.notes.length; i++) {
         let now = Tone.now();
-        let note = `${level.notes[i]}${level.octaves[i]}`;
-        let duration = level.durations[i];
+        let note = `${level.notes[i].letter}${level.notes[i].octave}`;
+        let duration = level.notes[i].duration;
         playNote(note, duration, now + noteDelay);
-        noteDelay = noteDelay + level.durations[i];
+        noteDelay = noteDelay + level.notes[i].duration;
     }
 }
 
@@ -528,8 +514,8 @@ function startNewLevel(level) {
     endGameOverlay.style.display = 'none';
     activeTileIndex = 0;
     noteIndex = 0;
-    correctAnswer = level.notes[noteIndex];
-    let octave = level.octaves[noteIndex];
+    correctAnswer = level.notes[noteIndex].letter;
+    let octave = level.notes[noteIndex].octave;
     updateStaffDiv(correctAnswer, octave);
     drawGrid();
     loadMap(1);
@@ -548,8 +534,8 @@ function startNewGame() {
     
     noteIndex = 0;
     levelIndex = 0;
-    correctAnswer = levels[0].notes[noteIndex];
-    let octave = levels[0].octaves[noteIndex];
+    correctAnswer = levels[0].notes[noteIndex].letter;
+    let octave = levels[0].notes[noteIndex].octave;
     updateStaffDiv(correctAnswer, octave);
     drawGrid();
     loadMap(1);
@@ -582,9 +568,10 @@ function createTrebleStaffNote(note, octave) {
     svgStaffNote.setAttribute('data', `./img/staff-notes/${svgNoteName}.svg`);
     svgStaffNote.setAttribute('type', 'image/svg+xml');
     svgStaffNote.setAttribute('class', 'svgNote');
-    return svgStaffNote
+    return svgStaffNote;
 }
 
+// TODO: combine this function with the above one
 function updateStaffDiv(note, octave) {
     staffDiv.innerHTML = '';
     staffDiv.appendChild(createTrebleStaffNote(note, octave));
@@ -612,7 +599,6 @@ function getKey() {
         haveKey = true;
     }
 }
-
 
 startNewGame();
 
