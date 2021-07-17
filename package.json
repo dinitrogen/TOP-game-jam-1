@@ -5,7 +5,7 @@
   "type": "module",
   "name": "top-game-jam-1",
   "version": "1.0.0",
-  "main": "music-test.js",
+  "main": "script.js",
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
