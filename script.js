@@ -13,8 +13,8 @@ const gameOver = document.querySelector('#gameOver');
 const replayButton = document.querySelector('#replayButton');
 replayButton.addEventListener('click', () => {
     startNewGame();
+    bgMusicTrack.stop();
     playAudioTrack('new-game', false);
-    bgMusicDelay = 0.5;
 });
 
 const nextLevelButton = document.querySelector('#nextLevelButton');
@@ -46,12 +46,9 @@ const notesLibrary = [
     { note: 'Ab', octave: 3, noteRef: 'Ab3', svgName: 'bass-a3-flat' },
     { note: 'A', octave: 3, noteRef: 'A3', svgName: 'bass-a3' },
     { note: 'A#', octave: 3, noteRef: 'A#3', svgName: 'bass-a3-sharp' }, 
-
-    // TODO: Missing these svgs
-    { note: 'Bb', octave: 3, noteRef: 'Bb3', svgName: '#' },
-    { note: 'B', octave: 3, noteRef: 'B3', svgName: '#' },
+    { note: 'Bb', octave: 3, noteRef: 'Bb3', svgName: 'bass-b3-flat' },
+    { note: 'B', octave: 3, noteRef: 'B3', svgName: 'bass-b3' },
     
-
     // treble clef notes
     { note: 'C', octave: 4, noteRef: 'C4', svgName: 'treble-c4' },
     { note: 'C#', octave: 4, noteRef: 'C#4', svgName: 'treble-c4-sharp' },
@@ -91,15 +88,9 @@ let enemyTile;
 let score = 0;
 let life = 5;
 let haveKey = false;
+let bgMusicTrack;
 
-let bgMusicDelay = 0.5;
-let bgMusic = [
-    {
-        name: "Level start",
-        notes: ['B2', 'B3', 'A3', 'B3', 'B2', 'B3', 'A3', 'F#3', 'B3', 'F#4', 'D#4'],
-        durations: [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.5, 0.5, 0.5]
-    }
-];
+
 
 
 
@@ -437,6 +428,7 @@ function displayGameOver() {
 }
 
 function displayWinScreen() {
+    playAudioTrack('map-theme', true);
     resultDisplay.textContent = 'You are a melody master!';
     gameOver.textContent = 'YOU ARE A MELODY MASTER!';
     endGameOverlay.style.display = 'block';
@@ -472,21 +464,11 @@ function playMelody(level) {
 }
 
 
-// function playBGMusic(track) {
-//     for (let i = 0; i < track.notes.length; i++) {
-//         let now = Tone.now();
-//         let note = `${track.notes[i]}`;
-//         let duration = track.durations[i];
-//         playNote(note, duration, now + bgMusicDelay);
-//         bgMusicDelay = bgMusicDelay + track.durations[i];
-//     }
-// }
-
 // Plays background music/sounds from .wav files
 function playAudioTrack(trackName, loopStatus) {
-    const musicTrack = new Tone.Player(`./music/${trackName}.wav`).toDestination();
-    musicTrack.autostart = true;
-    musicTrack.loop = loopStatus; // boolean
+    bgMusicTrack = new Tone.Player(`./music/${trackName}.wav`).toDestination();
+    bgMusicTrack.autostart = true;
+    bgMusicTrack.loop = loopStatus; // boolean
 }
 
 function goToNextLevel() {
