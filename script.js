@@ -45,12 +45,9 @@ const notesLibrary = [
     { note: 'Ab', octave: 3, noteRef: 'Ab3', svgName: 'bass-a3-flat' },
     { note: 'A', octave: 3, noteRef: 'A3', svgName: 'bass-a3' },
     { note: 'A#', octave: 3, noteRef: 'A#3', svgName: 'bass-a3-sharp' }, 
-
-    // TODO: Missing these svgs
-    { note: 'Bb', octave: 3, noteRef: 'Bb3', svgName: '#' },
-    { note: 'B', octave: 3, noteRef: 'B3', svgName: '#' },
+    { note: 'Bb', octave: 3, noteRef: 'Bb3', svgName: 'bass-b3-flat' },
+    { note: 'B', octave: 3, noteRef: 'B3', svgName: 'bass-b3' },
     
-
     // treble clef notes
     { note: 'C', octave: 4, noteRef: 'C4', svgName: 'treble-c4' },
     { note: 'C#', octave: 4, noteRef: 'C#4', svgName: 'treble-c4-sharp' },
