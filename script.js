@@ -438,7 +438,7 @@ function loadGameScreen() {
     }
 
     function displayWinScreen() {
-        playAudioTrack('end-credits', true);
+        playAudioTrack('end-credits', true, 0);
         resultDisplay.textContent = 'You are a melody master!';
         gameOver.textContent = 'YOU ARE A MELODY MASTER!';
         endGameOverlay.style.display = 'block';
@@ -458,6 +458,13 @@ function loadGameScreen() {
     }
 
     function playNote(note, duration, delay) {
+        if (bgMusicTrack) {
+            bgMusicTrack.volume.value = -30;
+            setTimeout(function() {
+                bgMusicTrack.volume.value = -10
+            }, (duration * 1000));
+        }
+        
         const synth = new Tone.Synth().toDestination();
         synth.volume.value = 0;
         synth.triggerAttackRelease(note, duration, delay);
@@ -626,7 +633,9 @@ function loadTitleScreen() {
     const startButton = createStartButton();
     startButton.addEventListener('click', () => {
         loadNewGameScreen();
-        playAudioTrack('title-screen', true);
+        setTimeout(function() {
+            playAudioTrack('title-screen', true, 0)
+        }, 750);
     });
     
     content.appendChild(startButton);
