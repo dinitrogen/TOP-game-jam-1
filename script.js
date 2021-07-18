@@ -2,6 +2,8 @@ import { levels } from './levels.js';
 import { notesLibrary } from './note-library.js';
 import { maps } from './maps.js';
 
+
+
 // Main game screen loader
 function loadGameScreen() {
 
@@ -50,9 +52,9 @@ function loadGameScreen() {
     const replayButton = document.querySelector('#replayButton');
     replayButton.addEventListener('click', () => {
         startNewGame();
-        if (bgMusicTrack) {
-            bgMusicTrack.stop();
-        }
+        // if (bgMusicTrack) {
+        //     bgMusicTrack.stop();
+        // }
         playAudioTrack('new-game', false);
     });
 
@@ -71,7 +73,7 @@ function loadGameScreen() {
     let score = 0;
     let life = 5;
     let haveKey = false;
-    let bgMusicTrack;
+    //let bgMusicTrack;
 
     let levelIndex = 0;
     let noteIndex = 0;
@@ -436,7 +438,7 @@ function loadGameScreen() {
     }
 
     function displayWinScreen() {
-        playAudioTrack('map-theme', true);
+        playAudioTrack('end-credits', true);
         resultDisplay.textContent = 'You are a melody master!';
         gameOver.textContent = 'YOU ARE A MELODY MASTER!';
         endGameOverlay.style.display = 'block';
@@ -472,12 +474,7 @@ function loadGameScreen() {
     }
 
 
-    // Plays background music/sounds from .wav files
-    function playAudioTrack(trackName, loopStatus) {
-        bgMusicTrack = new Tone.Player(`./music/${trackName}.wav`).toDestination();
-        bgMusicTrack.autostart = true;
-        bgMusicTrack.loop = loopStatus; // boolean
-    }
+
 
     function goToNextLevel() {
         levelIndex++;
@@ -557,7 +554,8 @@ function loadGameScreen() {
         //resetEnemyPosition();
         renderEnemySprite(enemyTileIndex);
         renderHeroSprite(activeTileIndex);
-        // playAudioTrack('new-game', false);
+        
+        playAudioTrack('dungeon-a', true);
     }
 
     function startNewGame() {
@@ -587,9 +585,14 @@ function loadGameScreen() {
         renderEnemySprite(enemyTileIndex);
         renderHeroSprite(activeTileIndex);
         
+        playAudioTrack('new-game', false);
+        setTimeout(function() { playAudioTrack('dungeon-a', true)}, 5000);
     }
 
+
+
   startNewGame();
+
 }
 
 // Title and start screen functions
@@ -611,19 +614,25 @@ function createNewGameButton() {
     newGameButtonText.textContent = 'Enter the Dungeon';
     newGameButton.appendChild(newGameButtonText);
     return newGameButton;
+
+
+
 }
 
 function loadTitleScreen() {
     const content = document.getElementById('content');
     content.textContent = '';
     const startButton = createStartButton();
-    startButton.addEventListener('click', loadNewGameScreen);
+    startButton.addEventListener('click', () => {
+        loadNewGameScreen();
+        playAudioTrack('title-screen', true);
+    });
+    
     content.appendChild(startButton);
 
     const tempPara = document.createElement('p');
     tempPara.textContent = 'Initial landing page for game. Clicking button will trigger title music.';
     content.appendChild(tempPara);
-
 }
 
 
@@ -636,13 +645,27 @@ function loadNewGameScreen() {
     });
     content.appendChild(newGameButton);
 
-
     const tempPara = document.createElement('p');
     tempPara.textContent = 'Options, Instructions, etc. will appear on this screen. Title music will also play here.';
     content.appendChild(tempPara);
 }
 
 loadTitleScreen();
+
+
+
+// TODO : refactor code to move this variable and function back into a local scope.
+let bgMusicTrack;
+
+// Plays background music/sounds from .wav files
+function playAudioTrack(trackName, loopStatus) {
+    if(bgMusicTrack) {
+        bgMusicTrack.stop();
+    }
+    bgMusicTrack = new Tone.Player(`./music/${trackName}.wav`).toDestination();
+    bgMusicTrack.autostart = true;
+    bgMusicTrack.loop = loopStatus; // boolean
+}
 
 
 
