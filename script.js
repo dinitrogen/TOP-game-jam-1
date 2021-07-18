@@ -2,6 +2,7 @@ import { levels } from './levels.js';
 
 // Main game screen loader
 function loadGameScreen() {
+
     const levelDisplay = document.createElement('div');
     levelDisplay.setAttribute('id', 'levelDisplay');
     levelDisplay.textContent = 'Level:';
@@ -41,12 +42,15 @@ function loadGameScreen() {
     content.appendChild(staffDiv);
     content.appendChild(gameMap);
 
+     
     const endGameOverlay = document.querySelector('#endGameOverlay');
     const gameOver = document.querySelector('#gameOver');
     const replayButton = document.querySelector('#replayButton');
     replayButton.addEventListener('click', () => {
         startNewGame();
-        bgMusicTrack.stop();
+        if (bgMusicTrack) {
+            bgMusicTrack.stop();
+        }
         playAudioTrack('new-game', false);
     });
 
@@ -314,7 +318,7 @@ function loadGameScreen() {
             decreaseLife();
             resetEnemyPosition();
         }
-      
+    }
 
 
 
@@ -392,14 +396,14 @@ function loadGameScreen() {
         return notesList;
     }
 
-function resetEnemyPosition() {
-    let previousEnemyTileIndex = enemyTileIndex;
-    enemyTile.classList.remove('enemyTile');
-    enemyTileIndex = gridArea - 1;
-    enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
-    enemyTile.classList.add('enemyTile');
-    renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
-}
+    function resetEnemyPosition() {
+        let previousEnemyTileIndex = enemyTileIndex;
+        enemyTile.classList.remove('enemyTile');
+        enemyTileIndex = gridArea - 1;
+        enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
+        enemyTile.classList.add('enemyTile');
+        renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
+    }
 
 
     function populateMap(numTiles) {
@@ -430,22 +434,22 @@ function resetEnemyPosition() {
     }
           
     function renderHeroSprite(tileIndex, previousTileIndex) {
-    let tile = document.getElementById(`tile${tileIndex}`)
-        previousTile = document.getElementById(`tile${previousTileIndex}`);
-    tile.classList.add('hero');
-    if (previousTile) previousTile.classList.remove('hero');
+        let tile = document.getElementById(`tile${tileIndex}`);
+        let previousTile = document.getElementById(`tile${previousTileIndex}`);
+        tile.classList.add('hero');
+        if (previousTile) previousTile.classList.remove('hero');
     }
 
-function renderEnemySprite(tileIndex, previousTileIndex) {
-    let tile = document.getElementById(`tile${tileIndex}`)
-        previousTile = document.getElementById(`tile${previousTileIndex}`);
-    tile.classList.add('enemy');
-    if (previousTile) previousTile.classList.remove('enemy');
+    function renderEnemySprite(tileIndex, previousTileIndex) {
+        let tile = document.getElementById(`tile${tileIndex}`);
+        let previousTile = document.getElementById(`tile${previousTileIndex}`);
+        tile.classList.add('enemy');
+        if (previousTile) previousTile.classList.remove('enemy');
     }
 
-function removeSprite(tileIndex, spriteClass) {
-    document.getElementById(`tile${tileIndex}`).classList.remove(spriteClass);
-}
+    function removeSprite(tileIndex, spriteClass) {
+        document.getElementById(`tile${tileIndex}`).classList.remove(spriteClass);
+    }
 
     function getNextNote(level, currentNoteIndex) {
         if (currentNoteIndex >= level.notes.length - 1) {
@@ -557,50 +561,9 @@ function removeSprite(tileIndex, spriteClass) {
         }
     }
 
-    function startNewLevel(level) {
-        endGameOverlay.style.display = 'none';
-        activeTileIndex = 0;
-        noteIndex = 0;
-        correctAnswer = level.notes[noteIndex].letter;
-        let octave = level.notes[noteIndex].octave;
-        updateStaffDiv(correctAnswer, octave);
-        drawGrid();
-        loadMap(1);
-        generateNotesList(gridArea);
-        populateMap(gridArea);
-        resultDisplay.textContent = '';
-        resetEnemyPosition();
-        haveKey = false;
-        keyDisplay.innerHTML = '';
-        // playAudioTrack('new-game', false);
-    }
+    
 
-    function startNewGame() {
-        endGameOverlay.style.display = 'none';
-        activeTileIndex = 0;
-        
-        noteIndex = 0;
-        levelIndex = 0;
-        correctAnswer = levels[0].notes[noteIndex].letter;
-        let octave = levels[0].notes[noteIndex].octave;
-        updateStaffDiv(correctAnswer, octave);
-        drawGrid();
-        loadMap(1);
-        generateNotesList(gridArea);
-        populateMap(gridArea);
-        levelDisplay.textContent = `Level ${levelIndex + 1}`
-        levelNameDisplay.textContent = `${levels[levelIndex].name}`;
-        life = 5;
-        updateLifeBar(life);
-        haveKey = false;
-        keyDisplay.innerHTML = '';
-        // lifeDisplay.textContent = `Life: ${life}`;
-        score = 0;
-        scoreDisplay.textContent = `Score: ${score}`;
-        resultDisplay.textContent = '';
-        resetEnemyPosition();
-        
-    }
+    
 
 
     function createTrebleStaffNote(note, octave) {
@@ -647,53 +610,55 @@ function removeSprite(tileIndex, spriteClass) {
         }
     }
 
+    function startNewLevel(level) {
+        endGameOverlay.style.display = 'none';
+        activeTileIndex = 0;
+        enemyTileIndex = gridArea - 1;
+        noteIndex = 0;
+        correctAnswer = level.notes[noteIndex].letter;
+        let octave = level.notes[noteIndex].octave;
+        updateStaffDiv(correctAnswer, octave);
+        drawGrid();
+        loadMap(1);
+        generateNotesList(gridArea);
+        populateMap(gridArea);
+        resultDisplay.textContent = '';
+        haveKey = false;
+        keyDisplay.innerHTML = '';
+        //resetEnemyPosition();
+        renderEnemySprite(enemyTileIndex);
+        renderHeroSprite(activeTileIndex);
+        // playAudioTrack('new-game', false);
+    }
 
-function startNewLevel(level) {
-    endGameOverlay.style.display = 'none';
-    activeTileIndex = 0;
-    enemyTileIndex = gridArea - 1;
-    noteIndex = 0;
-    correctAnswer = level.notes[noteIndex];
-    updateStaffDiv(correctAnswer);
-    drawGrid();
-    loadMap(1);
-    generateNotesList(gridArea);
-    populateMap(gridArea);
-    resultDisplay.textContent = '';
-    haveKey = false;
-    keyDisplay.innerHTML = '';
-    // resetEnemyPosition();
-    renderEnemySprite(enemyTileIndex);
-    renderHeroSprite(activeTileIndex);
-}
-
-function startNewGame() {
-    endGameOverlay.style.display = 'none';
-    activeTileIndex = 0;
-    enemyTileIndex = gridArea - 1;
-    noteIndex = 0;
-    levelIndex = 0;
-    correctAnswer = levels[0].notes[noteIndex];
-    updateStaffDiv(correctAnswer);
-    drawGrid();
-    loadMap(1);
-    generateNotesList(gridArea);
-    populateMap(gridArea);
-    levelDisplay.textContent = `Level ${levelIndex + 1}`
-    levelNameDisplay.textContent = `${levels[levelIndex].name}`;
-    life = 5;
-    updateLifeBar(life);
-    haveKey = false;
-    keyDisplay.innerHTML = '';
-    // lifeDisplay.textContent = `Life: ${life}`;
-    score = 0;
-    scoreDisplay.textContent = `Score: ${score}`;
-    resultDisplay.textContent = '';
-    // resetEnemyPosition();
-    renderEnemySprite(enemyTileIndex);
-    renderHeroSprite(activeTileIndex);
-
-  }
+    function startNewGame() {
+        endGameOverlay.style.display = 'none';
+        activeTileIndex = 0;
+        enemyTileIndex = gridArea - 1;
+        noteIndex = 0;
+        levelIndex = 0;
+        correctAnswer = levels[0].notes[noteIndex].letter;
+        let octave = levels[0].notes[noteIndex].octave;
+        updateStaffDiv(correctAnswer, octave);
+        drawGrid();
+        loadMap(1);
+        generateNotesList(gridArea);
+        populateMap(gridArea);
+        levelDisplay.textContent = `Level ${levelIndex + 1}`
+        levelNameDisplay.textContent = `${levels[levelIndex].name}`;
+        life = 5;
+        updateLifeBar(life);
+        haveKey = false;
+        keyDisplay.innerHTML = '';
+        // lifeDisplay.textContent = `Life: ${life}`;
+        score = 0;
+        scoreDisplay.textContent = `Score: ${score}`;
+        resultDisplay.textContent = '';
+        // resetEnemyPosition();
+        renderEnemySprite(enemyTileIndex);
+        renderHeroSprite(activeTileIndex);
+        
+    }
 
   startNewGame();
 }
