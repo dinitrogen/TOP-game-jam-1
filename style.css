@@ -71,13 +71,13 @@ h1 {
     border-bottom: solid black 2px;
 }
 
-.activeTile {
+/* .activeTile {
     background-color: green;
 }
 
 .enemyTile {
     background-color: red;
-}
+} */
 
 #endGameOverlay {
     position: fixed;

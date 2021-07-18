@@ -459,6 +459,7 @@ function loadGameScreen() {
 
     function playNote(note, duration, delay) {
         const synth = new Tone.Synth().toDestination();
+        synth.volume.value = 0;
         synth.triggerAttackRelease(note, duration, delay);
     }
 
@@ -555,7 +556,7 @@ function loadGameScreen() {
         renderEnemySprite(enemyTileIndex);
         renderHeroSprite(activeTileIndex);
         
-        playAudioTrack('dungeon-a', true);
+        playAudioTrack('dungeon-a', true, 1.7);
     }
 
     function startNewGame() {
@@ -586,7 +587,7 @@ function loadGameScreen() {
         renderHeroSprite(activeTileIndex);
         
         playAudioTrack('new-game', false);
-        setTimeout(function() { playAudioTrack('dungeon-a', true)}, 5000);
+        setTimeout(function() { playAudioTrack('dungeon-a', true, 1.7)}, 5000);
     }
 
 
@@ -658,11 +659,13 @@ loadTitleScreen();
 let bgMusicTrack;
 
 // Plays background music/sounds from .wav files
-function playAudioTrack(trackName, loopStatus) {
+function playAudioTrack(trackName, loopStatus, loopStartTime) {
     if(bgMusicTrack) {
         bgMusicTrack.stop();
     }
     bgMusicTrack = new Tone.Player(`./music/${trackName}.wav`).toDestination();
+    bgMusicTrack.volume.value = -10;
+    bgMusicTrack.loopStart = loopStartTime;
     bgMusicTrack.autostart = true;
     bgMusicTrack.loop = loopStatus; // boolean
 }
