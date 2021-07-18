@@ -50,6 +50,7 @@ function loadGameScreen() {
         playAudioTrack('new-game', false);
     });
 
+
     const nextLevelButton = document.querySelector('#nextLevelButton');
     nextLevelButton.addEventListener('click', goToNextLevel);
 
@@ -163,7 +164,10 @@ function loadGameScreen() {
 
     document.addEventListener('keydown', movePlayer)
 
+      
     function movePlayer(event) {
+        let previousTileIndex = activeTileIndex;
+      
         if (event.code === "ArrowLeft") {
             if (activeTileIndex === 0 || activeTileIndex % gridSize === 0) {
                 return;
@@ -225,15 +229,22 @@ function loadGameScreen() {
                 resultDisplay.textContent = 'Wrong!';
                 decreaseLife();
             }
+          
+            // Prevent "hero" class from being removed after space is pressed.
+            return;
         } else {
             return;
         }
         activeTile = document.querySelector(`#tile${activeTileIndex}`);
         activeTile.classList.add('activeTile');
+        renderHeroSprite(activeTileIndex, previousTileIndex);
         decideEnemyMove();
     }
 
+  
+
     function moveEnemyLeft() {
+        let previousEnemyTileIndex = enemyTileIndex;
         if (enemyTileIndex === 0 || enemyTileIndex % gridSize === 0) {
             return;
         } else {
@@ -242,9 +253,11 @@ function loadGameScreen() {
         }
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
+        renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
     }
 
     function moveEnemyRight() {
+        let previousEnemyTileIndex = enemyTileIndex;
         if (enemyTileIndex === gridArea - 1 || (enemyTileIndex + 1) % gridSize === 0) {
             return;
         } else {
@@ -253,9 +266,11 @@ function loadGameScreen() {
         }
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
+        renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
     }
 
     function moveEnemyUp() {
+        let previousEnemyTileIndex = enemyTileIndex;
         if (enemyTileIndex < gridSize) {
             return;
         } else {
@@ -264,9 +279,11 @@ function loadGameScreen() {
         }
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
+        renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
     }
 
     function moveEnemyDown() {
+        let previousEnemyTileIndex = enemyTileIndex;
         if (enemyTileIndex >= gridArea - gridSize) {
             return;
         } else {
@@ -275,6 +292,7 @@ function loadGameScreen() {
         }
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
+        renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
     }
 
     // Enemy movement alogorithm -- needs work!
@@ -296,14 +314,9 @@ function loadGameScreen() {
             decreaseLife();
             resetEnemyPosition();
         }
-    }
+      
 
-    function resetEnemyPosition() {
-        enemyTile.classList.remove('enemyTile');
-        enemyTileIndex = gridArea -1;
-        enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
-        enemyTile.classList.add('enemyTile');
-    }
+
 
     function drawGrid() {
         while (gameMap.firstChild) {
@@ -360,6 +373,7 @@ function loadGameScreen() {
         });
     }
 
+
     function generateNotesList(numTiles) {
         notesList[0] = correctAnswer;
         notesList[1] = 'H';
@@ -377,6 +391,15 @@ function loadGameScreen() {
         notesList = shuffleNotesArray(notesList);
         return notesList;
     }
+
+function resetEnemyPosition() {
+    let previousEnemyTileIndex = enemyTileIndex;
+    enemyTile.classList.remove('enemyTile');
+    enemyTileIndex = gridArea - 1;
+    enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
+    enemyTile.classList.add('enemyTile');
+    renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
+}
 
 
     function populateMap(numTiles) {
@@ -398,12 +421,31 @@ function loadGameScreen() {
                 document.getElementById(`tile${i}`).innerHTML = '';
                 document.getElementById(`tile${i}`).appendChild(key)
                 document.getElementById(`tile${i}`).classList.add('hasKey');
-
+          
             } else {
                 document.getElementById(`tile${i}`).textContent = notesList[i];
             }
         }
+
     }
+          
+    function renderHeroSprite(tileIndex, previousTileIndex) {
+    let tile = document.getElementById(`tile${tileIndex}`)
+        previousTile = document.getElementById(`tile${previousTileIndex}`);
+    tile.classList.add('hero');
+    if (previousTile) previousTile.classList.remove('hero');
+    }
+
+function renderEnemySprite(tileIndex, previousTileIndex) {
+    let tile = document.getElementById(`tile${tileIndex}`)
+        previousTile = document.getElementById(`tile${previousTileIndex}`);
+    tile.classList.add('enemy');
+    if (previousTile) previousTile.classList.remove('enemy');
+    }
+
+function removeSprite(tileIndex, spriteClass) {
+    document.getElementById(`tile${tileIndex}`).classList.remove(spriteClass);
+}
 
     function getNextNote(level, currentNoteIndex) {
         if (currentNoteIndex >= level.notes.length - 1) {
@@ -605,8 +647,55 @@ function loadGameScreen() {
         }
     }
 
-    startNewGame();
 
+function startNewLevel(level) {
+    endGameOverlay.style.display = 'none';
+    activeTileIndex = 0;
+    enemyTileIndex = gridArea - 1;
+    noteIndex = 0;
+    correctAnswer = level.notes[noteIndex];
+    updateStaffDiv(correctAnswer);
+    drawGrid();
+    loadMap(1);
+    generateNotesList(gridArea);
+    populateMap(gridArea);
+    resultDisplay.textContent = '';
+    haveKey = false;
+    keyDisplay.innerHTML = '';
+    // resetEnemyPosition();
+    renderEnemySprite(enemyTileIndex);
+    renderHeroSprite(activeTileIndex);
+}
+
+function startNewGame() {
+    endGameOverlay.style.display = 'none';
+    activeTileIndex = 0;
+    enemyTileIndex = gridArea - 1;
+    noteIndex = 0;
+    levelIndex = 0;
+    correctAnswer = levels[0].notes[noteIndex];
+    updateStaffDiv(correctAnswer);
+    drawGrid();
+    loadMap(1);
+    generateNotesList(gridArea);
+    populateMap(gridArea);
+    levelDisplay.textContent = `Level ${levelIndex + 1}`
+    levelNameDisplay.textContent = `${levels[levelIndex].name}`;
+    life = 5;
+    updateLifeBar(life);
+    haveKey = false;
+    keyDisplay.innerHTML = '';
+    // lifeDisplay.textContent = `Life: ${life}`;
+    score = 0;
+    scoreDisplay.textContent = `Score: ${score}`;
+    resultDisplay.textContent = '';
+    // resetEnemyPosition();
+    renderEnemySprite(enemyTileIndex);
+    renderHeroSprite(activeTileIndex);
+
+  }
+
+  startNewGame();
 }
 
 // Title and start screen functions
@@ -643,6 +732,7 @@ function loadTitleScreen() {
 
 }
 
+
 function loadNewGameScreen() {
     const content = document.getElementById('content');
     content.textContent = '';
@@ -651,6 +741,7 @@ function loadNewGameScreen() {
         loadGameScreen();
     });
     content.appendChild(newGameButton);
+
 
     const tempPara = document.createElement('p');
     tempPara.textContent = 'Options, Instructions, etc. will appear on this screen. Title music will also play here.';
