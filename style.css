@@ -10,10 +10,6 @@ h1 {
     font-size: 30px;
 }
 
-.hero {
-    height: 30px;
-}
-
 .heart {
     height: 20px;
     padding-left: 5px;
@@ -71,20 +67,13 @@ h1 {
     border-bottom: solid black 2px;
 }
 
-/* .gameTile:hover {
-    background-color: rgb(218, 218, 218);
-    font-size: 50px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
+/* .activeTile {
+    background-color: green;
 } */
 
-.activeTile {
-    background-color: green;
-}
-
-.enemyTile {
+/* .enemyTile {
     background-color: red;
-}
+} */
 
 #endGameOverlay {
     position: fixed;
@@ -129,4 +118,76 @@ h1 {
 
 #nextLevelButton:hover {
     font-size: 36px;
+}
+
+
+.hero {
+    background: url(img/map-icons/mage.svg);
+    background-color: gray;
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+}
+
+.enemy {
+    background: url(img/map-icons/badguy.svg);
+    background-color: gray;
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
