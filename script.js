@@ -1,4 +1,6 @@
 import { levels } from './levels.js';
+import { notesLibrary } from './note-library.js';
+import { maps } from './maps.js';
 
 // Main game screen loader
 function loadGameScreen() {
@@ -54,65 +56,8 @@ function loadGameScreen() {
         playAudioTrack('new-game', false);
     });
 
-
     const nextLevelButton = document.querySelector('#nextLevelButton');
     nextLevelButton.addEventListener('click', goToNextLevel);
-
-
-    const notesLibrary = [
-        // bass clef notes
-        { note: 'Gb', octave: 2, noteRef: 'Gb2', svgName: 'bass-g2-flat' },
-        { note: 'G', octave: 2, noteRef: 'G2', svgName: 'bass-g2' },
-        { note: 'G#', octave: 2, noteRef: 'G#2', svgName: 'bass-g2-sharp' }, 
-        { note: 'Ab', octave: 2, noteRef: 'Ab2', svgName: 'bass-a2-flat' },
-        { note: 'A', octave: 2, noteRef: 'A2', svgName: 'bass-a2' },
-        { note: 'A#', octave: 2, noteRef: 'A#2', svgName: 'bass-a2-sharp' },
-        { note: 'Bb', octave: 2, noteRef: 'Bb2', svgName: 'bass-b2-flat' },
-        { note: 'B', octave: 2, noteRef: 'B2', svgName: 'bass-b2' },
-        { note: 'C', octave: 3, noteRef: 'C3', svgName: 'bass-c3' },
-        { note: 'C#', octave: 3, noteRef: 'C#3', svgName: 'bass-c3-sharp' },
-        { note: 'Db', octave: 3, noteRef: 'Db3', svgName: 'bass-d3-flat' },
-        { note: 'D', octave: 3, noteRef: 'D3', svgName: 'bass-d3' },
-        { note: 'D#', octave: 3, noteRef: 'D#3', svgName: 'bass-d3-sharp' },
-        { note: 'Eb', octave: 3, noteRef: 'Eb3', svgName: 'bass-e3-flat' },
-        { note: 'E', octave: 3, noteRef: 'E3', svgName: 'bass-e3' },
-        { note: 'F', octave: 3, noteRef: 'F3', svgName: 'bass-f3' },
-        { note: 'F#', octave: 3, noteRef: 'F#3', svgName: 'bass-f3-sharp' },
-        { note: 'Gb', octave: 3, noteRef: 'Gb3', svgName: 'bass-g3-flat' },
-        { note: 'G', octave: 3, noteRef: 'G3', svgName: 'bass-g3' },
-        { note: 'G#', octave: 3, noteRef: 'G#3', svgName: 'bass-g3-sharp' },   
-        { note: 'Ab', octave: 3, noteRef: 'Ab3', svgName: 'bass-a3-flat' },
-        { note: 'A', octave: 3, noteRef: 'A3', svgName: 'bass-a3' },
-        { note: 'A#', octave: 3, noteRef: 'A#3', svgName: 'bass-a3-sharp' }, 
-        { note: 'Bb', octave: 3, noteRef: 'Bb3', svgName: 'bass-b3-flat' },
-        { note: 'B', octave: 3, noteRef: 'B3', svgName: 'bass-b3' },
-        
-        // treble clef notes
-        { note: 'C', octave: 4, noteRef: 'C4', svgName: 'treble-c4' },
-        { note: 'C#', octave: 4, noteRef: 'C#4', svgName: 'treble-c4-sharp' },
-        { note: 'Db', octave: 4, noteRef: 'Db4', svgName: 'treble-d4-flat' },
-        { note: 'D', octave: 4, noteRef: 'D4', svgName: 'treble-d4' },
-        { note: 'D#', octave: 4, noteRef: 'D#4', svgName: 'treble-d4-sharp' },
-        { note: 'Eb', octave: 4, noteRef: 'Eb4', svgName: 'treble-e4-flat' },
-        { note: 'E', octave: 4, noteRef: 'E4', svgName: 'treble-e4' },
-        { note: 'F', octave: 4, noteRef: 'F4', svgName: 'treble-f4' },
-        { note: 'F#', octave: 4, noteRef: 'F#4', svgName: 'treble-f4-sharp' },
-        { note: 'Gb', octave: 4, noteRef: 'Gb4', svgName: 'treble-g4-flat' },
-        { note: 'G', octave: 4, noteRef: 'G4', svgName: 'treble-g4' },
-        { note: 'G#', octave: 4, noteRef: 'G#4', svgName: 'treble-g4-sharp' },
-        { note: 'Ab', octave: 4, noteRef: 'Ab4', svgName: 'treble-a4-flat' },
-        { note: 'A', octave: 4, noteRef: 'A4', svgName: 'treble-a4' },
-        { note: 'A#', octave: 4, noteRef: 'A#4', svgName: 'treble-a4-sharp' },
-        { note: 'Bb', octave: 4, noteRef: 'Bb4', svgName: 'treble-b4-flat' },
-        { note: 'B', octave: 4, noteRef: 'B4', svgName: 'treble-b4' },
-        { note: 'C', octave: 5, noteRef: 'C5', svgName: 'treble-c5' },
-        { note: 'C#', octave: 5, noteRef: 'C#5', svgName: 'treble-c5-sharp' },
-        { note: 'Db', octave: 5, noteRef: 'Db5', svgName: 'treble-d5-flat' },
-        { note: 'D', octave: 5, noteRef: 'D5', svgName: 'treble-d5' },
-        { note: 'D#', octave: 5, noteRef: 'D#5', svgName: 'treble-d5-sharp' },
-        
-    ];
-
 
     console.log(notesLibrary.length);
     let notesList = [];
@@ -128,37 +73,6 @@ function loadGameScreen() {
     let haveKey = false;
     let bgMusicTrack;
 
-
-
-
-
-
-    let maps = [
-        {
-            id: 1,
-            walls: [
-                {
-                    type: 'vertical',
-                    length: 4,
-                    startX: 3,
-                    startY: 2
-                },
-                {
-                    type: 'horizontal',
-                    length: 4,
-                    startX: 4,
-                    startY: 1
-                },
-                {
-                    type: 'vertical',
-                    length: 3,
-                    startX: 7,
-                    startY: 5
-                }
-            ]
-        }
-    ]
-
     let levelIndex = 0;
     let noteIndex = 0;
     let noteDelay = 2;
@@ -173,28 +87,28 @@ function loadGameScreen() {
         let previousTileIndex = activeTileIndex;
       
         if (event.code === "ArrowLeft") {
-            if (activeTileIndex === 0 || activeTileIndex % gridSize === 0) {
+            if (activeTileIndex === 0 || activeTileIndex % gridSize === 0 || activeTile.classList.contains('wall-left')) {
                 return;
             } else {
                 activeTile.classList.remove('activeTile');
                 activeTileIndex--;
             }
         } else if (event.code === "ArrowRight") {
-            if (activeTileIndex === gridArea - 1 || (activeTileIndex + 1) % gridSize === 0) {
+            if (activeTileIndex === gridArea - 1 || (activeTileIndex + 1) % gridSize === 0 || activeTile.classList.contains('wall-right')) {
                 return;
             } else {
                 activeTile.classList.remove('activeTile');
                 activeTileIndex++;
             }
         } else if (event.code === "ArrowUp") {
-            if (activeTileIndex < gridSize) {
+            if (activeTileIndex < gridSize || activeTile.classList.contains('wall-top')) {
                 return;
             } else {
                 activeTile.classList.remove('activeTile');
                 activeTileIndex = activeTileIndex - gridSize;
             }
         } else if (event.code === "ArrowDown") {
-            if (activeTileIndex >= gridArea - gridSize) {
+            if (activeTileIndex >= gridArea - gridSize || activeTile.classList.contains('wall-bottom')) {
                 return;
             } else {
                 activeTile.classList.remove('activeTile');
@@ -250,6 +164,7 @@ function loadGameScreen() {
     function moveEnemyLeft() {
         let previousEnemyTileIndex = enemyTileIndex;
         if (enemyTileIndex === 0 || enemyTileIndex % gridSize === 0) {
+            console.log('here');
             return;
         } else {
             enemyTile.classList.remove('enemyTile');
@@ -301,17 +216,31 @@ function loadGameScreen() {
 
     // Enemy movement alogorithm -- needs work!
     function decideEnemyMove() {
+        let currentEnemyTile = document.querySelector(`#tile${enemyTileIndex}`),
+            blockedTop = currentEnemyTile.classList.contains('wall-top'),
+            blockedBottom = currentEnemyTile.classList.contains('wall-bottom'),
+            blockedLeft = currentEnemyTile.classList.contains('wall-left'),
+            blockedRight = currentEnemyTile.classList.contains('wall-right');
+
         if (activeTileIndex < enemyTileIndex) {
-            if (activeTileIndex + gridSize < enemyTileIndex) {
+            if ((activeTileIndex + gridSize < enemyTileIndex) && !blockedTop) {
                 moveEnemyUp();
-            } else {
+            } else if (!blockedLeft){
                 moveEnemyLeft();
+            } else if (!blockedRight){
+                moveEnemyRight();
+            } else {
+                moveEnemyDown();
             }
         } else if (activeTileIndex > enemyTileIndex) {
-            if (activeTileIndex - gridSize > enemyTileIndex) {
+            if ((activeTileIndex - gridSize > enemyTileIndex) && !blockedBottom) {
                 moveEnemyDown();
-            } else {
+            } else if (!blockedRight){
                 moveEnemyRight();
+            } else if (!blockedLeft) {
+                moveEnemyLeft();
+            } else {
+                moveEnemyUp();
             }
         }
         if (activeTileIndex === enemyTileIndex) {
