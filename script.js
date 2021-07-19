@@ -33,6 +33,10 @@ function loadGameScreen() {
     spellDisplay.setAttribute('id', 'spellDisplay');
     spellDisplay.textContent = 'Spell charge: 0';
 
+    const enemyLifeDisplay = document.createElement('div');
+    enemyLifeDisplay.setAttribute('id', 'enemyLifeDisplay');
+    enemyLifeDisplay.textContent = 'Enemy life: 3';
+
     const staffDiv = document.createElement('div');
     staffDiv.setAttribute('class', 'staffDiv');
     
@@ -48,6 +52,7 @@ function loadGameScreen() {
     content.appendChild(resultDisplay);
     content.appendChild(keyDisplay);
     content.appendChild(spellDisplay);
+    content.appendChild(enemyLifeDisplay);
     content.appendChild(staffDiv);
     content.appendChild(gameMap);
 
@@ -124,7 +129,7 @@ function loadGameScreen() {
                 activeTileIndex = activeTileIndex + gridSize;
             }
         } else if (event.code === "Space") {
-            if (levels[levelIndex].name === 'boss' && spellCharge >= 3) {
+            if (levels[levelIndex].name === 'boss' && spellCharge >= 1) {
                 castSpell();
             
             } else if (activeTile.textContent === ' ') {
@@ -579,7 +584,11 @@ function loadGameScreen() {
 
     function chargeSpell() {
         spellCharge++;
-        spellDisplay.textContent = `Spell charge: ${spellCharge}`;
+        if (spellCharge >= 1) {
+            spellDisplay.textContent = 'Spell charged!';
+        } else {
+            spellDisplay.textContent = `Spell charge: ${spellCharge}`;
+        }
     }
 
     function castSpell() {
@@ -589,33 +598,67 @@ function loadGameScreen() {
         // let spellCastTile = document.getElementById(`tile${activeTileIndex + 1}`);        
         // spellCastTile.classList.add('spellCast');
         
-        let spellCastTiles = [
-            document.getElementById(`tile${activeTileIndex + 1}`),
-            document.getElementById(`tile${activeTileIndex + 2}`),
-            document.getElementById(`tile${activeTileIndex - 1}`),
-            document.getElementById(`tile${activeTileIndex - 2}`),
-            document.getElementById(`tile${activeTileIndex + gridSize}`),
-            document.getElementById(`tile${activeTileIndex + (gridSize * 2)}`),
-            document.getElementById(`tile${activeTileIndex - gridSize}`),
-            document.getElementById(`tile${activeTileIndex - (gridSize * 2)}`),
-            document.getElementById(`tile${activeTileIndex + gridSize + 1}`),
-            document.getElementById(`tile${activeTileIndex + gridSize - 1}`),
-            document.getElementById(`tile${activeTileIndex - gridSize + 1}`),
-            document.getElementById(`tile${activeTileIndex - gridSize - 1}`),
-            
-        ];       
+        let spellCastTiles = [];
+        
+        if (activeTileIndex > 0 && activeTileIndex % gridSize !== 0) {
+            let tile = document.getElementById(`tile${activeTileIndex - 1}`);
+            spellCastTiles.push(tile);
+        }
+
+        if (activeTileIndex < gridArea - 1 && (activeTileIndex + 1) % gridSize !== 0) {
+            let tile = document.getElementById(`tile${activeTileIndex + 1}`);
+            spellCastTiles.push(tile);
+        }
+
+        if (activeTileIndex > gridSize - 1) {
+            let tile = document.getElementById(`tile${activeTileIndex - gridSize}`);
+            spellCastTiles.push(tile);
+        }
+
+        if (activeTileIndex < gridArea - gridSize) {
+            let tile = document.getElementById(`tile${activeTileIndex + gridSize}`);
+            spellCastTiles.push(tile);
+        }
+        
         spellCastTiles.forEach(function(tile) {
             tile.classList.add('spellCast');
+
         });
 
         setTimeout(function() {
             spellCastTiles.forEach(function(tile) {
                 tile.classList.remove('spellCast');
             });
-         }, 200);
-        
+        }, 200);
+
+        let enemyTile = document.getElementById(`tile${enemyTileIndex}`);
+        if (spellCastTiles.includes(enemyTile)) {
+            damageEnemy();
+            //enemyTile.classList.remove('enemy');
+        }
 
     }
+
+    let enemyLife = 3;
+    
+    function damageEnemy() {
+        enemyLife--;
+        enemyLifeDisplay.textContent = `Enemy life: ${enemyLife}`;
+        
+        let enemyTile = document.getElementById(`tile${enemyTileIndex}`);
+        enemyTile.classList.remove('enemy');
+        
+        if (enemyLife <= 0) { 
+
+            levelComplete(levels[levelIndex]);
+
+        } else {
+            setTimeout(function() {
+                enemyTile.classList.add('enemy')
+            }, 100);  
+        }
+    }
+
 
     function startNewLevel(level) {
         endGameOverlay.style.display = 'none';
@@ -633,6 +676,8 @@ function loadGameScreen() {
         haveKey = false;
         keyDisplay.innerHTML = '';
         //resetEnemyPosition();
+        enemyLife = 3;
+        enemyLifeDisplay.textContent = `Enemy life: ${enemyLife}`;
         renderEnemySprite(enemyTileIndex);
         renderHeroSprite(activeTileIndex);
         
@@ -686,6 +731,8 @@ function loadGameScreen() {
         score = 0;
         scoreDisplay.textContent = `Score: ${score}`;
         resultDisplay.textContent = '';
+        enemyLife = 3;
+        enemyLifeDisplay.textContent = `Enemy life: ${enemyLife}`;
         // resetEnemyPosition();
         renderEnemySprite(enemyTileIndex);
         renderHeroSprite(activeTileIndex);
