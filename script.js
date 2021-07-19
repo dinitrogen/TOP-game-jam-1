@@ -75,11 +75,13 @@ function loadGameScreen() {
     let notesList = [];
     let correctAnswer;
     let correctOctave;
-    let gridSize = 10;
+    let gridSize = 10; // Also must change in CSS
     let gridArea = gridSize ** 2;
     let activeTileIndex = 0;
     let activeTile;
+    
     let enemyTileIndex = gridArea - 1
+
     let enemyTile;
     let score = 0;
     let life = 5;
@@ -121,6 +123,12 @@ function loadGameScreen() {
                 if (leftTile && leftTile.classList.contains('locked-tile')) {
                     useKey(activeTileIndex);
                 }
+
+                if (stairsOn && activeTileIndex === stairsTileIndex) {
+                    goToNextLevel();
+                    return;
+                }
+
             }
         } else if (event.code === "ArrowRight") {
             if (activeTileIndex === gridArea - 1 || (activeTileIndex + 1) % gridSize === 0 || activeTile.classList.contains('wall-right') || (rightTile && (rightTile.classList.contains('locked-tile') && !haveKey))) {
@@ -130,6 +138,11 @@ function loadGameScreen() {
                 activeTileIndex++;
                 if (rightTile && rightTile.classList.contains('locked-tile')) {
                     useKey(activeTileIndex);
+                }
+
+                if (stairsOn && activeTileIndex === stairsTileIndex) {
+                    goToNextLevel();
+                    return;
                 }
             }
         } else if (event.code === "ArrowUp") {
@@ -142,6 +155,11 @@ function loadGameScreen() {
                 if (upTile && upTile.classList.contains('locked-tile')) {
                     useKey(activeTileIndex);
                 }
+
+                if (stairsOn && activeTileIndex === stairsTileIndex) {
+                    goToNextLevel();
+                    return;
+                }
             }
         } else if (event.code === "ArrowDown") {
             if (activeTileIndex >= gridArea - gridSize || activeTile.classList.contains('wall-bottom') || (downTile && (downTile.classList.contains('locked-tile') && !haveKey))) {
@@ -153,9 +171,16 @@ function loadGameScreen() {
                 if (downTile && downTile.classList.contains('locked-tile')) {
                     useKey(activeTileIndex);
                 }
+
+                if (stairsOn && activeTileIndex === stairsTileIndex) {
+                    goToNextLevel();
+                    return;
+                }
             }
         } else if (event.code === "Space") {
-            if (levels[levelIndex].name === 'boss' && spellCharge >= 1) {
+            if (stairsOn) {
+                return;
+            }else if (levels[levelIndex].name === 'boss' && spellCharge >= 1) {
                 castSpell();
             
             } else if (activeTile.textContent === ' ') {
@@ -278,6 +303,10 @@ function loadGameScreen() {
 
     // Enemy movement alogorithm -- needs work!
     function decideEnemyMove() {
+        if (stairsOn) {
+            return;
+        }
+
         let currentEnemyTile = document.querySelector(`#tile${enemyTileIndex}`),
             leftEnemyTile = (enemyTileIndex === 0 || enemyTileIndex % gridSize === 0) ? undefined : document.querySelector(`#tile${enemyTileIndex - 1}`),
             rightEnemyTile = (enemyTileIndex === gridArea - 1 || (enemyTileIndex + 1) % gridSize === 0) ? undefined : document.querySelector(`#tile${enemyTileIndex + 1}`),
@@ -532,12 +561,32 @@ function loadGameScreen() {
 
     function levelComplete(level) {
         resultDisplay.textContent = 'LEVEL COMPLETE';
-        gameOver.textContent = 'LEVEL COMPLETE';
-        endGameOverlay.style.display = 'block';
-        nextLevelButton.style.display = 'block';
-        replayButton.style.display = 'none';
+        // gameOver.textContent = 'LEVEL COMPLETE';
+        // endGameOverlay.style.display = 'block';
+        // nextLevelButton.style.display = 'block';
+        // replayButton.style.display = 'none';
         playMelody(level);
         noteDelay = 2;
+
+        showStairs();
+    }
+
+    let stairsOn = false;
+    let stairsTileIndex;
+    function showStairs() {
+        // reset the board without letters
+        drawGrid();
+        renderHeroSprite(activeTileIndex);
+        stairsOn = true;
+        stairsTileIndex = gridArea / 2 + Math.floor(gridSize / 2);
+        let stairsTile;
+        if (stairsTileIndex === activeTileIndex) {
+            stairsTile = document.getElementById(`tile${stairsTileIndex - 1}`);
+            stairsTile.classList.add('stairsTile');
+        } else {
+            stairsTile = document.getElementById(`tile${stairsTileIndex}`);
+            stairsTile.classList.add('stairsTile');
+        }
     }
 
     function playNote(note, duration, delay) {
@@ -568,6 +617,7 @@ function loadGameScreen() {
 
 
     function goToNextLevel() {
+        stairsOn = false;
         levelIndex++;
         if (levelIndex >= levels.length) {
             displayWinScreen();
@@ -829,6 +879,7 @@ function loadGameScreen() {
         enemyLifeDisplay.textContent = `Enemy life: ${enemyLife}`;
         // resetEnemyPosition();
         renderEnemySprite(enemyTileIndex);
+        
         renderHeroSprite(activeTileIndex);
         
         playAudioTrack('new-game', false);
