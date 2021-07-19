@@ -651,23 +651,64 @@ function loadGameScreen() {
         
         let spellCastTiles = [];
         
-        if (activeTileIndex > 0 && activeTileIndex % gridSize !== 0) {
+        // 1 left
+        if (activeTileIndex % gridSize !== 0) {
             let tile = document.getElementById(`tile${activeTileIndex - 1}`);
             spellCastTiles.push(tile);
         }
-
+        // 2 left
+        if (activeTileIndex % gridSize > 1) {
+            let tile = document.getElementById(`tile${activeTileIndex - 2}`);
+            spellCastTiles.push(tile);
+        }
+        // 1 right
         if (activeTileIndex < gridArea - 1 && (activeTileIndex + 1) % gridSize !== 0) {
             let tile = document.getElementById(`tile${activeTileIndex + 1}`);
             spellCastTiles.push(tile);
         }
-
+        // 2 right
+        if (activeTileIndex < gridArea - 2 && (activeTileIndex + 2) % gridSize > 1) {
+            let tile = document.getElementById(`tile${activeTileIndex + 2}`);
+            spellCastTiles.push(tile);
+        }
+        // 1 up
         if (activeTileIndex > gridSize - 1) {
             let tile = document.getElementById(`tile${activeTileIndex - gridSize}`);
             spellCastTiles.push(tile);
         }
-
+        // 2 up
+        if (activeTileIndex > (gridSize * 2) - 2) {
+            let tile = document.getElementById(`tile${activeTileIndex - (gridSize * 2)}`);
+            spellCastTiles.push(tile);
+        }
+        // 1 down
         if (activeTileIndex < gridArea - gridSize) {
             let tile = document.getElementById(`tile${activeTileIndex + gridSize}`);
+            spellCastTiles.push(tile);
+        }
+        // 2 down
+        if (activeTileIndex < gridArea - (gridSize * 2)) {
+            let tile = document.getElementById(`tile${activeTileIndex + (gridSize * 2)}`);
+            spellCastTiles.push(tile);
+        }
+        // up-left diagonal
+        if (activeTileIndex % gridSize !== 0 && activeTileIndex > gridSize - 1) {
+            let tile = document.getElementById(`tile${activeTileIndex - 1 - gridSize}`);
+            spellCastTiles.push(tile);
+        }
+        // up-right diagonal
+        if (activeTileIndex < gridArea - 1 && (activeTileIndex + 1) % gridSize !== 0 && activeTileIndex > gridSize -1) {
+            let tile = document.getElementById(`tile${activeTileIndex + 1 - gridSize}`);
+            spellCastTiles.push(tile);
+        }
+        // down-left diagonal
+        if (activeTileIndex % gridSize !== 0 && activeTileIndex < gridArea - gridSize) {
+            let tile = document.getElementById(`tile${activeTileIndex - 1 + gridSize}`);
+            spellCastTiles.push(tile);
+        }
+        // down-right diagonal
+        if (activeTileIndex < gridArea - 1 && (activeTileIndex + 1) % gridSize !== 0 && activeTileIndex < gridArea - gridSize) {
+            let tile = document.getElementById(`tile${activeTileIndex + 1 + gridSize}`);
             spellCastTiles.push(tile);
         }
         
