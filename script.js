@@ -29,6 +29,10 @@ function loadGameScreen() {
     const keyDisplay = document.createElement('div');
     keyDisplay.setAttribute('id', 'keyDisplay');
 
+    const spellDisplay = document.createElement('div');
+    spellDisplay.setAttribute('id', 'spellDisplay');
+    spellDisplay.textContent = 'Spell charge: 0';
+
     const staffDiv = document.createElement('div');
     staffDiv.setAttribute('class', 'staffDiv');
     
@@ -43,6 +47,7 @@ function loadGameScreen() {
     content.appendChild(scoreDisplay);
     content.appendChild(resultDisplay);
     content.appendChild(keyDisplay);
+    content.appendChild(spellDisplay);
     content.appendChild(staffDiv);
     content.appendChild(gameMap);
 
@@ -74,6 +79,7 @@ function loadGameScreen() {
     let score = 0;
     let life = 5;
     let haveKey = false;
+    let spellCharge = 0;
     //let bgMusicTrack;
 
     let levelIndex = 0;
@@ -118,7 +124,10 @@ function loadGameScreen() {
                 activeTileIndex = activeTileIndex + gridSize;
             }
         } else if (event.code === "Space") {
-            if (activeTile.textContent === ' ') {
+            if (levels[levelIndex].name === 'boss' && spellCharge >= 3) {
+                castSpell();
+            
+            } else if (activeTile.textContent === ' ') {
                 return;
             } else if (activeTile.classList.contains('hasHeart')) {
                 increaseLife();
@@ -130,13 +139,13 @@ function loadGameScreen() {
                 activeTile.classList.remove('hasKey');
                 activeTile.innerHTML = '';
             } else if (activeTile.textContent === correctAnswer) {
-                
+
                 if (levels[levelIndex].name === 'boss') {
                     resultDisplay.textContent = 'Correct!';
                     let note = `${correctAnswer}${correctOctave}`;
                     playNote(note, 1);
                     increaseScore();
-                    //chargeSpell();
+                    chargeSpell();
                     let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
                     correctAnswer = randomNote.note;
                     correctOctave = randomNote.octave;
@@ -566,6 +575,46 @@ function loadGameScreen() {
             keyDisplay.appendChild(key);
             haveKey = true;
         }
+    }
+
+    function chargeSpell() {
+        spellCharge++;
+        spellDisplay.textContent = `Spell charge: ${spellCharge}`;
+    }
+
+    function castSpell() {
+        console.log('BOOM!');
+        spellCharge = 0;
+        spellDisplay.textContent = `Spell charge: ${spellCharge}`;
+        // let spellCastTile = document.getElementById(`tile${activeTileIndex + 1}`);        
+        // spellCastTile.classList.add('spellCast');
+        
+        let spellCastTiles = [
+            document.getElementById(`tile${activeTileIndex + 1}`),
+            document.getElementById(`tile${activeTileIndex + 2}`),
+            document.getElementById(`tile${activeTileIndex - 1}`),
+            document.getElementById(`tile${activeTileIndex - 2}`),
+            document.getElementById(`tile${activeTileIndex + gridSize}`),
+            document.getElementById(`tile${activeTileIndex + (gridSize * 2)}`),
+            document.getElementById(`tile${activeTileIndex - gridSize}`),
+            document.getElementById(`tile${activeTileIndex - (gridSize * 2)}`),
+            document.getElementById(`tile${activeTileIndex + gridSize + 1}`),
+            document.getElementById(`tile${activeTileIndex + gridSize - 1}`),
+            document.getElementById(`tile${activeTileIndex - gridSize + 1}`),
+            document.getElementById(`tile${activeTileIndex - gridSize - 1}`),
+            
+        ];       
+        spellCastTiles.forEach(function(tile) {
+            tile.classList.add('spellCast');
+        });
+
+        setTimeout(function() {
+            spellCastTiles.forEach(function(tile) {
+                tile.classList.remove('spellCast');
+            });
+         }, 200);
+        
+
     }
 
     function startNewLevel(level) {
