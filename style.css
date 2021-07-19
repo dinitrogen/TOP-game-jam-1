@@ -71,6 +71,18 @@ h1 {
     border-bottom: solid black 2px;
 }
 
+.locked-tile {
+    -webkit-box-shadow:inset 0px 0px 0px 5px orange;
+    -moz-box-shadow:inset 0px 0px 0px 5px orange;
+    box-shadow:inset 0px 0px 0px 5px orange;
+
+    animation: fadeIn 0.5s;
+    -webkit-animation: fadeIn 0.5s;
+    -moz-animation: fadeIn 0.5s;
+    -o-animation: fadeIn 0.5s;
+    -ms-animation: fadeIn 0.5s;
+}
+
 /* .activeTile {
     background-color: green;
 }
