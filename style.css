@@ -136,6 +136,14 @@ h1 {
     font-size: 36px;
 }
 
+.stairsTile {
+    background: url(img/map-icons/stairs.svg);
+    background-color: gray;
+    background-size: 60px 60px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 
 .hero {
     background: url(img/map-icons/mage.svg);
