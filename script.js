@@ -64,6 +64,7 @@ function loadGameScreen() {
     console.log(notesLibrary.length);
     let notesList = [];
     let correctAnswer;
+    let correctOctave;
     let gridSize = 10;
     let gridArea = gridSize ** 2;
     let activeTileIndex = 0;
@@ -129,20 +130,37 @@ function loadGameScreen() {
                 activeTile.classList.remove('hasKey');
                 activeTile.innerHTML = '';
             } else if (activeTile.textContent === correctAnswer) {
-                resultDisplay.textContent = 'Correct!';
-                let note = `${correctAnswer}${levels[levelIndex].notes[noteIndex].octave}`;
-                playNote(note, 1);
-                increaseScore();
-                // correctAnswer = getRandomNote();
-                correctAnswer = getNextNote(levels[levelIndex], noteIndex);
-                if (noteIndex >= levels[levelIndex].notes.length - 1) {
-                    levelComplete(levels[levelIndex]);
-                } else {
-                    noteIndex++;
+                
+                if (levels[levelIndex].name === 'boss') {
+                    resultDisplay.textContent = 'Correct!';
+                    let note = `${correctAnswer}${correctOctave}`;
+                    playNote(note, 1);
+                    increaseScore();
+                    //chargeSpell();
+                    let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+                    correctAnswer = randomNote.note;
+                    correctOctave = randomNote.octave;
                     generateNotesList(gridArea);
                     populateMap(gridArea);
-                    let octave = `${levels[levelIndex].notes[noteIndex].octave}`;
-                    updateStaffDiv(correctAnswer, octave);
+                    updateStaffDiv(correctAnswer, correctOctave);
+
+                } else {
+                
+                    resultDisplay.textContent = 'Correct!';
+                    let note = `${correctAnswer}${levels[levelIndex].notes[noteIndex].octave}`;
+                    playNote(note, 1);
+                    increaseScore();
+                    // correctAnswer = getRandomNote();
+                    correctAnswer = getNextNote(levels[levelIndex], noteIndex);
+                    if (noteIndex >= levels[levelIndex].notes.length - 1) {
+                        levelComplete(levels[levelIndex]);
+                    } else {
+                        noteIndex++;
+                        generateNotesList(gridArea);
+                        populateMap(gridArea);
+                        let octave = `${levels[levelIndex].notes[noteIndex].octave}`;
+                        updateStaffDiv(correctAnswer, octave);
+                    }
                 }
             } else {
                 activeTile.textContent = 'X';
@@ -392,7 +410,7 @@ function loadGameScreen() {
     }
 
     function getRandomNote() {
-        let randomNote = notesLibrary[Math.floor(Math.random() * 17)].note;
+        let randomNote = notesLibrary[Math.floor(Math.random() * 47)].note;
         return randomNote;
     }
 
@@ -488,6 +506,12 @@ function loadGameScreen() {
         levelIndex++;
         if (levelIndex >= levels.length) {
             displayWinScreen();
+        } else if (levels[levelIndex].name === 'boss') {
+            console.log('boss stage');
+            levelDisplay.textContent = `Level ${levelIndex + 1}`;
+            levelNameDisplay.textContent = 'BOSS STAGE!';
+            loadBossStage();
+    
         } else {
             levelDisplay.textContent = `Level ${levelIndex + 1}`;
             levelNameDisplay.textContent = `${levels[levelIndex].name}`
@@ -565,6 +589,30 @@ function loadGameScreen() {
         
         playAudioTrack('dungeon-a', true, 1.7);
     }
+
+    function loadBossStage() {
+        endGameOverlay.style.display = 'none';
+        activeTileIndex = 0;
+        enemyTileIndex = gridArea - 1;
+        noteIndex = 0;
+        let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+        correctAnswer = randomNote.note;
+        correctOctave = randomNote.octave;
+        updateStaffDiv(correctAnswer, correctOctave);
+        drawGrid();
+        // loadMap(1);
+        generateNotesList(gridArea);
+        populateMap(gridArea);
+        resultDisplay.textContent = '';
+        haveKey = false;
+        keyDisplay.innerHTML = '';
+        //resetEnemyPosition();
+        renderEnemySprite(enemyTileIndex);
+        renderHeroSprite(activeTileIndex);
+        
+        playAudioTrack('boss-theme', true, 0);
+    }
+
 
     function startNewGame() {
         endGameOverlay.style.display = 'none';
