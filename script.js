@@ -29,6 +29,14 @@ function loadGameScreen() {
     const keyDisplay = document.createElement('div');
     keyDisplay.setAttribute('id', 'keyDisplay');
 
+    const spellDisplay = document.createElement('div');
+    spellDisplay.setAttribute('id', 'spellDisplay');
+    spellDisplay.textContent = 'Spell charge: 0';
+
+    const enemyLifeDisplay = document.createElement('div');
+    enemyLifeDisplay.setAttribute('id', 'enemyLifeDisplay');
+    enemyLifeDisplay.textContent = 'Enemy life: 3';
+
     const staffDiv = document.createElement('div');
     staffDiv.setAttribute('class', 'staffDiv');
     
@@ -43,6 +51,8 @@ function loadGameScreen() {
     content.appendChild(scoreDisplay);
     content.appendChild(resultDisplay);
     content.appendChild(keyDisplay);
+    content.appendChild(spellDisplay);
+    content.appendChild(enemyLifeDisplay);
     content.appendChild(staffDiv);
     content.appendChild(gameMap);
 
@@ -64,6 +74,7 @@ function loadGameScreen() {
     console.log(notesLibrary.length);
     let notesList = [];
     let correctAnswer;
+    let correctOctave;
     let gridSize = 10;
     let gridArea = gridSize ** 2;
     let activeTileIndex = 0;
@@ -73,6 +84,7 @@ function loadGameScreen() {
     let score = 0;
     let life = 5;
     let haveKey = false;
+    let spellCharge = 0;
     //let bgMusicTrack;
 
     let levelIndex = 0;
@@ -117,7 +129,10 @@ function loadGameScreen() {
                 activeTileIndex = activeTileIndex + gridSize;
             }
         } else if (event.code === "Space") {
-            if (activeTile.textContent === ' ') {
+            if (levels[levelIndex].name === 'boss' && spellCharge >= 1) {
+                castSpell();
+            
+            } else if (activeTile.textContent === ' ') {
                 return;
             } else if (activeTile.classList.contains('hasHeart')) {
                 increaseLife();
@@ -129,20 +144,37 @@ function loadGameScreen() {
                 activeTile.classList.remove('hasKey');
                 activeTile.innerHTML = '';
             } else if (activeTile.textContent === correctAnswer) {
-                resultDisplay.textContent = 'Correct!';
-                let note = `${correctAnswer}${levels[levelIndex].notes[noteIndex].octave}`;
-                playNote(note, 1);
-                increaseScore();
-                // correctAnswer = getRandomNote();
-                correctAnswer = getNextNote(levels[levelIndex], noteIndex);
-                if (noteIndex >= levels[levelIndex].notes.length - 1) {
-                    levelComplete(levels[levelIndex]);
-                } else {
-                    noteIndex++;
+
+                if (levels[levelIndex].name === 'boss') {
+                    resultDisplay.textContent = 'Correct!';
+                    let note = `${correctAnswer}${correctOctave}`;
+                    playNote(note, 1);
+                    increaseScore();
+                    chargeSpell();
+                    let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+                    correctAnswer = randomNote.note;
+                    correctOctave = randomNote.octave;
                     generateNotesList(gridArea);
                     populateMap(gridArea);
-                    let octave = `${levels[levelIndex].notes[noteIndex].octave}`;
-                    updateStaffDiv(correctAnswer, octave);
+                    updateStaffDiv(correctAnswer, correctOctave);
+
+                } else {
+                
+                    resultDisplay.textContent = 'Correct!';
+                    let note = `${correctAnswer}${levels[levelIndex].notes[noteIndex].octave}`;
+                    playNote(note, 1);
+                    increaseScore();
+                    // correctAnswer = getRandomNote();
+                    correctAnswer = getNextNote(levels[levelIndex], noteIndex);
+                    if (noteIndex >= levels[levelIndex].notes.length - 1) {
+                        levelComplete(levels[levelIndex]);
+                    } else {
+                        noteIndex++;
+                        generateNotesList(gridArea);
+                        populateMap(gridArea);
+                        let octave = `${levels[levelIndex].notes[noteIndex].octave}`;
+                        updateStaffDiv(correctAnswer, octave);
+                    }
                 }
             } else {
                 activeTile.textContent = 'X';
@@ -392,7 +424,7 @@ function loadGameScreen() {
     }
 
     function getRandomNote() {
-        let randomNote = notesLibrary[Math.floor(Math.random() * 17)].note;
+        let randomNote = notesLibrary[Math.floor(Math.random() * 47)].note;
         return randomNote;
     }
 
@@ -488,6 +520,12 @@ function loadGameScreen() {
         levelIndex++;
         if (levelIndex >= levels.length) {
             displayWinScreen();
+        } else if (levels[levelIndex].name === 'boss') {
+            console.log('boss stage');
+            levelDisplay.textContent = `Level ${levelIndex + 1}`;
+            levelNameDisplay.textContent = 'BOSS STAGE!';
+            loadBossStage();
+    
         } else {
             levelDisplay.textContent = `Level ${levelIndex + 1}`;
             levelNameDisplay.textContent = `${levels[levelIndex].name}`
@@ -544,6 +582,84 @@ function loadGameScreen() {
         }
     }
 
+    function chargeSpell() {
+        spellCharge++;
+        if (spellCharge >= 1) {
+            spellDisplay.textContent = 'Spell charged!';
+        } else {
+            spellDisplay.textContent = `Spell charge: ${spellCharge}`;
+        }
+    }
+
+    function castSpell() {
+        console.log('BOOM!');
+        spellCharge = 0;
+        spellDisplay.textContent = `Spell charge: ${spellCharge}`;
+        // let spellCastTile = document.getElementById(`tile${activeTileIndex + 1}`);        
+        // spellCastTile.classList.add('spellCast');
+        
+        let spellCastTiles = [];
+        
+        if (activeTileIndex > 0 && activeTileIndex % gridSize !== 0) {
+            let tile = document.getElementById(`tile${activeTileIndex - 1}`);
+            spellCastTiles.push(tile);
+        }
+
+        if (activeTileIndex < gridArea - 1 && (activeTileIndex + 1) % gridSize !== 0) {
+            let tile = document.getElementById(`tile${activeTileIndex + 1}`);
+            spellCastTiles.push(tile);
+        }
+
+        if (activeTileIndex > gridSize - 1) {
+            let tile = document.getElementById(`tile${activeTileIndex - gridSize}`);
+            spellCastTiles.push(tile);
+        }
+
+        if (activeTileIndex < gridArea - gridSize) {
+            let tile = document.getElementById(`tile${activeTileIndex + gridSize}`);
+            spellCastTiles.push(tile);
+        }
+        
+        spellCastTiles.forEach(function(tile) {
+            tile.classList.add('spellCast');
+
+        });
+
+        setTimeout(function() {
+            spellCastTiles.forEach(function(tile) {
+                tile.classList.remove('spellCast');
+            });
+        }, 200);
+
+        let enemyTile = document.getElementById(`tile${enemyTileIndex}`);
+        if (spellCastTiles.includes(enemyTile)) {
+            damageEnemy();
+            //enemyTile.classList.remove('enemy');
+        }
+
+    }
+
+    let enemyLife = 3;
+    
+    function damageEnemy() {
+        enemyLife--;
+        enemyLifeDisplay.textContent = `Enemy life: ${enemyLife}`;
+        
+        let enemyTile = document.getElementById(`tile${enemyTileIndex}`);
+        enemyTile.classList.remove('enemy');
+        
+        if (enemyLife <= 0) { 
+
+            levelComplete(levels[levelIndex]);
+
+        } else {
+            setTimeout(function() {
+                enemyTile.classList.add('enemy')
+            }, 100);  
+        }
+    }
+
+
     function startNewLevel(level) {
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
@@ -560,11 +676,37 @@ function loadGameScreen() {
         haveKey = false;
         keyDisplay.innerHTML = '';
         //resetEnemyPosition();
+        enemyLife = 3;
+        enemyLifeDisplay.textContent = `Enemy life: ${enemyLife}`;
         renderEnemySprite(enemyTileIndex);
         renderHeroSprite(activeTileIndex);
         
         playAudioTrack('dungeon-a', true, 1.7);
     }
+
+    function loadBossStage() {
+        endGameOverlay.style.display = 'none';
+        activeTileIndex = 0;
+        enemyTileIndex = gridArea - 1;
+        noteIndex = 0;
+        let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+        correctAnswer = randomNote.note;
+        correctOctave = randomNote.octave;
+        updateStaffDiv(correctAnswer, correctOctave);
+        drawGrid();
+        // loadMap(1);
+        generateNotesList(gridArea);
+        populateMap(gridArea);
+        resultDisplay.textContent = '';
+        haveKey = false;
+        keyDisplay.innerHTML = '';
+        //resetEnemyPosition();
+        renderEnemySprite(enemyTileIndex);
+        renderHeroSprite(activeTileIndex);
+        
+        playAudioTrack('boss-theme', true, 0);
+    }
+
 
     function startNewGame() {
         endGameOverlay.style.display = 'none';
@@ -589,6 +731,8 @@ function loadGameScreen() {
         score = 0;
         scoreDisplay.textContent = `Score: ${score}`;
         resultDisplay.textContent = '';
+        enemyLife = 3;
+        enemyLifeDisplay.textContent = `Enemy life: ${enemyLife}`;
         // resetEnemyPosition();
         renderEnemySprite(enemyTileIndex);
         renderHeroSprite(activeTileIndex);

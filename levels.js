@@ -19,6 +19,11 @@ let levels = [
     },
 
     {
+        name: "boss",
+        notes: []
+    },
+
+    {
         name: "Lead frog 3rds",
         notes: [
             {letter: 'C', octave: '4', duration: 0.5},
@@ -30,7 +35,14 @@ let levels = [
         ]
     },
 
+    {
+        name: "boss",
+        notes: []
+    },
+
+
     // More levels...
+
 ];
 
 export { levels };
