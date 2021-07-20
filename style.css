@@ -1,5 +1,6 @@
 :root {
     --gridSize: 10;
+    --spellChargeFill: 0%;
 }
 
 h1 {
@@ -8,6 +9,29 @@ h1 {
 
 #lifeDisplay {
     font-size: 30px;
+}
+
+.spellBarBorder {
+    width: 100px;
+    height: 20px;
+    background: rgb(185, 185, 185);
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.spellBarEmpty {
+    background-color: black;
+    display: block;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.spellBarFill {
+    background-color: red;
+    display: block;
+    width: var(--spellChargeFill);
+    height: 100%;
+    border-radius: 10px;
 }
 
 .hero {

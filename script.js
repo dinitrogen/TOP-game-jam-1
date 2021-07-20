@@ -33,6 +33,16 @@ function loadGameScreen() {
     spellDisplay.setAttribute('id', 'spellDisplay');
     spellDisplay.textContent = 'Spell charge: 0';
 
+    const spellBarBorder = document.createElement('div');
+    spellBarBorder.classList.add('spellBarBorder');
+    const spellBarEmpty = document.createElement('span');
+    spellBarEmpty.classList.add('spellBarEmpty');
+    const spellBarFill = document.createElement('span');
+    spellBarFill.classList.add('spellBarFill');
+    spellBarBorder.appendChild(spellBarEmpty);
+    spellBarEmpty.appendChild(spellBarFill);
+    spellDisplay.appendChild(spellBarBorder);
+
     const enemyLifeDisplay = document.createElement('div');
     enemyLifeDisplay.setAttribute('id', 'enemyLifeDisplay');
     enemyLifeDisplay.textContent = 'Enemy life: 3';
@@ -685,17 +695,22 @@ function loadGameScreen() {
 
     function chargeSpell() {
         spellCharge++;
-        if (spellCharge >= 1) {
-            spellDisplay.textContent = 'Spell charged!';
-        } else {
-            spellDisplay.textContent = `Spell charge: ${spellCharge}`;
-        }
+        let root = document.querySelector(':root');
+        root.style.setProperty('--spellChargeFill', '100%');
+        
+        // if (spellCharge >= 1) {
+        //     spellDisplay.textContent = 'Spell charged!';
+        // } else {
+        //     spellDisplay.textContent = `Spell charge: ${spellCharge}`;
+        // }
     }
 
     function castSpell() {
         console.log('BOOM!');
         spellCharge = 0;
-        spellDisplay.textContent = `Spell charge: ${spellCharge}`;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--spellChargeFill', '0%');
+        // spellDisplay.textContent = `Spell charge: ${spellCharge}`;
         // let spellCastTile = document.getElementById(`tile${activeTileIndex + 1}`);        
         // spellCastTile.classList.add('spellCast');
         
