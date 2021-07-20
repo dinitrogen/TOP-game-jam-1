@@ -61,6 +61,9 @@ function loadGameScreen() {
     bossBarEmpty.appendChild(bossBarFill);
     bossDisplay.appendChild(bossBarBorder); 
 
+    const timerDisplay = document.createElement('div');
+    timerDisplay.textContent = 'Time:';
+
     const staffDiv = document.createElement('div');
     staffDiv.setAttribute('class', 'staffDiv');
     
@@ -77,6 +80,7 @@ function loadGameScreen() {
     content.appendChild(keyDisplay);
     content.appendChild(spellDisplay);
     content.appendChild(bossDisplay);
+    content.appendChild(timerDisplay);
     content.appendChild(staffDiv);
     content.appendChild(gameMap);
 
@@ -112,6 +116,7 @@ function loadGameScreen() {
     let haveKey = false;
     let spellCharge = 0;
     //let bgMusicTrack;
+    let gameOverStatus = false;
 
     let levelIndex = 0;
     let noteIndex = 0;
@@ -567,6 +572,7 @@ function loadGameScreen() {
     }
 
     function displayGameOver() {
+        gameOverStatus = true;
         resultDisplay.textContent = 'GAME OVER';
         gameOver.textContent = 'GAME OVER';
         endGameOverlay.style.display = 'block';
@@ -858,6 +864,26 @@ function loadGameScreen() {
 
     }
 
+    function startTimer() {
+        let timeLeft = levels[levelIndex].time;
+        timerDisplay.textContent = `Time: ${timeLeft}`;
+        let timer = setInterval(countDown, 1000);
+        function countDown() {
+            if (gameOverStatus) {
+                clearInterval(timer);
+            
+            } else if (stairsOn) {
+                clearInterval(timer);
+            } else if (timeLeft <= 0) {
+                clearInterval(timer);
+                displayGameOver();
+            } else {
+                timeLeft--;
+                timerDisplay.textContent = `Time: ${timeLeft}`;
+            }
+        }
+    }
+
 
     function startNewLevel(level) {
         endGameOverlay.style.display = 'none';
@@ -882,6 +908,7 @@ function loadGameScreen() {
         renderHeroSprite(activeTileIndex);
         
         playAudioTrack('dungeon-a', true, 1.7);
+        startTimer();
     }
 
     function loadBossStage() {
@@ -908,10 +935,12 @@ function loadGameScreen() {
         root.style.setProperty('--bossLifeFill', '100%');
         
         playAudioTrack('boss-theme', true, 0);
+        startTimer();
     }
 
 
     function startNewGame() {
+        gameOverStatus = false;
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
         enemyTileIndex = gridArea - 1;
@@ -948,6 +977,7 @@ function loadGameScreen() {
         
         playAudioTrack('new-game', false);
         setTimeout(function() { playAudioTrack('dungeon-a', true, 1.7)}, 5000);
+        startTimer();
     }
 
 
