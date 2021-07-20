@@ -1,6 +1,7 @@
 :root {
     --gridSize: 10;
     --spellChargeFill: 0%;
+    --bossLifeFill: 0%;
 }
 
 h1 {
@@ -15,7 +16,7 @@ h1 {
     width: 100px;
     height: 20px;
     background: rgb(185, 185, 185);
-    border-radius: 20px;
+    border-radius: 0px;
     padding: 5px;
 }
 
@@ -23,15 +24,42 @@ h1 {
     background-color: black;
     display: block;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 0px;
 }
 
 .spellBarFill {
-    background-color: red;
+    background-color: rgb(18, 216, 0);
     display: block;
     width: var(--spellChargeFill);
     height: 100%;
-    border-radius: 10px;
+    border-radius: 0px;
+}
+
+.blink {
+    animation: blink 0.25s infinite;
+}
+
+.bossBarBorder {
+    width: 100px;
+    height: 20px;
+    background: rgb(185, 185, 185);
+    border-radius: 0px;
+    padding: 5px;
+}
+
+.bossBarEmpty {
+    background-color: black;
+    display: block;
+    height: 100%;
+    border-radius: 0px;
+}
+
+.bossBarFill {
+    background-color: rgb(255, 0, 0);
+    display: block;
+    width: var(--bossLifeFill);
+    height: 100%;
+    border-radius: 0px;
 }
 
 .hero {
@@ -236,6 +264,51 @@ h1 {
 }
 
 @-ms-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes blink {
     0% {
         opacity: 0;
     }

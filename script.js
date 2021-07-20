@@ -31,7 +31,7 @@ function loadGameScreen() {
 
     const spellDisplay = document.createElement('div');
     spellDisplay.setAttribute('id', 'spellDisplay');
-    spellDisplay.textContent = 'Spell charge: 0';
+    spellDisplay.textContent = 'Spell charge:';
 
     const spellBarBorder = document.createElement('div');
     spellBarBorder.classList.add('spellBarBorder');
@@ -39,13 +39,27 @@ function loadGameScreen() {
     spellBarEmpty.classList.add('spellBarEmpty');
     const spellBarFill = document.createElement('span');
     spellBarFill.classList.add('spellBarFill');
+    const spellChargedText = document.createElement('div');
+    spellChargedText.classList.add('spellChargedText');
     spellBarBorder.appendChild(spellBarEmpty);
     spellBarEmpty.appendChild(spellBarFill);
     spellDisplay.appendChild(spellBarBorder);
+    spellDisplay.appendChild(spellChargedText);
 
-    const enemyLifeDisplay = document.createElement('div');
-    enemyLifeDisplay.setAttribute('id', 'enemyLifeDisplay');
-    enemyLifeDisplay.textContent = 'Enemy life: 3';
+    const bossDisplay = document.createElement('div');
+    bossDisplay.setAttribute('id', 'bossDisplay');
+    bossDisplay.textContent = 'Boss life:';
+
+    const bossBarBorder = document.createElement('div');
+    bossBarBorder.classList.add('bossBarBorder');
+    const bossBarEmpty = document.createElement('span');
+    bossBarEmpty.classList.add('bossBarEmpty');
+    const bossBarFill = document.createElement('span');
+    bossBarFill.classList.add('bossBarFill');
+    
+    bossBarBorder.appendChild(bossBarEmpty);
+    bossBarEmpty.appendChild(bossBarFill);
+    bossDisplay.appendChild(bossBarBorder); 
 
     const staffDiv = document.createElement('div');
     staffDiv.setAttribute('class', 'staffDiv');
@@ -62,7 +76,7 @@ function loadGameScreen() {
     content.appendChild(resultDisplay);
     content.appendChild(keyDisplay);
     content.appendChild(spellDisplay);
-    content.appendChild(enemyLifeDisplay);
+    content.appendChild(bossDisplay);
     content.appendChild(staffDiv);
     content.appendChild(gameMap);
 
@@ -190,7 +204,7 @@ function loadGameScreen() {
         } else if (event.code === "Space") {
             if (stairsOn) {
                 return;
-            }else if (levels[levelIndex].name === 'boss' && spellCharge >= 1) {
+            }else if (levels[levelIndex].name === 'boss' && spellCharge >= spellChargeMax) {
                 castSpell();
             
             } else if (activeTile.textContent === ' ') {
@@ -211,7 +225,7 @@ function loadGameScreen() {
                     let note = `${correctAnswer}${correctOctave}`;
                     playNote(note, 1);
                     increaseScore();
-                    chargeSpell();
+                    chargeSpell(note);
                     let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
                     correctAnswer = randomNote.note;
                     correctOctave = randomNote.octave;
@@ -692,28 +706,47 @@ function loadGameScreen() {
             haveKey = true;
         }
     }
+    
+    let spellChargeMax = 3;
+    let spellChargeNotes = [];
 
-    function chargeSpell() {
+    function chargeSpell(note) {
         spellCharge++;
+        let spellChargePercent = Math.floor(spellCharge / spellChargeMax * 100);
+        let spellChargeFill = `${spellChargePercent}%`;
         let root = document.querySelector(':root');
-        root.style.setProperty('--spellChargeFill', '100%');
-        
-        // if (spellCharge >= 1) {
-        //     spellDisplay.textContent = 'Spell charged!';
-        // } else {
-        //     spellDisplay.textContent = `Spell charge: ${spellCharge}`;
-        // }
+        root.style.setProperty('--spellChargeFill', spellChargeFill);
+
+        spellChargeNotes.push(note);
+        console.log(spellChargeNotes);
+        if (spellCharge === 1) {
+            spellChargedText.textContent = `${correctAnswer}`;
+        } else {
+            spellChargedText.textContent = spellChargedText.textContent.concat(` ${correctAnswer}`);
+        }
+
+        if (spellCharge === spellChargeMax) {
+            spellBarFill.classList.add('blink');
+        }
+
     }
 
     function castSpell() {
         console.log('BOOM!');
         spellCharge = 0;
+        spellBarFill.classList.remove('blink');
         let root = document.querySelector(':root');
         root.style.setProperty('--spellChargeFill', '0%');
-        // spellDisplay.textContent = `Spell charge: ${spellCharge}`;
-        // let spellCastTile = document.getElementById(`tile${activeTileIndex + 1}`);        
-        // spellCastTile.classList.add('spellCast');
+        spellChargedText.textContent = '';
         
+        
+        spellChargeNotes.forEach(function(note) {
+            let now = Tone.now();
+            playNote(note, 1, now);
+        });
+
+        spellChargeNotes = [];
+
         let spellCastTiles = [];
         
         // 1 left
@@ -790,22 +823,26 @@ function loadGameScreen() {
 
         let enemyTile = document.getElementById(`tile${enemyTileIndex}`);
         if (spellCastTiles.includes(enemyTile)) {
-            damageEnemy();
+            damageBoss();
             //enemyTile.classList.remove('enemy');
         }
 
     }
 
-    let enemyLife = 3;
-    
-    function damageEnemy() {
-        enemyLife--;
-        enemyLifeDisplay.textContent = `Enemy life: ${enemyLife}`;
-        
+    let bossLife = 3;
+    let maxBossLife = 3;
+
+    function damageBoss() { 
+        bossLife--;
+        let bossLifePercent = Math.floor(bossLife / maxBossLife * 100);
+        let bossLifeFill = `${bossLifePercent}%`;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--bossLifeFill', bossLifeFill);
+
         let enemyTile = document.getElementById(`tile${enemyTileIndex}`);
         enemyTile.classList.remove('enemy');
         
-        if (enemyLife <= 0) { 
+        if (bossLife <= 0) { 
 
             levelComplete(levels[levelIndex]);
 
@@ -814,6 +851,7 @@ function loadGameScreen() {
                 enemyTile.classList.add('enemy')
             }, 100);  
         }
+
     }
 
 
@@ -834,8 +872,8 @@ function loadGameScreen() {
         haveKey = false;
         keyDisplay.innerHTML = '';
         //resetEnemyPosition();
-        enemyLife = 3;
-        enemyLifeDisplay.textContent = `Enemy life: ${enemyLife}`;
+        bossLife = 3;
+        // bossDisplay.textContent = `Enemy life: ${bossLife}`;
         renderEnemySprite(enemyTileIndex);
         renderHeroSprite(activeTileIndex);
         
@@ -861,6 +899,9 @@ function loadGameScreen() {
         //resetEnemyPosition();
         renderEnemySprite(enemyTileIndex);
         renderHeroSprite(activeTileIndex);
+
+        let root = document.querySelector(':root');
+        root.style.setProperty('--bossLifeFill', '100%');
         
         playAudioTrack('boss-theme', true, 0);
     }
@@ -890,12 +931,16 @@ function loadGameScreen() {
         score = 0;
         scoreDisplay.textContent = `Score: ${score}`;
         resultDisplay.textContent = '';
-        enemyLife = 3;
-        enemyLifeDisplay.textContent = `Enemy life: ${enemyLife}`;
+        bossLife = 3;
+        // bossDisplay.textContent = `Enemy life: ${bossLife}`;
         // resetEnemyPosition();
         renderEnemySprite(enemyTileIndex);
-        
         renderHeroSprite(activeTileIndex);
+
+        let root = document.querySelector(':root');
+        root.style.setProperty('--bossLifeFill', '0%');
+        root.style.setProperty('--spellChargeFill', '0%');
+        spellChargedText.textContent = '';
         
         playAudioTrack('new-game', false);
         setTimeout(function() { playAudioTrack('dungeon-a', true, 1.7)}, 5000);
