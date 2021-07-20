@@ -390,6 +390,8 @@ function loadGameScreen() {
 
     function placeWalls(mapId) {
         // retrieve the map from the map collection which matches the requested map ID
+        
+        // TODO: add mapID as a property to each level object
         let map = maps.filter(obj => {
             return obj.id === mapId
         })[0];
@@ -600,12 +602,14 @@ function loadGameScreen() {
     function showStairs() {
         // reset the board without letters
         drawGrid();
+        placeWalls(levels[levelIndex].mapId);
         renderHeroSprite(activeTileIndex);
         stairsOn = true;
         stairsTileIndex = gridArea / 2 + Math.floor(gridSize / 2);
         let stairsTile;
         if (stairsTileIndex === activeTileIndex) {
-            stairsTile = document.getElementById(`tile${stairsTileIndex - 1}`);
+            stairsTileIndex--;
+            stairsTile = document.getElementById(`tile${stairsTileIndex}`);
             stairsTile.classList.add('stairsTile');
         } else {
             stairsTile = document.getElementById(`tile${stairsTileIndex}`);
@@ -864,7 +868,7 @@ function loadGameScreen() {
         let octave = level.notes[noteIndex].octave;
         updateStaffDiv(correctAnswer, octave);
         drawGrid();
-        placeWalls(1);
+        placeWalls(levels[levelIndex].mapId);
         generateNotesList(gridArea);
         populateMap(gridArea);
         placeRandomLocks(gridArea, 1);
@@ -917,7 +921,7 @@ function loadGameScreen() {
         let octave = levels[0].notes[noteIndex].octave;
         updateStaffDiv(correctAnswer, octave);
         drawGrid();
-        placeWalls(1);
+        placeWalls(levels[levelIndex].mapId);
         generateNotesList(gridArea);
         populateMap(gridArea);
         placeRandomLocks(gridArea, 1);

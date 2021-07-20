@@ -2,6 +2,7 @@ let levels = [
     // duration in seconds
     {
         name: "C triad",
+        mapId: 1,
         notes: [
             {letter: 'C', octave: '4', duration: 1},
             {letter: 'E', octave: '4', duration: 1},
@@ -11,6 +12,7 @@ let levels = [
 
     // {
     //     name: "Easy as 1-2-3",
+    //     mapId: 1,
     //     notes: [
     //         {letter: 'A', octave: '3', duration: 1},
     //         {letter: 'B', octave: '3', duration: 1},
@@ -20,11 +22,13 @@ let levels = [
 
     {
         name: "boss",
+        mapId: 0,
         notes: []
     },
 
     {
         name: "Lead frog 3rds",
+        mapId: 2,
         notes: [
             {letter: 'C', octave: '4', duration: 0.5},
             {letter: 'E', octave: '4', duration: 0.5},
@@ -37,6 +41,7 @@ let levels = [
 
     {
         name: "boss",
+        mapId: 0,
         notes: []
     },
 

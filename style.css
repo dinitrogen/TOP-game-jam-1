@@ -225,6 +225,7 @@ h1 {
 
 .spellCast {
     background-color: red;
+    animation: blink 0.1s infinite;
 }
 
 @keyframes fadeIn {
