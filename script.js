@@ -278,10 +278,14 @@ function loadGameScreen() {
         activeTile.classList.add('activeTile');
         renderHeroSprite(activeTileIndex, previousTileIndex);
         
-        enemyTileIndices.forEach(function(enemyTileIndex, i, arr) {
-            decideEnemyMove(enemyTileIndex, i, arr);
+        if (levels[levelIndex].name === 'boss') {
+            decideEnemyMove(bossTileIndex);
+        } else {
+            enemyTileIndices.forEach(function(enemyTileIndex, i, arr) {
+                decideEnemyMove(enemyTileIndex, i, arr);
 
-        });
+            });
+        }
     }
 
   
@@ -298,7 +302,12 @@ function loadGameScreen() {
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
-        arr[i] = enemyTileIndex;
+        
+        if (levels[levelIndex].name === 'boss') {
+            bossTileIndex = enemyTileIndex;    
+        } else {
+            arr[i] = enemyTileIndex;
+        }
     }
 
     function moveEnemyRight(enemyTileIndex, i, arr) {
@@ -313,7 +322,12 @@ function loadGameScreen() {
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
-        arr[i] = enemyTileIndex;
+        
+        if (levels[levelIndex].name === 'boss') {
+            bossTileIndex = enemyTileIndex;    
+        } else {
+            arr[i] = enemyTileIndex;
+        }
     }
 
     function moveEnemyUp(enemyTileIndex, i, arr) {
@@ -328,7 +342,12 @@ function loadGameScreen() {
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
-        arr[i] = enemyTileIndex;
+        
+        if (levels[levelIndex].name === 'boss') {
+            bossTileIndex = enemyTileIndex;    
+        } else {
+            arr[i] = enemyTileIndex;
+        }
     }
 
     function moveEnemyDown(enemyTileIndex, i, arr) {
@@ -343,7 +362,12 @@ function loadGameScreen() {
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
-        arr[i] = enemyTileIndex;
+        
+        if (levels[levelIndex].name === 'boss') {
+            bossTileIndex = enemyTileIndex;    
+        } else {
+            arr[i] = enemyTileIndex;
+        }
     }
 
     // Enemy movement alogorithm -- needs work!
@@ -385,7 +409,13 @@ function loadGameScreen() {
                 moveEnemyUp(enemyTileIndex, i, arr);
             }
         }
-        enemyTileIndex = arr[i];
+        
+        if (levels[levelIndex].name === 'boss') {
+            enemyTileIndex = bossTileIndex;
+        } else {
+            enemyTileIndex = arr[i];
+        }
+
         if (activeTileIndex === enemyTileIndex) {
             decreaseLife();
             resetEnemyPosition(enemyTileIndex, i, arr);
@@ -943,9 +973,11 @@ function loadGameScreen() {
         startTimer();
     }
 
+    let bossTileIndex;
     function loadBossStage() {
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
+        enemyTileIndices = [];
         bossTileIndex = gridArea - 1;
         noteIndex = 0;
         let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
