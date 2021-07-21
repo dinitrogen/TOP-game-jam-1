@@ -62,7 +62,18 @@ function loadGameScreen() {
     bossDisplay.appendChild(bossBarBorder); 
 
     const timerDisplay = document.createElement('div');
+    timerDisplay.classList.add('timerDisplay');
     timerDisplay.textContent = 'Time:';
+    const timerBarBorder = document.createElement('div');
+    timerBarBorder.classList.add('timerBarBorder');
+    const timerBarEmpty = document.createElement('span');
+    timerBarEmpty.classList.add('timerBarEmpty');
+    const timerBarFill = document.createElement('span');
+    timerBarFill.classList.add('timerBarFill');
+
+    timerBarBorder.appendChild(timerBarEmpty);
+    timerBarEmpty.appendChild(timerBarFill);
+    timerDisplay.appendChild(timerBarBorder); 
 
     const staffDiv = document.createElement('div');
     staffDiv.setAttribute('class', 'staffDiv');
@@ -80,8 +91,8 @@ function loadGameScreen() {
     content.appendChild(keyDisplay);
     content.appendChild(spellDisplay);
     content.appendChild(bossDisplay);
-    content.appendChild(timerDisplay);
     content.appendChild(staffDiv);
+    content.appendChild(timerDisplay);
     content.appendChild(gameMap);
 
      
@@ -108,9 +119,13 @@ function loadGameScreen() {
     let activeTileIndex = 0;
     let activeTile;
     
-    let enemyTileIndex = gridArea - 1
+    // let enemyTileIndex = gridArea - 1
+    // let enemyTile;
+    
+    let enemyTileIndices = [];
 
-    let enemyTile;
+    let enemyTiles = [];
+    
     let score = 0;
     let life = 5;
     let haveKey = false;
@@ -273,12 +288,21 @@ function loadGameScreen() {
         activeTile = document.querySelector(`#tile${activeTileIndex}`);
         activeTile.classList.add('activeTile');
         renderHeroSprite(activeTileIndex, previousTileIndex);
-        decideEnemyMove();
+        
+        if (levels[levelIndex].name === 'boss') {
+            decideEnemyMove(bossTileIndex);
+        } else {
+            enemyTileIndices.forEach(function(enemyTileIndex, i, arr) {
+                decideEnemyMove(enemyTileIndex, i, arr);
+
+            });
+        }
     }
 
   
 
-    function moveEnemyLeft() {
+    function moveEnemyLeft(enemyTileIndex, i, arr) {
+        let enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         let previousEnemyTileIndex = enemyTileIndex;
         if (enemyTileIndex === 0 || enemyTileIndex % gridSize === 0) {
             return;
@@ -289,9 +313,16 @@ function loadGameScreen() {
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
+        
+        if (levels[levelIndex].name === 'boss') {
+            bossTileIndex = enemyTileIndex;    
+        } else {
+            arr[i] = enemyTileIndex;
+        }
     }
 
-    function moveEnemyRight() {
+    function moveEnemyRight(enemyTileIndex, i, arr) {
+        let enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         let previousEnemyTileIndex = enemyTileIndex;
         if (enemyTileIndex === gridArea - 1 || (enemyTileIndex + 1) % gridSize === 0) {
             return;
@@ -302,9 +333,16 @@ function loadGameScreen() {
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
+        
+        if (levels[levelIndex].name === 'boss') {
+            bossTileIndex = enemyTileIndex;    
+        } else {
+            arr[i] = enemyTileIndex;
+        }
     }
 
-    function moveEnemyUp() {
+    function moveEnemyUp(enemyTileIndex, i, arr) {
+        let enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         let previousEnemyTileIndex = enemyTileIndex;
         if (enemyTileIndex < gridSize) {
             return;
@@ -315,9 +353,16 @@ function loadGameScreen() {
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
+        
+        if (levels[levelIndex].name === 'boss') {
+            bossTileIndex = enemyTileIndex;    
+        } else {
+            arr[i] = enemyTileIndex;
+        }
     }
 
-    function moveEnemyDown() {
+    function moveEnemyDown(enemyTileIndex, i, arr) {
+        let enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         let previousEnemyTileIndex = enemyTileIndex;
         if (enemyTileIndex >= gridArea - gridSize) {
             return;
@@ -328,10 +373,16 @@ function loadGameScreen() {
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
+        
+        if (levels[levelIndex].name === 'boss') {
+            bossTileIndex = enemyTileIndex;    
+        } else {
+            arr[i] = enemyTileIndex;
+        }
     }
 
     // Enemy movement alogorithm -- needs work!
-    function decideEnemyMove() {
+    function decideEnemyMove(enemyTileIndex, i, arr) {
         if (stairsOn) {
             return;
         }
@@ -341,38 +392,72 @@ function loadGameScreen() {
             rightEnemyTile = (enemyTileIndex === gridArea - 1 || (enemyTileIndex + 1) % gridSize === 0) ? undefined : document.querySelector(`#tile${enemyTileIndex + 1}`),
             upEnemyTile = (enemyTileIndex < gridSize) ? undefined : document.querySelector(`#tile${enemyTileIndex - gridSize}`),
             downEnemyTile = (enemyTileIndex >= gridArea - gridSize) ? undefined : document.querySelector(`#tile${enemyTileIndex + gridSize}`), 
-            blockedTop = currentEnemyTile.classList.contains('wall-top') || (upEnemyTile && upEnemyTile.classList.contains('locked-tile')),
-            blockedBottom = currentEnemyTile.classList.contains('wall-bottom') || (downEnemyTile && downEnemyTile.classList.contains('locked-tile')),
-            blockedLeft = currentEnemyTile.classList.contains('wall-left') || (leftEnemyTile && leftEnemyTile.classList.contains('locked-tile')),
-            blockedRight = currentEnemyTile.classList.contains('wall-right') || (rightEnemyTile && rightEnemyTile.classList.contains('locked-tile'));   
+            blockedTop = currentEnemyTile.classList.contains('wall-top') || (upEnemyTile && upEnemyTile.classList.contains('locked-tile')) || (upEnemyTile && upEnemyTile.classList.contains('enemy')),
+            blockedBottom = currentEnemyTile.classList.contains('wall-bottom') || (downEnemyTile && downEnemyTile.classList.contains('locked-tile')) || (downEnemyTile && downEnemyTile.classList.contains('enemy')),
+            blockedLeft = currentEnemyTile.classList.contains('wall-left') || (leftEnemyTile && leftEnemyTile.classList.contains('locked-tile')) || (leftEnemyTile && leftEnemyTile.classList.contains('enemy')),
+            blockedRight = currentEnemyTile.classList.contains('wall-right') || (rightEnemyTile && rightEnemyTile.classList.contains('locked-tile')) || (rightEnemyTile && rightEnemyTile.classList.contains('enemy'));   
+
+      
 
         if (activeTileIndex < enemyTileIndex) {
             if ((activeTileIndex + gridSize < enemyTileIndex) && !blockedTop) {
-                moveEnemyUp();
+                moveEnemyUp(enemyTileIndex, i, arr);
             } else if (!blockedLeft){
-                moveEnemyLeft();
+                moveEnemyLeft(enemyTileIndex, i, arr);
             } else if (!blockedRight){
-                moveEnemyRight();
+                moveEnemyRight(enemyTileIndex, i, arr);
             } else {
-                moveEnemyDown();
+                moveEnemyDown(enemyTileIndex, i, arr);
             }
         } else if (activeTileIndex > enemyTileIndex) {
             if ((activeTileIndex - gridSize > enemyTileIndex) && !blockedBottom) {
-                moveEnemyDown();
+                moveEnemyDown(enemyTileIndex, i, arr);
             } else if (!blockedRight){
-                moveEnemyRight();
+                moveEnemyRight(enemyTileIndex, i, arr);
             } else if (!blockedLeft) {
-                moveEnemyLeft();
+                moveEnemyLeft(enemyTileIndex, i, arr);
             } else {
-                moveEnemyUp();
+                moveEnemyUp(enemyTileIndex, i, arr);
             }
         }
+        
+        if (levels[levelIndex].name === 'boss') {
+            enemyTileIndex = bossTileIndex;
+        } else {
+            enemyTileIndex = arr[i];
+        }
+
         if (activeTileIndex === enemyTileIndex) {
             decreaseLife();
-            resetEnemyPosition();
+            resetEnemyPosition(enemyTileIndex, i, arr);
         }
     }
 
+    function resetEnemyPosition(enemyTileIndex, i, arr) {
+        let enemyTile = document.querySelector(`#tile${enemyTileIndex}`)
+        let previousEnemyTileIndex = enemyTileIndex;
+        enemyTile.classList.remove('enemyTile');
+
+        //TODO : enemy respawn logic
+        enemyTileIndex = gridArea - 1; 
+        enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
+        enemyTile.classList.add('enemyTile');
+        renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
+        
+
+        if (levels[levelIndex].name === 'boss') {
+            bossTileIndex = enemyTileIndex;    
+        } else {
+            arr[i] = enemyTileIndex;
+        }
+    }
+
+    function renderEnemySprite(tileIndex, previousTileIndex) {
+        let tile = document.getElementById(`tile${tileIndex}`);
+        let previousTile = document.getElementById(`tile${previousTileIndex}`);
+        tile.classList.add('enemy');
+        if (previousTile) previousTile.classList.remove('enemy');
+    }
 
 
     function drawGrid() {
@@ -389,8 +474,10 @@ function loadGameScreen() {
 
         activeTile = document.querySelector('#tile0');
         activeTile.classList.add('activeTile');
-        enemyTile = document.querySelector(`#tile${gridArea - 1}`);
-        enemyTile.classList.add('enemyTile');
+        enemyTiles = [document.querySelector(`#tile${gridArea - 1}`)];
+        enemyTiles.forEach(function(enemyTile) {
+            enemyTile.classList.add('enemyTile');
+        });
     }
 
     function placeWalls(mapId) {
@@ -451,14 +538,7 @@ function loadGameScreen() {
         return notesList;
     }
 
-    function resetEnemyPosition() {
-        let previousEnemyTileIndex = enemyTileIndex;
-        enemyTile.classList.remove('enemyTile');
-        enemyTileIndex = gridArea - 1;
-        enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
-        enemyTile.classList.add('enemyTile');
-        renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
-    }
+
 
     function placeRandomLocks(numTiles, lockCount) {
         // First, remove all of the locks
@@ -514,12 +594,7 @@ function loadGameScreen() {
         if (previousTile) previousTile.classList.remove('hero');
     }
 
-    function renderEnemySprite(tileIndex, previousTileIndex) {
-        let tile = document.getElementById(`tile${tileIndex}`);
-        let previousTile = document.getElementById(`tile${previousTileIndex}`);
-        tile.classList.add('enemy');
-        if (previousTile) previousTile.classList.remove('enemy');
-    }
+
 
     function removeSprite(tileIndex, spriteClass) {
         document.getElementById(`tile${tileIndex}`).classList.remove(spriteClass);
@@ -831,8 +906,8 @@ function loadGameScreen() {
             });
         }, 200);
 
-        let enemyTile = document.getElementById(`tile${enemyTileIndex}`);
-        if (spellCastTiles.includes(enemyTile)) {
+        let bossTile = document.getElementById(`tile${bossTileIndex}`);
+        if (spellCastTiles.includes(bossTile)) {
             damageBoss();
             //enemyTile.classList.remove('enemy');
         }
@@ -849,8 +924,8 @@ function loadGameScreen() {
         let root = document.querySelector(':root');
         root.style.setProperty('--bossLifeFill', bossLifeFill);
 
-        let enemyTile = document.getElementById(`tile${enemyTileIndex}`);
-        enemyTile.classList.remove('enemy');
+        let bossTile = document.getElementById(`tile${bossTileIndex}`);
+        bossTile.classList.remove('boss');
         
         if (bossLife <= 0) { 
 
@@ -858,7 +933,7 @@ function loadGameScreen() {
 
         } else {
             setTimeout(function() {
-                enemyTile.classList.add('enemy')
+                bossTile.classList.add('boss')
             }, 100);  
         }
 
@@ -866,8 +941,12 @@ function loadGameScreen() {
 
     function startTimer() {
         let timeLeft = levels[levelIndex].time;
-        timerDisplay.textContent = `Time: ${timeLeft}`;
-        let timer = setInterval(countDown, 1000);
+        
+        //timerDisplay.textContent = `Time: ${timeLeft}`;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--timerFill', '100%');
+
+        let timer = setInterval(countDown, 250);
         function countDown() {
             if (gameOverStatus) {
                 clearInterval(timer);
@@ -878,8 +957,12 @@ function loadGameScreen() {
                 clearInterval(timer);
                 displayGameOver();
             } else {
-                timeLeft--;
-                timerDisplay.textContent = `Time: ${timeLeft}`;
+                timeLeft = timeLeft - 0.25;
+                //timerDisplay.textContent = `Time: ${timeLeft}`;
+                let timerFillPercent = timeLeft / levels[levelIndex].time * 100;
+                let timerFill = `${timerFillPercent}%`;
+                let root = document.querySelector(':root');
+                root.style.setProperty('--timerFill', timerFill);
             }
         }
     }
@@ -888,7 +971,8 @@ function loadGameScreen() {
     function startNewLevel(level) {
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
-        enemyTileIndex = gridArea - 1;
+        // TODO: embed # of enemies and placement inside the level objects
+        enemyTileIndices = [(gridArea - 1), 9];
         noteIndex = 0;
         correctAnswer = level.notes[noteIndex].letter;
         let octave = level.notes[noteIndex].octave;
@@ -901,20 +985,26 @@ function loadGameScreen() {
         resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
-        //resetEnemyPosition();
+        // resetEnemyPosition();
         bossLife = 3;
         // bossDisplay.textContent = `Enemy life: ${bossLife}`;
-        renderEnemySprite(enemyTileIndex);
+        
+        enemyTileIndices.forEach(function(enemyTileIndex) {
+            renderEnemySprite(enemyTileIndex);
+        });
+        //renderEnemySprite(enemyTileIndex);
         renderHeroSprite(activeTileIndex);
         
         playAudioTrack('dungeon-a', true, 1.7);
         startTimer();
     }
 
+    let bossTileIndex;
     function loadBossStage() {
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
-        enemyTileIndex = gridArea - 1;
+        enemyTileIndices = [];
+        bossTileIndex = gridArea - 1;
         noteIndex = 0;
         let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
         correctAnswer = randomNote.note;
@@ -928,7 +1018,7 @@ function loadGameScreen() {
         haveKey = false;
         keyDisplay.innerHTML = '';
         //resetEnemyPosition();
-        renderEnemySprite(enemyTileIndex);
+        renderEnemySprite(bossTileIndex);
         renderHeroSprite(activeTileIndex);
 
         let root = document.querySelector(':root');
@@ -943,7 +1033,7 @@ function loadGameScreen() {
         gameOverStatus = false;
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
-        enemyTileIndex = gridArea - 1;
+        enemyTileIndices = [(gridArea - 1)];
         noteIndex = 0;
         levelIndex = 0;
         correctAnswer = levels[0].notes[noteIndex].letter;
@@ -967,7 +1057,10 @@ function loadGameScreen() {
         bossLife = 3;
         // bossDisplay.textContent = `Enemy life: ${bossLife}`;
         // resetEnemyPosition();
-        renderEnemySprite(enemyTileIndex);
+        enemyTileIndices.forEach(function(enemyTileIndex) {
+            renderEnemySprite(enemyTileIndex);
+        });
+        
         renderHeroSprite(activeTileIndex);
 
         let root = document.querySelector(':root');
