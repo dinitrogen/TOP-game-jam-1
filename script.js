@@ -62,7 +62,18 @@ function loadGameScreen() {
     bossDisplay.appendChild(bossBarBorder); 
 
     const timerDisplay = document.createElement('div');
+    timerDisplay.classList.add('timerDisplay');
     timerDisplay.textContent = 'Time:';
+    const timerBarBorder = document.createElement('div');
+    timerBarBorder.classList.add('timerBarBorder');
+    const timerBarEmpty = document.createElement('span');
+    timerBarEmpty.classList.add('timerBarEmpty');
+    const timerBarFill = document.createElement('span');
+    timerBarFill.classList.add('timerBarFill');
+
+    timerBarBorder.appendChild(timerBarEmpty);
+    timerBarEmpty.appendChild(timerBarFill);
+    timerDisplay.appendChild(timerBarBorder); 
 
     const staffDiv = document.createElement('div');
     staffDiv.setAttribute('class', 'staffDiv');
@@ -80,8 +91,8 @@ function loadGameScreen() {
     content.appendChild(keyDisplay);
     content.appendChild(spellDisplay);
     content.appendChild(bossDisplay);
-    content.appendChild(timerDisplay);
     content.appendChild(staffDiv);
+    content.appendChild(timerDisplay);
     content.appendChild(gameMap);
 
      
@@ -432,7 +443,13 @@ function loadGameScreen() {
         enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
-        arr[i] = enemyTileIndex;
+        
+
+        if (levels[levelIndex].name === 'boss') {
+            bossTileIndex = enemyTileIndex;    
+        } else {
+            arr[i] = enemyTileIndex;
+        }
     }
 
     function renderEnemySprite(tileIndex, previousTileIndex) {
@@ -924,8 +941,12 @@ function loadGameScreen() {
 
     function startTimer() {
         let timeLeft = levels[levelIndex].time;
-        timerDisplay.textContent = `Time: ${timeLeft}`;
-        let timer = setInterval(countDown, 1000);
+        
+        //timerDisplay.textContent = `Time: ${timeLeft}`;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--timerFill', '100%');
+
+        let timer = setInterval(countDown, 250);
         function countDown() {
             if (gameOverStatus) {
                 clearInterval(timer);
@@ -936,8 +957,12 @@ function loadGameScreen() {
                 clearInterval(timer);
                 displayGameOver();
             } else {
-                timeLeft--;
-                timerDisplay.textContent = `Time: ${timeLeft}`;
+                timeLeft = timeLeft - 0.25;
+                //timerDisplay.textContent = `Time: ${timeLeft}`;
+                let timerFillPercent = timeLeft / levels[levelIndex].time * 100;
+                let timerFill = `${timerFillPercent}%`;
+                let root = document.querySelector(':root');
+                root.style.setProperty('--timerFill', timerFill);
             }
         }
     }
@@ -946,6 +971,7 @@ function loadGameScreen() {
     function startNewLevel(level) {
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
+        // TODO: embed # of enemies and placement inside the level objects
         enemyTileIndices = [(gridArea - 1), 9];
         noteIndex = 0;
         correctAnswer = level.notes[noteIndex].letter;
@@ -1007,7 +1033,7 @@ function loadGameScreen() {
         gameOverStatus = false;
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
-        enemyTileIndices = [(gridArea - 1), 9];
+        enemyTileIndices = [(gridArea - 1)];
         noteIndex = 0;
         levelIndex = 0;
         correctAnswer = levels[0].notes[noteIndex].letter;

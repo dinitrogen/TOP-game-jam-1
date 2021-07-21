@@ -2,6 +2,7 @@
     --gridSize: 10;
     --spellChargeFill: 0%;
     --bossLifeFill: 0%;
+    --timerFill: 100%;
 }
 
 h1 {
@@ -58,6 +59,33 @@ h1 {
     background-color: rgb(255, 0, 0);
     display: block;
     width: var(--bossLifeFill);
+    height: 100%;
+    border-radius: 0px;
+}
+
+.timerDisplay {
+    padding-bottom: 10px;
+}
+
+.timerBarBorder {
+    width: 690px;
+    height: 10px;
+    background: rgb(185, 185, 185);
+    border-radius: 0px;
+    padding: 5px;
+}
+
+.timerBarEmpty {
+    background-color: black;
+    display: block;
+    height: 100%;
+    border-radius: 0px;
+}
+
+.timerBarFill {
+    background-color: rgb(255, 231, 151);
+    display: block;
+    width: var(--timerFill);
     height: 100%;
     border-radius: 0px;
 }
