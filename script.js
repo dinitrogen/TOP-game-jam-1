@@ -238,9 +238,10 @@ function loadGameScreen() {
                 getKey();
                 activeTile.classList.remove('hasKey');
                 activeTile.innerHTML = '';
-            } else if (activeTile.textContent === correctAnswer) {
-
+            // } else if (activeTile.textContent === correctAnswer) {
+            } else if (activeTile.classList.contains('correct')) {
                 if (levels[levelIndex].name === 'boss') {
+                    activeTile.classList.remove('correct');
                     resultDisplay.textContent = 'Correct!';
                     let note = `${correctAnswer}${correctOctave}`;
                     playNote(note, 1);
@@ -255,7 +256,7 @@ function loadGameScreen() {
                     updateStaffDiv(correctAnswer, correctOctave);
 
                 } else {
-                
+                    activeTile.classList.remove('correct');
                     resultDisplay.textContent = 'Correct!';
                     let note = `${correctAnswer}${levels[levelIndex].notes[noteIndex].octave}`;
                     playNote(note, 1);
@@ -581,7 +582,11 @@ function loadGameScreen() {
                 document.getElementById(`tile${i}`).classList.add('hasKey');
           
             } else {
-                document.getElementById(`tile${i}`).textContent = notesList[i];
+                let tile = document.getElementById(`tile${i}`);
+                tile.textContent = notesList[i];
+                if (notesList[i] === correctAnswer) {
+                    tile.classList.add('correct');
+                }
             }
         }
 
@@ -860,7 +865,7 @@ function loadGameScreen() {
             spellCastTiles.push(tile);
         }
         // 2 up
-        if (activeTileIndex > (gridSize * 2) - 2) {
+        if (activeTileIndex > (gridSize * 2) - 1) {
             let tile = document.getElementById(`tile${activeTileIndex - (gridSize * 2)}`);
             spellCastTiles.push(tile);
         }
