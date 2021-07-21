@@ -967,6 +967,12 @@ function loadGameScreen() {
         }
     }
 
+    function setTileColor(level) {
+        let tileColor = level.tileColor;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--tileColor', tileColor);
+    }
+
 
     function startNewLevel(level) {
         endGameOverlay.style.display = 'none';
@@ -979,6 +985,7 @@ function loadGameScreen() {
         updateStaffDiv(correctAnswer, octave);
         drawGrid();
         placeWalls(levels[levelIndex].mapId);
+        setTileColor(level);
         generateNotesList(gridArea);
         populateMap(gridArea);
         placeRandomLocks(gridArea, 1);
@@ -1014,6 +1021,7 @@ function loadGameScreen() {
         // loadMap(1);
         generateNotesList(gridArea);
         populateMap(gridArea);
+        setTileColor(levels[levelIndex]);
         resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
@@ -1041,6 +1049,7 @@ function loadGameScreen() {
         updateStaffDiv(correctAnswer, octave);
         drawGrid();
         placeWalls(levels[levelIndex].mapId);
+        setTileColor(levels[levelIndex]);
         generateNotesList(gridArea);
         populateMap(gridArea);
         placeRandomLocks(gridArea, 1);

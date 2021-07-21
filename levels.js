@@ -3,6 +3,7 @@ let levels = [
     {
         name: "C triad",
         mapId: 1,
+        tileColor: 'gray',
         time: 30,
         notes: [
             {letter: 'C', octave: '4', duration: 1},
@@ -11,20 +12,22 @@ let levels = [
         ]
     },
 
-    // {
-    //     name: "Easy as 1-2-3",
-    //     mapId: 1,
-    //     time: 30,
-    //     notes: [
-    //         {letter: 'A', octave: '3', duration: 1},
-    //         {letter: 'B', octave: '3', duration: 1},
-    //         {letter: 'C', octave: '4', duration: 2}
-    //     ]
-    // },
+    {
+        name: "Easy as 1-2-3",
+        mapId: 1,
+        tileColor: 'gray',
+        time: 30,
+        notes: [
+            {letter: 'A', octave: '3', duration: 1},
+            {letter: 'B', octave: '3', duration: 1},
+            {letter: 'C', octave: '4', duration: 2}
+        ]
+    },
 
     {
         name: "boss",
         mapId: 0,
+        tileColor: 'gray',
         time: 120,
         notes: []
     },
@@ -32,6 +35,7 @@ let levels = [
     {
         name: "Leap Frog Thirds",
         mapId: 2,
+        tileColor: 'green',
         time: 40,
         notes: [
             {letter: 'C', octave: '4', duration: 0.5},
@@ -46,6 +50,7 @@ let levels = [
     {
         name: "boss",
         mapId: 0,
+        tileColor: 'green',
         time: 120,
         notes: []
     },

@@ -3,6 +3,8 @@
     --spellChargeFill: 0%;
     --bossLifeFill: 0%;
     --timerFill: 100%;
+    --tileColor: gray;
+    --wallColor: rgb(48, 24, 0);
 }
 
 h1 {
@@ -126,29 +128,39 @@ h1 {
 }
 
 .gameTile {
-    font-size: 50px;
+    font-size: 40px;
+    color: white;
+    line-height: 65px;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    border: solid white 2px;
-    background-color: gray;
+    /* TOTO: set these colors to variables set by level object properties */
+    border-top: solid white 3px;
+    border-left: solid white 3px;
+    border-right: solid rgb(0, 0, 0) 3px;
+    border-bottom: solid rgb(0, 0, 0) 3px;
+    background-color: var(--tileColor);
     height: 65px;
     width: 65px;
 }
 
-.wall-right {
-    border-right: solid black 2px;
+.wall-right {    
+    border-right: solid var(--wallColor) 3px;
+    margin-right: 0px;
 }
 
 .wall-left {
-    border-left: solid black 2px;
+    border-left: solid var(--wallColor) 3px;
+    margin-left: 0px;
 }
 
 .wall-top {
-    border-top: solid black 2px;
+    border-top: solid var(--wallColor) 3px;
+    margin-top: 0px;
 }
 
 .wall-bottom {
-    border-bottom: solid black 2px;
+    border-bottom: solid var(--wallColor) 3px;
+    margin-bottom: 0px;
 }
 
 .locked-tile {
@@ -218,7 +230,7 @@ h1 {
 
 .stairsTile {
     background: url(img/map-icons/stairs.svg);
-    background-color: gray;
+    background-color: var(--tileColor);
     background-size: 60px 60px;
     background-repeat: no-repeat;
     background-position: center;
@@ -227,7 +239,7 @@ h1 {
 
 .hero {
     background: url(img/map-icons/mage.svg);
-    background-color: gray;
+    background-color: var(--tileColor);
     background-size: 50px 50px;
     background-repeat: no-repeat;
     background-position: center;
@@ -240,7 +252,7 @@ h1 {
 
 .enemy {
     background: url(img/map-icons/badguy.svg);
-    background-color: gray;
+    background-color: var(--tileColor);
     background-size: 50px 50px;
     background-repeat: no-repeat;
     background-position: center;
