@@ -87,11 +87,12 @@ function loadGameScreen() {
     content.appendChild(levelNameDisplay);
     content.appendChild(lifeDisplay);
     content.appendChild(scoreDisplay);
-    content.appendChild(resultDisplay);
+    
     content.appendChild(keyDisplay);
     content.appendChild(spellDisplay);
     content.appendChild(bossDisplay);
     content.appendChild(staffDiv);
+    content.appendChild(resultDisplay);
     content.appendChild(timerDisplay);
     content.appendChild(gameMap);
 
@@ -101,9 +102,6 @@ function loadGameScreen() {
     const replayButton = document.querySelector('#replayButton');
     replayButton.addEventListener('click', () => {
         startNewGame();
-        // if (bgMusicTrack) {
-        //     bgMusicTrack.stop();
-        // }
         playAudioTrack('new-game', false);
     });
 
@@ -119,8 +117,6 @@ function loadGameScreen() {
     let activeTileIndex = 0;
     let activeTile;
     
-    // let enemyTileIndex = gridArea - 1
-    // let enemyTile;
     
     let enemyTileIndices = [];
 
@@ -130,7 +126,6 @@ function loadGameScreen() {
     let life = 5;
     let haveKey = false;
     let spellCharge = 0;
-    //let bgMusicTrack;
     let gameOverStatus = false;
 
     let levelIndex = 0;
@@ -233,15 +228,15 @@ function loadGameScreen() {
                 increaseLife();
                 activeTile.classList.remove('hasHeart');
                 activeTile.innerHTML = '';
-                // activeTile.removeChild(firstChild);
             } else if (activeTile.classList.contains('hasKey')) {
                 getKey();
                 activeTile.classList.remove('hasKey');
                 activeTile.innerHTML = '';
-            } else if (activeTile.textContent === correctAnswer) {
+            } else if (activeTile.classList.contains('correct')) {
 
                 if (levels[levelIndex].name === 'boss') {
-                    resultDisplay.textContent = 'Correct!';
+                    resultDisplay.textContent = `Correct! - ${correctAnswer}`;
+                    activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${correctOctave}`;
                     playNote(note, 1);
                     increaseScore();
@@ -250,23 +245,25 @@ function loadGameScreen() {
                     correctAnswer = randomNote.note;
                     correctOctave = randomNote.octave;
                     generateNotesList(gridArea);
+                    clearTileClasses();
                     populateMap(gridArea);
                     placeRandomLocks(gridArea, 1);
                     updateStaffDiv(correctAnswer, correctOctave);
 
                 } else {
                 
-                    resultDisplay.textContent = 'Correct!';
+                    resultDisplay.textContent = `Correct! - ${correctAnswer}`;
+                    activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${levels[levelIndex].notes[noteIndex].octave}`;
                     playNote(note, 1);
                     increaseScore();
-                    // correctAnswer = getRandomNote();
                     correctAnswer = getNextNote(levels[levelIndex], noteIndex);
                     if (noteIndex >= levels[levelIndex].notes.length - 1) {
                         levelComplete(levels[levelIndex]);
                     } else {
                         noteIndex++;
                         generateNotesList(gridArea);
+                        clearTileClasses();
                         populateMap(gridArea);
                         placeRandomLocks(gridArea, 1);
                         let octave = `${levels[levelIndex].notes[noteIndex].octave}`;
@@ -560,6 +557,23 @@ function loadGameScreen() {
         }
     }
 
+    function clearTileClasses() {
+        for (let i = 0; i < gridArea; i++) {
+            let tile = document.querySelector(`#tile${i}`);
+            if (tile.classList.contains('hasKey')) {
+                tile.classList.remove('hasKey');
+            }
+
+            if (tile.classList.contains('hasHeart')) {
+                tile.classList.remove('hasHeart');
+            }
+
+            if (tile.classList.contains('correct')) {
+                tile.classList.remove('correct');
+            }
+        }
+    }
+
     function populateMap(numTiles) {
         for (let i = 0; i < numTiles; i++) {
             if (notesList[i] === 'H') {
@@ -581,7 +595,11 @@ function loadGameScreen() {
                 document.getElementById(`tile${i}`).classList.add('hasKey');
           
             } else {
-                document.getElementById(`tile${i}`).textContent = notesList[i];
+                let tile = document.getElementById(`tile${i}`);
+                tile.textContent = notesList[i];
+                if (notesList[i] === correctAnswer) {
+                    tile.classList.add('correct');
+                }
             }
         }
 
@@ -633,7 +651,6 @@ function loadGameScreen() {
     function decreaseLife() {
         life--;
         updateLifeBar(life);
-        //lifeDisplay.textContent = `Life: ${life}`;
         if (life <= 0) {
             displayGameOver();
         }
@@ -668,10 +685,7 @@ function loadGameScreen() {
 
     function levelComplete(level) {
         resultDisplay.textContent = 'LEVEL COMPLETE';
-        // gameOver.textContent = 'LEVEL COMPLETE';
-        // endGameOverlay.style.display = 'block';
-        // nextLevelButton.style.display = 'block';
-        // replayButton.style.display = 'none';
+
         playMelody(level);
         noteDelay = 2;
 
@@ -823,8 +837,7 @@ function loadGameScreen() {
         let root = document.querySelector(':root');
         root.style.setProperty('--spellChargeFill', '0%');
         spellChargedText.textContent = '';
-        
-        
+                
         spellChargeNotes.forEach(function(note) {
             let now = Tone.now();
             playNote(note, 1, now);
@@ -860,7 +873,7 @@ function loadGameScreen() {
             spellCastTiles.push(tile);
         }
         // 2 up
-        if (activeTileIndex > (gridSize * 2) - 2) {
+        if (activeTileIndex > (gridSize * 2) - 1) {
             let tile = document.getElementById(`tile${activeTileIndex - (gridSize * 2)}`);
             spellCastTiles.push(tile);
         }
@@ -909,7 +922,7 @@ function loadGameScreen() {
         let bossTile = document.getElementById(`tile${bossTileIndex}`);
         if (spellCastTiles.includes(bossTile)) {
             damageBoss();
-            //enemyTile.classList.remove('enemy');
+
         }
 
     }
@@ -928,7 +941,6 @@ function loadGameScreen() {
         bossTile.classList.remove('boss');
         
         if (bossLife <= 0) { 
-
             levelComplete(levels[levelIndex]);
 
         } else {
@@ -942,7 +954,6 @@ function loadGameScreen() {
     function startTimer() {
         let timeLeft = levels[levelIndex].time;
         
-        //timerDisplay.textContent = `Time: ${timeLeft}`;
         let root = document.querySelector(':root');
         root.style.setProperty('--timerFill', '100%');
 
@@ -958,7 +969,7 @@ function loadGameScreen() {
                 displayGameOver();
             } else {
                 timeLeft = timeLeft - 0.25;
-                //timerDisplay.textContent = `Time: ${timeLeft}`;
+
                 let timerFillPercent = timeLeft / levels[levelIndex].time * 100;
                 let timerFill = `${timerFillPercent}%`;
                 let root = document.querySelector(':root');
@@ -992,14 +1003,12 @@ function loadGameScreen() {
         resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
-        // resetEnemyPosition();
         bossLife = 3;
-        // bossDisplay.textContent = `Enemy life: ${bossLife}`;
+
         
         enemyTileIndices.forEach(function(enemyTileIndex) {
             renderEnemySprite(enemyTileIndex);
         });
-        //renderEnemySprite(enemyTileIndex);
         renderHeroSprite(activeTileIndex);
         
         playAudioTrack('dungeon-a', true, 1.7);
@@ -1025,7 +1034,6 @@ function loadGameScreen() {
         resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
-        //resetEnemyPosition();
         renderEnemySprite(bossTileIndex);
         renderHeroSprite(activeTileIndex);
 
@@ -1059,13 +1067,10 @@ function loadGameScreen() {
         updateLifeBar(life);
         haveKey = false;
         keyDisplay.innerHTML = '';
-        // lifeDisplay.textContent = `Life: ${life}`;
         score = 0;
         scoreDisplay.textContent = `Score: ${score}`;
         resultDisplay.textContent = '';
         bossLife = 3;
-        // bossDisplay.textContent = `Enemy life: ${bossLife}`;
-        // resetEnemyPosition();
         enemyTileIndices.forEach(function(enemyTileIndex) {
             renderEnemySprite(enemyTileIndex);
         });
