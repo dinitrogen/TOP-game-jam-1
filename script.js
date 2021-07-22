@@ -128,10 +128,10 @@ function loadGameScreen() {
     let spellCharge = 0;
     let gameOverStatus = false;
 
-    let levelIndex = 0;
+    let levelIndex = 1;
     let noteIndex = 0;
     let noteDelay = 2;
-    correctAnswer = levels[0].notes[noteIndex].letter;
+    correctAnswer = levels[levelIndex].notes[noteIndex].letter;
 
 
 
@@ -234,7 +234,21 @@ function loadGameScreen() {
                 activeTile.innerHTML = '';
             } else if (activeTile.classList.contains('correct')) {
 
-                if (levels[levelIndex].name === 'boss') {
+                if (levels[levelIndex].name === 'practice') {
+                    resultDisplay.textContent = `Correct! - ${correctAnswer}`;
+                    activeTile.classList.remove('correct');
+                    let note = `${correctAnswer}${correctOctave}`;
+                    playNote(note, 1);
+                    let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+                    correctAnswer = randomNote.note;
+                    correctOctave = randomNote.octave;
+                    generateNotesList(gridArea);
+                    clearTileClasses();
+                    populateMap(gridArea);
+                    placeRandomLocks(gridArea, 1);
+                    updateStaffDiv(correctAnswer, correctOctave);
+                
+                } else if (levels[levelIndex].name === 'boss') {
                     resultDisplay.textContent = `Correct! - ${correctAnswer}`;
                     activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${correctOctave}`;
@@ -274,7 +288,11 @@ function loadGameScreen() {
             } else {
                 activeTile.textContent = 'X';
                 resultDisplay.textContent = 'Wrong!';
-                decreaseLife();
+                if (levels[levelIndex].name === 'practice') {
+                    return;
+                } else {
+                    decreaseLife();
+                }
             }
           
             // Prevent "hero" class from being removed after space is pressed.
@@ -1051,9 +1069,9 @@ function loadGameScreen() {
         activeTileIndex = 0;
         enemyTileIndices = [(gridArea - 1)];
         noteIndex = 0;
-        levelIndex = 0;
-        correctAnswer = levels[0].notes[noteIndex].letter;
-        let octave = levels[0].notes[noteIndex].octave;
+        levelIndex = 1;
+        correctAnswer = levels[levelIndex].notes[noteIndex].letter;
+        let octave = levels[levelIndex].notes[noteIndex].octave;
         updateStaffDiv(correctAnswer, octave);
         drawGrid();
         placeWalls(levels[levelIndex].mapId);
@@ -1087,9 +1105,45 @@ function loadGameScreen() {
         startTimer();
     }
 
+    function startPracticeMode() {
+        if(bgMusicTrack) {
+            bgMusicTrack.stop();
+        }
+        gameOverStatus = false;
+        // Set level index to practice level
+        levelIndex = 0;
+        endGameOverlay.style.display = 'none';
+        activeTileIndex = 0;
+        enemyTileIndices = [];
+        let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+        correctAnswer = randomNote.note;
+        correctOctave = randomNote.octave;
+        updateStaffDiv(correctAnswer, correctOctave);
+        drawGrid();
+        generateNotesList(gridArea);
+        populateMap(gridArea);
+        setTileColor(levels[levelIndex]);
+        levelDisplay.textContent = `Level ${levelIndex}`;
+        levelNameDisplay.textContent = `${levels[levelIndex].name}`;
+        life = 5;
+        updateLifeBar(life);
+        resultDisplay.textContent = '';
+        haveKey = false;
+        keyDisplay.innerHTML = '';
+        renderHeroSprite(activeTileIndex);
+        const practiceStaff = document.createElement('img');
+        practiceStaff.src = './img/staff-notes/grand-staff-labeled.png';
+        practiceStaff.setAttribute('class', 'practiceStaff');
+        timerDisplay.innerHTML = '';
+        timerDisplay.appendChild(practiceStaff);
+    }
 
 
-  startNewGame();
+if (practiceModeStatus === true) {
+        startPracticeMode();
+    } else {
+        startNewGame();
+    }
 
 }
 
@@ -1112,10 +1166,9 @@ function createNewGameButton() {
     newGameButtonText.textContent = 'Enter the Dungeon';
     newGameButton.appendChild(newGameButtonText);
     return newGameButton;
-
-
-
 }
+
+
 
 function loadTitleScreen() {
     const content = document.getElementById('content');
@@ -1135,6 +1188,8 @@ function loadTitleScreen() {
     content.appendChild(tempPara);
 }
 
+// Variable to toggle practice mode
+let practiceModeStatus = false;
 
 function loadNewGameScreen() {
     const content = document.getElementById('content');
@@ -1144,6 +1199,16 @@ function loadNewGameScreen() {
         loadGameScreen();
     });
     content.appendChild(newGameButton);
+
+    const practiceModeButton = document.createElement('button');
+    practiceModeButton.classList.add('gameButon');
+    practiceModeButton.textContent = 'Practice Mode';
+    practiceModeButton.addEventListener('click', () => {
+        practiceModeStatus = true;
+        loadGameScreen();
+    });
+    content.appendChild(practiceModeButton);
+
 
     const tempPara = document.createElement('p');
     tempPara.textContent = 'Options, Instructions, etc. will appear on this screen. Title music will also play here.';

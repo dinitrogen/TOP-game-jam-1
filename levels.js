@@ -1,6 +1,13 @@
 let levels = [
     // duration in seconds
     {
+        name: "practice",
+        mapId: 0,
+        tileColor: 'gray',
+        notes: [] 
+    },
+
+    {
         name: "C triad",
         mapId: 1,
         tileColor: 'gray',
