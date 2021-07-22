@@ -102,7 +102,7 @@ function loadGameScreen() {
     const replayButton = document.querySelector('#replayButton');
     replayButton.addEventListener('click', () => {
         startNewGame();
-        playAudioTrack('new-game', false);
+        playAudioTrack('new-game', false, 0);
     });
 
     const nextLevelButton = document.querySelector('#nextLevelButton');
@@ -1011,7 +1011,7 @@ function loadGameScreen() {
         });
         renderHeroSprite(activeTileIndex);
         
-        playAudioTrack('dungeon-a', true, 1.7);
+        playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime);
         startTimer();
     }
 
@@ -1040,7 +1040,7 @@ function loadGameScreen() {
         let root = document.querySelector(':root');
         root.style.setProperty('--bossLifeFill', '100%');
         
-        playAudioTrack('boss-theme', true, 0);
+        playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime);
         startTimer();
     }
 
@@ -1083,7 +1083,7 @@ function loadGameScreen() {
         spellChargedText.textContent = '';
         
         playAudioTrack('new-game', false);
-        setTimeout(function() { playAudioTrack('dungeon-a', true, 1.7)}, 5000);
+        setTimeout(function() { playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime)}, 5000);
         startTimer();
     }
 
