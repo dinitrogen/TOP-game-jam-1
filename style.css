@@ -123,6 +123,16 @@ h1 {
     height: 40px;
 }
 
+.bossNote {
+    height: 40px;
+    padding-top: 10px;
+}
+
+.bossNoteCollect {
+    height: 30px;
+    padding-left: 10px;
+}
+
 .svgNote {
     height: 120px;
     padding-left: 250px;

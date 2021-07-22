@@ -29,6 +29,9 @@ function loadGameScreen() {
     const keyDisplay = document.createElement('div');
     keyDisplay.setAttribute('id', 'keyDisplay');
 
+    const bossNoteDisplay = document.createElement('div');
+    bossNoteDisplay.classList.add('bossNoteDisplay');
+
     const spellDisplay = document.createElement('div');
     spellDisplay.setAttribute('id', 'spellDisplay');
     spellDisplay.textContent = 'Spell charge:';
@@ -91,6 +94,7 @@ function loadGameScreen() {
     content.appendChild(keyDisplay);
     content.appendChild(spellDisplay);
     content.appendChild(bossDisplay);
+    content.appendChild(bossNoteDisplay);
     content.appendChild(staffDiv);
     content.appendChild(resultDisplay);
     content.appendChild(timerDisplay);
@@ -219,7 +223,17 @@ function loadGameScreen() {
         } else if (event.code === "Space") {
             if (stairsOn) {
                 return;
-            }else if (levels[levelIndex].name === 'boss' && spellCharge >= spellChargeMax) {
+            
+            } else if (bossDefeated) {
+                if (activeTile.classList.contains('hasBossNote')) {
+                    getBossNote();
+                    activeTile.classList.remove('hasBossNote');
+                    activeTile.innerHTML = '';
+                } else {
+                    return;
+                }
+            
+            } else if (levels[levelIndex].name === 'boss' && spellCharge >= spellChargeMax) {
                 castSpell();
             
             } else if (activeTile.textContent === ' ') {
@@ -308,7 +322,7 @@ function loadGameScreen() {
         activeTile.classList.add('activeTile');
         renderHeroSprite(activeTileIndex, previousTileIndex);
         
-        if (levels[levelIndex].name === 'boss') {
+        if (levels[levelIndex].name === 'boss' && bossDefeated === false) {
             decideEnemyMove(bossTileIndex);
         } else {
             enemyTileIndices.forEach(function(enemyTileIndex, i, arr) {
@@ -746,6 +760,35 @@ function loadGameScreen() {
         showStairs();
     }
 
+    let bossDefeated = false;
+
+    function defeatBoss(bossTileIndex) {
+        bossDefeated = true;
+        drawGrid();
+        placeWalls(levels[levelIndex].mapId);
+        renderHeroSprite(activeTileIndex);
+
+        let bossNote = document.createElement('object');
+        bossNote.setAttribute('data', `./img/map-icons/note-red.svg`);
+        bossNote.setAttribute('type', 'image/svg+xml');
+        bossNote.setAttribute('class', 'bossNote');
+        document.getElementById(`tile${bossTileIndex}`).innerHTML = '';
+        document.getElementById(`tile${bossTileIndex}`).appendChild(bossNote);
+        document.getElementById(`tile${bossTileIndex}`).classList.add('hasBossNote');   
+    }
+
+    function getBossNote() {
+        // TODO: play sound effect
+        bossDefeated = false;
+        let bossNote = document.createElement('object');
+        bossNote.setAttribute('data', `./img/map-icons/note-red.svg`);
+        bossNote.setAttribute('type', 'image/svg+xml');
+        bossNote.setAttribute('class', 'bossNoteCollect');
+        bossNoteDisplay.appendChild(bossNote);
+
+        showStairs();
+    }
+
     let stairsOn = false;
     let stairsTileIndex;
     function showStairs() {
@@ -810,10 +853,6 @@ function loadGameScreen() {
             startNewLevel(levels[levelIndex]);
         }
     }
-
-    
-
-    
 
 
     function createTrebleStaffNote(note, octave) {
@@ -1005,7 +1044,7 @@ function loadGameScreen() {
         bossTile.classList.remove('boss');
         
         if (bossLife <= 0) { 
-            levelComplete(levels[levelIndex]);
+            defeatBoss(bossTileIndex);
 
         } else {
             setTimeout(function() {
@@ -1014,6 +1053,8 @@ function loadGameScreen() {
         }
 
     }
+
+
 
     let timeLeft;
 
@@ -1028,7 +1069,7 @@ function loadGameScreen() {
             if (gameOverStatus) {
                 clearInterval(timer);
             
-            } else if (stairsOn) {
+            } else if (stairsOn || bossDefeated) {
                 clearInterval(timer);
             } else if (timeLeft <= 0) {
                 clearInterval(timer);
@@ -1133,6 +1174,7 @@ function loadGameScreen() {
         updateLifeBar(life);
         haveKey = false;
         keyDisplay.innerHTML = '';
+        bossNoteDisplay.innerHTML = '';
         score = 0;
         scoreDisplay.textContent = `Score: ${score}`;
         resultDisplay.textContent = '';
@@ -1178,6 +1220,7 @@ function loadGameScreen() {
         resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
+        bossNoteDisplay.innerHTML = '';
         renderHeroSprite(activeTileIndex);
         const practiceStaff = document.createElement('img');
         practiceStaff.src = './img/staff-notes/grand-staff-labeled.png';

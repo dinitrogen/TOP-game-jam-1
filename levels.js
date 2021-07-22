@@ -21,19 +21,19 @@ let levels = [
         ]
     },
 
-    {
-        name: "Easy as 1-2-3",
-        mapId: 1,
-        tileColor: 'gray',
-        bgMusic: 'dungeon-a',
-        loopTime: 1.7,
-        time: 30,
-        notes: [
-            {letter: 'A', octave: '3', duration: 1},
-            {letter: 'B', octave: '3', duration: 1},
-            {letter: 'C', octave: '4', duration: 2}
-        ]
-    },
+    // {
+    //     name: "Easy as 1-2-3",
+    //     mapId: 1,
+    //     tileColor: 'gray',
+    //     bgMusic: 'dungeon-a',
+    //     loopTime: 1.7,
+    //     time: 30,
+    //     notes: [
+    //         {letter: 'A', octave: '3', duration: 1},
+    //         {letter: 'B', octave: '3', duration: 1},
+    //         {letter: 'C', octave: '4', duration: 2}
+    //     ]
+    // },
 
     {
         name: "boss",
