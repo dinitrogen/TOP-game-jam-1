@@ -130,7 +130,7 @@ h1 {
 
 .bossNoteCollect {
     height: 30px;
-    padding-left: 10px;
+    padding: 10px 0px 5px 5px;
 }
 
 .svgNote {

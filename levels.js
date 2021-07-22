@@ -42,16 +42,17 @@ let levels = [
         bgMusic: 'boss-theme',
         loopTime: 0,
         time: 120,
-        notes: []
+        notes: [],
+        bossNoteImg: 'note-blue'
     },
 
     {
         name: "Leap Frog Thirds",
         mapId: 2,
-        tileColor: 'green',
+        tileColor: 'bisque',
         bgMusic: 'tone-raider',
         loopTime: 0,
-        time: 40,
+        time: 60,
         notes: [
             {letter: 'C', octave: '4', duration: 0.5},
             {letter: 'E', octave: '4', duration: 0.5},
@@ -65,11 +66,37 @@ let levels = [
     {
         name: "boss",
         mapId: 0,
-        tileColor: 'green',
+        tileColor: 'bisque',
         bgMusic: 'boss-theme-b',
         loopTime: 0,
         time: 120,
-        notes: []
+        notes: [],
+        bossNoteImg: 'note-green'
+    },
+
+    {
+        name: "Diminishing returns",
+        mapId: 4,
+        tileColor: 'firebrick',
+        bgMusic: 'lava-dungeon',
+        loopTime: 0,
+        time: 60,
+        notes: [
+            {letter: 'C', octave: '4', duration: 0.5},
+            {letter: 'Eb', octave: '4', duration: 0.5},
+            {letter: 'Gb', octave: '4', duration: 0.5},
+        ]
+    },
+
+    {
+        name: "boss",
+        mapId: 0,
+        tileColor: 'firebrick',
+        bgMusic: 'boss-theme',
+        loopTime: 0,
+        time: 120,
+        notes: [],
+        bossNoteImg: 'note-red'
     },
 
 

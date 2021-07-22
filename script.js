@@ -767,9 +767,9 @@ function loadGameScreen() {
         drawGrid();
         placeWalls(levels[levelIndex].mapId);
         renderHeroSprite(activeTileIndex);
-
+        let bossNoteImg = levels[levelIndex].bossNoteImg;
         let bossNote = document.createElement('object');
-        bossNote.setAttribute('data', `./img/map-icons/note-red.svg`);
+        bossNote.setAttribute('data', `./img/map-icons/${bossNoteImg}.svg`);
         bossNote.setAttribute('type', 'image/svg+xml');
         bossNote.setAttribute('class', 'bossNote');
         document.getElementById(`tile${bossTileIndex}`).innerHTML = '';
@@ -780,8 +780,9 @@ function loadGameScreen() {
     function getBossNote() {
         // TODO: play sound effect
         bossDefeated = false;
+        let bossNoteImg = levels[levelIndex].bossNoteImg;
         let bossNote = document.createElement('object');
-        bossNote.setAttribute('data', `./img/map-icons/note-red.svg`);
+        bossNote.setAttribute('data', `./img/map-icons/${bossNoteImg}.svg`);
         bossNote.setAttribute('type', 'image/svg+xml');
         bossNote.setAttribute('class', 'bossNoteCollect');
         bossNoteDisplay.appendChild(bossNote);
