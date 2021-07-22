@@ -232,6 +232,10 @@ function loadGameScreen() {
                 getKey();
                 activeTile.classList.remove('hasKey');
                 activeTile.innerHTML = '';
+            } else if (activeTile.classList.contains('hasStopwatch')) {
+                getStopwatch();
+                activeTile.classList.remove('hasStopwatch');
+                activeTile.innerHTML = '';
             } else if (activeTile.classList.contains('correct')) {
 
                 if (levels[levelIndex].name === 'practice') {
@@ -534,18 +538,35 @@ function loadGameScreen() {
         });
     }
 
+    function rollDice(sides) {
+        let num = Math.floor(Math.random() * sides) + 1;
+        return num
+    }
 
     function generateNotesList(numTiles) {
         notesList[0] = correctAnswer;
-        notesList[1] = 'H';
-        notesList[2] = 'K';
+        notesList[1] = 'K';
         
-        for (let i = 3; i < numTiles; i++) {
+        let num = rollDice(3);
+        if (num === 1) {
+            notesList[2] = 'H';
+        } else {
+            notesList[2] = getRandomNote();
+        }
+
+        num = rollDice(3);
+        if (num === 1) {
+            notesList[3] = 'SW';
+        } else {
+            notesList[3] = getRandomNote();
+        }
+        
+        for (let i = 4; i < numTiles; i++) {
             notesList[i] = " ";
         }
         
         // Change the i increment to adjust how populated the map is
-        for (let i = 3; i < numTiles; i = i + 7) {
+        for (let i = 4; i < numTiles; i = i + 7) {
             notesList[i] = getRandomNote();
         }
 
@@ -586,6 +607,10 @@ function loadGameScreen() {
                 tile.classList.remove('hasHeart');
             }
 
+            if (tile.classList.contains('hasStopwatch')) {
+                tile.classList.remove('hasStopwatch');
+            }
+
             if (tile.classList.contains('correct')) {
                 tile.classList.remove('correct');
             }
@@ -611,6 +636,15 @@ function loadGameScreen() {
                 document.getElementById(`tile${i}`).innerHTML = '';
                 document.getElementById(`tile${i}`).appendChild(key)
                 document.getElementById(`tile${i}`).classList.add('hasKey');
+
+            } else if (notesList[i] === 'SW') {
+                let stopwatch = document.createElement('object');
+                stopwatch.setAttribute('data', `./img/map-icons/stopwatch.svg`);
+                stopwatch.setAttribute('type', 'image/svg+xml');
+                stopwatch.setAttribute('class', 'stopwatch');
+                document.getElementById(`tile${i}`).innerHTML = '';
+                document.getElementById(`tile${i}`).appendChild(stopwatch)
+                document.getElementById(`tile${i}`).classList.add('hasStopwatch');
           
             } else {
                 let tile = document.getElementById(`tile${i}`);
@@ -651,6 +685,7 @@ function loadGameScreen() {
     }
 
 
+
     function shuffleNotesArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             let j = Math.floor(Math.random() * (i + 1));
@@ -676,6 +711,7 @@ function loadGameScreen() {
 
     function increaseLife() {
         if (life < 5) {
+            // TODO: play sound effect
             life++;
         }
         updateLifeBar(life);
@@ -814,6 +850,7 @@ function loadGameScreen() {
     }
 
     function getKey() {
+        // TODO: play sound effect
         if (haveKey === false) {
             let key = document.createElement('object');
             key.setAttribute('data', `./img/map-icons/key.svg`);
@@ -821,6 +858,15 @@ function loadGameScreen() {
             key.setAttribute('class', 'key');
             keyDisplay.appendChild(key);
             haveKey = true;
+        }
+    }
+
+    function getStopwatch() {
+        // TODO: play sound effect
+        if (timeLeft + 10 > levels[levelIndex].time) {
+            timeLeft = levels[levelIndex].time;
+        } else {
+            timeLeft = timeLeft + 10;
         }
     }
     
@@ -969,8 +1015,10 @@ function loadGameScreen() {
 
     }
 
+    let timeLeft;
+
     function startTimer() {
-        let timeLeft = levels[levelIndex].time;
+        timeLeft = levels[levelIndex].time;
         
         let root = document.querySelector(':root');
         root.style.setProperty('--timerFill', '100%');

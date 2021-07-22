@@ -119,6 +119,10 @@ h1 {
     padding-top: 10px;
 }
 
+.stopwatch {
+    height: 40px;
+}
+
 .svgNote {
     height: 120px;
     padding-left: 250px;
