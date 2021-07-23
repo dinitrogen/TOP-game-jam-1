@@ -1322,6 +1322,12 @@ function createTitleLogoDiv() {
     return titleLogoDiv;
 }
 
+function createSpacerDiv () {
+    const spacerDiv = document.createElement('div');
+    spacerDiv.classList.add('spacerDiv');
+    return spacerDiv;
+}
+
 function createFooterDiv() {
     const footerDiv = document.createElement('div');
     footerDiv.classList.add('footerDiv');
@@ -1344,8 +1350,7 @@ function loadTitleScreen() {
 
     const titleLogoDiv = createTitleLogoDiv();
     const startButtonDiv = createStartButtonDiv();
-    const spacerDiv = document.createElement('div');
-    spacerDiv.classList.add('spacerDiv');
+    const spacerDiv = createSpacerDiv();
     const footerDiv = createFooterDiv();
 
     content.appendChild(titleScreenContent);
@@ -1362,19 +1367,26 @@ let practiceModeStatus = false;
 function loadNewGameScreen() {
     const content = document.getElementById('content');
     content.textContent = '';
+    const newGameScreenContent = document.createElement('div');
+    newGameScreenContent.classList.add('newGameScreenContent');
+
     const titleLogoDiv = createTitleLogoDiv();
     const newGameButtonDiv = createNewGameButtonDiv();
     const practiceModeButton = createPracticeModeButton();
     const howToPlayButton = createHowToPlayButton();
     const optionsButton = createOptionsButton();
+    const spacerDiv = createSpacerDiv();
+    const footerDiv = createFooterDiv();
 
-    content.appendChild(titleLogoDiv);
     newGameButtonDiv.appendChild(practiceModeButton);
     newGameButtonDiv.appendChild(howToPlayButton);
     newGameButtonDiv.appendChild(optionsButton);
-
-    content.appendChild(newGameButtonDiv);
-
+    
+    content.appendChild(newGameScreenContent);
+    newGameScreenContent.appendChild(titleLogoDiv);
+    newGameScreenContent.appendChild(newGameButtonDiv);
+    newGameScreenContent.appendChild(spacerDiv);
+    newGameScreenContent.appendChild(footerDiv);
 
 }
 
