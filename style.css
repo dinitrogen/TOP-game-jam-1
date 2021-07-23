@@ -1,9 +1,17 @@
+body { 
+    padding-top: 20px;
+	max-width: 1300px; 
+	margin: 0 auto !important; 
+	float: none !important; 
+}
+
 :root {
     --gridSize: 10;
     --spellChargeFill: 0%;
     --bossLifeFill: 0%;
     --timerFill: 100%;
     --tileColor: gray;
+    --fontColor: white;
     --wallColor: rgb(48, 24, 0);
 }
 
@@ -17,6 +25,7 @@ body, html, #content {
     display: flex;
     flex-direction: column;
 }
+
 
 .titleLogoDiv {
     
@@ -69,6 +78,25 @@ body, html, #content {
     border: none;
     background-color: transparent;
     margin: 10px;
+}
+
+#gameScreenContent {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.gameScreenSection {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.gameScreenSectionThree {
+    width: 17%;
+    margin-left: 15px;
 }
 
 
@@ -196,7 +224,6 @@ body, html, #content {
 
 .svgNote {
     height: 120px;
-    padding-left: 250px;
 }
 
 .gameMap {
@@ -208,7 +235,7 @@ body, html, #content {
 
 .gameTile {
     font-size: 40px;
-    color: white;
+    color: var(--fontColor);
     line-height: 65px;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;

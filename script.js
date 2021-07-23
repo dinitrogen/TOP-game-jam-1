@@ -7,6 +7,26 @@ import { maps } from './maps.js';
 // Main game screen loader
 function loadGameScreen() {
 
+    const gameScreenContent = document.createElement('div');
+    gameScreenContent.setAttribute('id', 'gameScreenContent');
+
+    const leftContent = document.createElement('div');
+    leftContent.setAttribute('class', 'gameScreenSection');
+    leftContent.setAttribute('class', 'gameScreenSectionOne');
+
+    const centerContent = document.createElement('div');
+    centerContent.setAttribute('class', 'gameScreenSection');
+    centerContent.setAttribute('class', 'gameScreenSectionTwo');
+
+    const rightContent = document.createElement('div');
+    rightContent.setAttribute('class', 'gameScreenSection');
+    rightContent.setAttribute('class', 'gameScreenSectionThree');
+
+
+    let logo = document.createElement('object');
+    logo.setAttribute('data', `./img/graphics/logo.svg`);
+    logo.setAttribute('type', 'image/svg+xml');
+
     const levelDisplay = document.createElement('div');
     levelDisplay.setAttribute('id', 'levelDisplay');
     levelDisplay.textContent = 'Level:';
@@ -86,20 +106,28 @@ function loadGameScreen() {
     
     const content = document.getElementById('content');
     content.textContent = '';
-    content.appendChild(levelDisplay);
-    content.appendChild(levelNameDisplay);
-    content.appendChild(lifeDisplay);
-    content.appendChild(scoreDisplay);
-    
-    content.appendChild(keyDisplay);
-    content.appendChild(spellDisplay);
-    content.appendChild(bossDisplay);
-    content.appendChild(bossNoteDisplay);
-    content.appendChild(staffDiv);
-    content.appendChild(resultDisplay);
-    content.appendChild(timerDisplay);
-    content.appendChild(gameMap);
 
+    leftContent.appendChild(logo);
+    leftContent.appendChild(levelDisplay);
+    leftContent.appendChild(levelNameDisplay);
+    leftContent.appendChild(scoreDisplay);
+    leftContent.appendChild(staffDiv);
+    leftContent.appendChild(resultDisplay);
+
+    centerContent.appendChild(timerDisplay);
+    centerContent.appendChild(gameMap);
+
+    rightContent.appendChild(lifeDisplay);
+    rightContent.appendChild(keyDisplay);
+    rightContent.appendChild(spellDisplay);
+    rightContent.appendChild(bossDisplay);
+    rightContent.appendChild(bossNoteDisplay);
+    
+    gameScreenContent.appendChild(leftContent);
+    gameScreenContent.appendChild(centerContent);
+    gameScreenContent.appendChild(rightContent);
+
+    content.appendChild(gameScreenContent);
      
     const endGameOverlay = document.querySelector('#endGameOverlay');
     const gameOver = document.querySelector('#gameOver');
@@ -1087,9 +1115,11 @@ function loadGameScreen() {
     }
 
     function setTileColor(level) {
-        let tileColor = level.tileColor;
-        let root = document.querySelector(':root');
+        let tileColor = level.tileColor,
+            fontColor = level.fontColor,
+            root = document.querySelector(':root');
         root.style.setProperty('--tileColor', tileColor);
+        root.style.setProperty('--fontColor', fontColor);
     }
 
 
