@@ -103,7 +103,34 @@ let levels = [
         loopTime: 0,
         time: 120,
         notes: [],
-        bossNoteImg: 'note-green'
+        bossNoteImg: 'note-green',
+        chords: [
+            {
+                name: "C major (bass)",
+                chordNotes: [
+                    {letter: 'C', octave: '3', duration: 1},
+                    {letter: 'E', octave: '3', duration: 1},
+                    {letter: 'G', octave: '3', duration: 1},
+                ]
+            },
+            {
+                name: "F major (bass)",
+                chordNotes: [
+                    {letter: 'F', octave: '3', duration: 1},
+                    {letter: 'A', octave: '3', duration: 1},
+                    {letter: 'C', octave: '3', duration: 1},
+                ]
+            },
+            {
+                name: "G major (bass)",
+                chordNotes: [
+                    {letter: 'G', octave: '3', duration: 1},
+                    {letter: 'B', octave: '3', duration: 1},
+                    {letter: 'D', octave: '3', duration: 1},
+                ]
+            }
+
+        ]
     },
 
     {
@@ -130,7 +157,34 @@ let levels = [
         loopTime: 0,
         time: 120,
         notes: [],
-        bossNoteImg: 'note-red'
+        bossNoteImg: 'note-red',
+        chords: [
+            {
+                name: "C minor",
+                chordNotes: [
+                    {letter: 'C', octave: '4', duration: 1},
+                    {letter: 'Eb', octave: '4', duration: 1},
+                    {letter: 'G', octave: '4', duration: 1},
+                ]
+            },
+            {
+                name: "C diminished",
+                chordNotes: [
+                    {letter: 'C', octave: '4', duration: 1},
+                    {letter: 'Eb', octave: '4', duration: 1},
+                    {letter: 'Gb', octave: '4', duration: 1},
+                ]
+            },
+            {
+                name: "C augmented",
+                chordNotes: [
+                    {letter: 'C', octave: '4', duration: 1},
+                    {letter: 'E', octave: '4', duration: 1},
+                    {letter: 'G#', octave: '4', duration: 1},
+                ]
+            }
+
+        ]
     },
 
 
