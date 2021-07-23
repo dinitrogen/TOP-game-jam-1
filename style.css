@@ -99,9 +99,25 @@ body, html, #content {
     margin-left: 15px;
 }
 
+#levelDisplay, #levelNameDisplay {
+    font-size: 20px;
+    font-family: "Press Start 2P";
+}
+
+#scoreDisplay {
+    font-size: 20px;
+    font-family: "Press Start 2P";
+}
+
 
 #lifeDisplay {
-    font-size: 30px;
+    font-size: 20px;
+    font-family: "Press Start 2P";
+}
+
+#spellDisplay {
+    font-size: 20px;
+    font-family: "Press Start 2P";
 }
 
 .spellBarBorder {
@@ -131,6 +147,11 @@ body, html, #content {
     animation: blink 0.25s infinite;
 }
 
+#bossDisplay {
+    font-size: 20px;
+    font-family: "Press Start 2P";
+}
+
 .bossBarBorder {
     width: 100px;
     height: 20px;
@@ -156,6 +177,8 @@ body, html, #content {
 
 .timerDisplay {
     padding-bottom: 10px;
+    font-size: 20px;
+    font-family: "Press Start 2P";
 }
 
 .timerBarBorder {
@@ -234,10 +257,10 @@ body, html, #content {
 }
 
 .gameTile {
-    font-size: 40px;
+    font-size: 24px;
     color: var(--fontColor);
     line-height: 65px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Press Start 2P";
     text-align: center;
     /* TOTO: set these colors to variables set by level object properties */
     border-top: solid white 3px;
@@ -302,6 +325,7 @@ body, html, #content {
     background-color: rgba(0,0,0,0.5);
     z-index: 2;
     text-align: center;
+    font-family: "Press Start 2P";
     font-size: 6em;
     font-weight: bold;
     color: white;
@@ -313,6 +337,7 @@ body, html, #content {
 }
 
 #replayButton {
+    font-family: "Press Start 2P";
     font-size: 28px;
     color: white;
     border: none;

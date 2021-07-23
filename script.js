@@ -36,12 +36,12 @@ function loadGameScreen() {
 
     const lifeDisplay = document.createElement('div');
     lifeDisplay.setAttribute('id', 'lifeDisplay');
-    lifeDisplay.textContent = 'Life: 5';
 
     const scoreDisplay = document.createElement('div');
     scoreDisplay.setAttribute('id', 'scoreDisplay');
     scoreDisplay.textContent = 'Score: 0';
 
+    // TODO: Eventually remove result display, this is more for debugging.
     const resultDisplay = document.createElement('div');
     resultDisplay.setAttribute('id', 'resultDisplay');
     resultDisplay.textContent = '[result]';
@@ -906,7 +906,7 @@ function loadGameScreen() {
     }
 
     function updateLifeBar(life) {
-        lifeDisplay.textContent = 'LIFE: ';
+        lifeDisplay.textContent = 'LIFE:';
         
         for (let i = 0; i < life; i++) {
             let heart = document.createElement('object');
@@ -1345,9 +1345,11 @@ function loadOptionsScreen() {
 function createTitleLogoDiv() {
     const titleLogoDiv = document.createElement('div');
     titleLogoDiv.classList.add('titleLogoDiv');
-    const titleLogo = document.createElement('img');
-    titleLogo.src = './img/graphics/title-logo-trans-bg.png'; // Update with vector graphic
+    const titleLogo = document.createElement('object');
+    titleLogo.setAttribute('data', `./img/graphics/logo.svg`);
+    titleLogo.setAttribute('type', 'image/svg+xml');
     titleLogo.classList.add('titleLogo');
+    
     titleLogoDiv.appendChild(titleLogo);
     return titleLogoDiv;
 }
