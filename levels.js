@@ -43,10 +43,37 @@ let levels = [
         tileColor: 'gray',
         fontColor: 'white',
         bgMusic: 'boss-theme',
+        bossNoteImg: 'note-blue',
         loopTime: 0,
         time: 120,
         notes: [],
-        bossNoteImg: 'note-blue'
+        chords: [
+            {
+                name: "C major",
+                chordNotes: [
+                    {letter: 'C', octave: '4', duration: 1},
+                    {letter: 'E', octave: '4', duration: 1},
+                    {letter: 'G', octave: '4', duration: 1},
+                ]
+            },
+            {
+                name: "F major",
+                chordNotes: [
+                    {letter: 'F', octave: '4', duration: 1},
+                    {letter: 'A', octave: '4', duration: 1},
+                    {letter: 'C', octave: '5', duration: 1},
+                ]
+            },
+            {
+                name: "G major",
+                chordNotes: [
+                    {letter: 'G', octave: '4', duration: 1},
+                    {letter: 'B', octave: '4', duration: 1},
+                    {letter: 'D', octave: '5', duration: 1},
+                ]
+            }
+
+        ]
     },
 
     {
