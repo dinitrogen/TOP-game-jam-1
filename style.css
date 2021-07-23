@@ -15,8 +15,69 @@ body {
     --wallColor: rgb(48, 24, 0);
 }
 
-h1 {
-    color: blue;
+
+body, html, #content {
+    height: 100%;
+}
+
+.titleScreenContent, .newGameScreenContent {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.titleLogoDiv {
+    
+    background-color: rgb(202, 202, 202);
+    width: 100%;
+}
+
+.titleLogo {
+    display: block;
+    margin: auto;
+    width: 800px;
+}
+
+.startButtonDiv {
+
+    background-color: rgb(202, 202, 202);
+    display: flex;
+    flex-direction: column;
+}
+
+.newGameButtonDiv {
+    background-color: rgb(202, 202, 202);
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.spacerDiv {
+    flex-grow: 1;
+    background-color: rgb(202, 202, 202);
+}
+
+.footerDiv {
+    padding: 30px;
+    background-color: rgb(202, 202, 202);
+}
+
+.footerTextDiv {
+    text-align: center;
+}
+
+.footerText {
+    font-family: "Press Start 2P";
+}
+
+.gameButton {
+    display: block;
+    font-family: "Press Start 2P";
+    font-size: 20px;
+    border: none;
+    background-color: transparent;
+    margin: 10px;
 }
 
 #gameScreenContent {
@@ -401,4 +462,9 @@ h1 {
     100% {
         opacity: 1;
     }
+}
+
+@font-face {
+    font-family: "Press Start 2P";
+    src: url("./fonts/PressStart2P-Regular.ttf") format("truetype");
 }

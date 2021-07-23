@@ -1270,44 +1270,125 @@ if (practiceModeStatus === true) {
 }
 
 // Title and start screen functions
-function createStartButton() {
+function createStartButtonDiv() {
+    const startButtonDiv = document.createElement('div');
+    startButtonDiv.classList.add('startButtonDiv');
     const startButton = document.createElement('button');
     startButton.setAttribute('id', 'startButton');
     startButton.setAttribute('class', 'gameButton');
     const startButtonText = document.createElement('span');
     startButtonText.textContent = 'Start';
-    startButton.appendChild(startButtonText);
-    return startButton;
-}
-
-function createNewGameButton() {
-    const newGameButton = document.createElement('button');
-    newGameButton.setAttribute('id', 'newGameButton');
-    newGameButton.setAttribute('class', 'gameButton');
-    const newGameButtonText = document.createElement('span');
-    newGameButtonText.textContent = 'Enter the Dungeon';
-    newGameButton.appendChild(newGameButtonText);
-    return newGameButton;
-}
-
-
-
-function loadTitleScreen() {
-    const content = document.getElementById('content');
-    content.textContent = '';
-    const startButton = createStartButton();
     startButton.addEventListener('click', () => {
         loadNewGameScreen();
         setTimeout(function() {
             playAudioTrack('title-screen', true, 0)
         }, 750);
     });
-    
-    content.appendChild(startButton);
+    startButton.appendChild(startButtonText);
+    startButtonDiv.appendChild(startButton);
+    return startButtonDiv;
+}
 
-    const tempPara = document.createElement('p');
-    tempPara.textContent = 'Initial landing page for game. Clicking button will trigger title music.';
-    content.appendChild(tempPara);
+function createNewGameButtonDiv() {
+    const newGameButtonDiv = document.createElement('div');
+    newGameButtonDiv.classList.add('newGameButtonDiv');
+    const newGameButton = document.createElement('button');
+    newGameButton.setAttribute('id', 'newGameButton');
+    newGameButton.setAttribute('class', 'gameButton');
+    const newGameButtonText = document.createElement('span');
+    newGameButtonText.textContent = 'Enter the Dungeon';
+    newGameButton.addEventListener('click', () => {
+        loadGameScreen();
+    });
+    newGameButton.appendChild(newGameButtonText);
+    newGameButtonDiv.appendChild(newGameButton);
+    return newGameButtonDiv;
+}
+
+function createPracticeModeButton() {
+    const practiceModeButton = document.createElement('button');
+    practiceModeButton.classList.add('gameButton');
+    practiceModeButton.textContent = 'Practice Mode';
+    practiceModeButton.addEventListener('click', () => {
+        practiceModeStatus = true;
+        loadGameScreen();
+    });
+    return practiceModeButton;
+}
+
+function createHowToPlayButton() {
+    const howToPlayButton = document.createElement('button');
+    howToPlayButton.classList.add('gameButton');
+    howToPlayButton.textContent = 'How to Play';
+    howToPlayButton.addEventListener('click', loadHowToPlayScreen);
+    return howToPlayButton;
+}
+
+function loadHowToPlayScreen() {
+    //TODO
+    return;
+}
+
+function createOptionsButton() {
+    const optionsButton = document.createElement('button');
+    optionsButton.classList.add('gameButton');
+    optionsButton.textContent = 'Options';
+    optionsButton.addEventListener('click', loadOptionsScreen);
+    return optionsButton;
+}
+
+function loadOptionsScreen() {
+    //TODO
+    return;
+}
+
+function createTitleLogoDiv() {
+    const titleLogoDiv = document.createElement('div');
+    titleLogoDiv.classList.add('titleLogoDiv');
+    const titleLogo = document.createElement('img');
+    titleLogo.src = './img/graphics/title-logo-trans-bg.png'; // Update with vector graphic
+    titleLogo.classList.add('titleLogo');
+    titleLogoDiv.appendChild(titleLogo);
+    return titleLogoDiv;
+}
+
+function createSpacerDiv () {
+    const spacerDiv = document.createElement('div');
+    spacerDiv.classList.add('spacerDiv');
+    return spacerDiv;
+}
+
+function createFooterDiv() {
+    const footerDiv = document.createElement('div');
+    footerDiv.classList.add('footerDiv');
+    const footerTextDiv = document.createElement('div');
+    footerTextDiv.classList.add('footerTextDiv');
+    const footerText = document.createElement('span');
+    footerText.classList.add('footerText');
+    footerText.innerHTML = '&copy 2021 dinitrogen games';
+    footerTextDiv.appendChild(footerText);
+    footerDiv.appendChild(footerTextDiv);
+    return footerDiv;
+}
+
+
+function loadTitleScreen() {
+    const content = document.getElementById('content');
+    content.textContent = '';
+    const titleScreenContent = document.createElement('div');
+    titleScreenContent.classList.add('titleScreenContent');
+
+    const titleLogoDiv = createTitleLogoDiv();
+    const startButtonDiv = createStartButtonDiv();
+    const spacerDiv = createSpacerDiv();
+    const footerDiv = createFooterDiv();
+
+    content.appendChild(titleScreenContent);
+    titleScreenContent.appendChild(titleLogoDiv);
+    titleScreenContent.appendChild(startButtonDiv);
+    titleScreenContent.appendChild(spacerDiv);
+    titleScreenContent.appendChild(footerDiv);
+
 }
 
 // Variable to toggle practice mode
@@ -1316,25 +1397,27 @@ let practiceModeStatus = false;
 function loadNewGameScreen() {
     const content = document.getElementById('content');
     content.textContent = '';
-    const newGameButton = createNewGameButton();
-    newGameButton.addEventListener('click', () => {
-        loadGameScreen();
-    });
-    content.appendChild(newGameButton);
+    const newGameScreenContent = document.createElement('div');
+    newGameScreenContent.classList.add('newGameScreenContent');
 
-    const practiceModeButton = document.createElement('button');
-    practiceModeButton.classList.add('gameButon');
-    practiceModeButton.textContent = 'Practice Mode';
-    practiceModeButton.addEventListener('click', () => {
-        practiceModeStatus = true;
-        loadGameScreen();
-    });
-    content.appendChild(practiceModeButton);
+    const titleLogoDiv = createTitleLogoDiv();
+    const newGameButtonDiv = createNewGameButtonDiv();
+    const practiceModeButton = createPracticeModeButton();
+    const howToPlayButton = createHowToPlayButton();
+    const optionsButton = createOptionsButton();
+    const spacerDiv = createSpacerDiv();
+    const footerDiv = createFooterDiv();
 
+    newGameButtonDiv.appendChild(practiceModeButton);
+    newGameButtonDiv.appendChild(howToPlayButton);
+    newGameButtonDiv.appendChild(optionsButton);
+    
+    content.appendChild(newGameScreenContent);
+    newGameScreenContent.appendChild(titleLogoDiv);
+    newGameScreenContent.appendChild(newGameButtonDiv);
+    newGameScreenContent.appendChild(spacerDiv);
+    newGameScreenContent.appendChild(footerDiv);
 
-    const tempPara = document.createElement('p');
-    tempPara.textContent = 'Options, Instructions, etc. will appear on this screen. Title music will also play here.';
-    content.appendChild(tempPara);
 }
 
 loadTitleScreen();
