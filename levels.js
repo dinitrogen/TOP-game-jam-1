@@ -15,7 +15,7 @@ let levels = [
         fontColor: 'white',
         bgMusic: 'dungeon-a',
         loopTime: 1.7, // loop start time. TODO: Update dungeon-a music track so this is not needed.
-        time: 3000,
+        time: 30,
         notes: [
             {letter: 'C', octave: '4', duration: 1}, // duration in seconds
             {letter: 'E', octave: '4', duration: 1},
@@ -44,7 +44,7 @@ let levels = [
         fontColor: 'white',
         bgMusic: 'boss-theme',
         loopTime: 0,
-        time: 3000,
+        time: 120,
         notes: [],
         bossNoteImg: 'note-blue'
     },
@@ -56,7 +56,7 @@ let levels = [
         fontColor: 'black',
         bgMusic: 'tone-raider',
         loopTime: 0,
-        time: 3000,
+        time: 60,
         notes: [
             {letter: 'C', octave: '4', duration: 0.5},
             {letter: 'E', octave: '4', duration: 0.5},
@@ -74,7 +74,7 @@ let levels = [
         fontColor: 'black',
         bgMusic: 'boss-theme-b',
         loopTime: 0,
-        time: 3000,
+        time: 120,
         notes: [],
         bossNoteImg: 'note-green'
     },
@@ -86,7 +86,7 @@ let levels = [
         fontColor: 'white',
         bgMusic: 'lava-dungeon',
         loopTime: 0,
-        time: 3000,
+        time: 60,
         notes: [
             {letter: 'C', octave: '4', duration: 0.5},
             {letter: 'Eb', octave: '4', duration: 0.5},
@@ -101,7 +101,7 @@ let levels = [
         fontColor: 'white',
         bgMusic: 'boss-theme',
         loopTime: 0,
-        time: 3000,
+        time: 120,
         notes: [],
         bossNoteImg: 'note-red'
     },
