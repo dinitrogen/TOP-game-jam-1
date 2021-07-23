@@ -24,7 +24,7 @@ function loadGameScreen() {
 
 
     let logo = document.createElement('object');
-    logo.setAttribute('data', `./img/logo.svg`);
+    logo.setAttribute('data', `./img/graphics/logo.svg`);
     logo.setAttribute('type', 'image/svg+xml');
 
     const levelDisplay = document.createElement('div');
