@@ -301,9 +301,13 @@ function loadGameScreen() {
                     playNote(note, 1);
                     increaseScore();
                     chargeSpell(note);
-                    let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
-                    correctAnswer = randomNote.note;
-                    correctOctave = randomNote.octave;
+
+                    let nextBossNote = getNextBossNote();
+                    correctAnswer = nextBossNote.letter;
+                    correctOctave = nextBossNote.octave;
+                    // let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+                    // correctAnswer = randomNote.note;
+                    // correctOctave = randomNote.octave;
                     generateNotesList(gridArea);
                     clearTileClasses();
                     populateMap(gridArea);
@@ -718,6 +722,26 @@ function loadGameScreen() {
         } else {
             let nextNote = level.notes[currentNoteIndex + 1].letter;
             return nextNote;
+        }
+    }
+
+    function getNextBossNote() {
+        if (chordNoteIndex >= levels[levelIndex].chords[chordIndex].chordNotes.length - 1) {
+            if (chordIndex >= levels[levelIndex].chords.length - 1) {
+                chordIndex = 0;
+                chordNoteIndex = 0;
+                let nextBossNote = levels[levelIndex].chords[chordIndex].chordNotes[chordNoteIndex];
+                return nextBossNote;
+            } else {
+                chordIndex++;
+                chordNoteIndex = 0;
+                let nextBossNote = levels[levelIndex].chords[chordIndex].chordNotes[chordNoteIndex];
+                return nextBossNote;
+            }
+        } else {
+            chordNoteIndex++;
+            let nextBossNote = levels[levelIndex].chords[chordIndex].chordNotes[chordNoteIndex];
+            return nextBossNote;
         }
     }
 
@@ -1154,15 +1178,23 @@ function loadGameScreen() {
     }
 
     let bossTileIndex;
+    let chordIndex;
+    let chordNoteIndex;
     function loadBossStage() {
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
         enemyTileIndices = [];
         bossTileIndex = gridArea - 1;
         noteIndex = 0;
-        let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
-        correctAnswer = randomNote.note;
-        correctOctave = randomNote.octave;
+        // let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+        // correctAnswer = randomNote.note;
+        // correctOctave = randomNote.octave;
+        
+        chordIndex = 0;
+        chordNoteIndex = 0;
+        correctAnswer = levels[levelIndex].chords[chordIndex].chordNotes[chordNoteIndex].letter;
+        correctOctave = levels[levelIndex].chords[chordIndex].chordNotes[chordNoteIndex].octave;
+        
         updateStaffDiv(correctAnswer, correctOctave);
         drawGrid();
         // loadMap(1);
