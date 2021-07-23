@@ -4,6 +4,7 @@ let levels = [
         name: "practice",
         mapId: 0,
         tileColor: 'gray',
+        fontColor: 'white',
         notes: [] 
     },
 
@@ -11,9 +12,10 @@ let levels = [
         name: "C triad",
         mapId: 1,
         tileColor: 'gray',
+        fontColor: 'white',
         bgMusic: 'dungeon-a',
         loopTime: 1.7, // loop start time. TODO: Update dungeon-a music track so this is not needed.
-        time: 30,
+        time: 3000,
         notes: [
             {letter: 'C', octave: '4', duration: 1}, // duration in seconds
             {letter: 'E', octave: '4', duration: 1},
@@ -39,9 +41,10 @@ let levels = [
         name: "boss",
         mapId: 0,
         tileColor: 'gray',
+        fontColor: 'white',
         bgMusic: 'boss-theme',
         loopTime: 0,
-        time: 120,
+        time: 3000,
         notes: [],
         bossNoteImg: 'note-blue'
     },
@@ -50,9 +53,10 @@ let levels = [
         name: "Leap Frog Thirds",
         mapId: 2,
         tileColor: 'bisque',
+        fontColor: 'black',
         bgMusic: 'tone-raider',
         loopTime: 0,
-        time: 60,
+        time: 3000,
         notes: [
             {letter: 'C', octave: '4', duration: 0.5},
             {letter: 'E', octave: '4', duration: 0.5},
@@ -67,9 +71,10 @@ let levels = [
         name: "boss",
         mapId: 0,
         tileColor: 'bisque',
+        fontColor: 'black',
         bgMusic: 'boss-theme-b',
         loopTime: 0,
-        time: 120,
+        time: 3000,
         notes: [],
         bossNoteImg: 'note-green'
     },
@@ -78,9 +83,10 @@ let levels = [
         name: "Diminishing returns",
         mapId: 4,
         tileColor: 'firebrick',
+        fontColor: 'white',
         bgMusic: 'lava-dungeon',
         loopTime: 0,
-        time: 60,
+        time: 3000,
         notes: [
             {letter: 'C', octave: '4', duration: 0.5},
             {letter: 'Eb', octave: '4', duration: 0.5},
@@ -92,9 +98,10 @@ let levels = [
         name: "boss",
         mapId: 0,
         tileColor: 'firebrick',
+        fontColor: 'white',
         bgMusic: 'boss-theme',
         loopTime: 0,
-        time: 120,
+        time: 3000,
         notes: [],
         bossNoteImg: 'note-red'
     },
