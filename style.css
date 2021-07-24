@@ -13,6 +13,7 @@ body {
     --tileColor: gray;
     --fontColor: white;
     --wallColor: rgb(48, 24, 0);
+    --dungeonBorder: url(./img/graphics/border-1.svg);
 }
 
 
@@ -249,7 +250,25 @@ body, html, #content {
     height: 120px;
 }
 
+.gameMapContainer {
+    height: 870px;
+    width: 870px;
+    /* background: url(./img/graphics/dungeon-border.svg); */
+    background: var(--dungeonBorder);
+    background-size: 870px 870px;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    /* Display/align-items settins centers gameMap vertically */
+    display:flex;
+    align-items: center;
+    
+}
+
 .gameMap {
+
+    margin-bottom: 12px;
+    margin-left: 80px;
     display: grid;
     grid-template-columns: repeat(var(--gridSize), auto);
     height: 700px;

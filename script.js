@@ -101,8 +101,12 @@ function loadGameScreen() {
     const staffDiv = document.createElement('div');
     staffDiv.setAttribute('class', 'staffDiv');
     
+    const gameMapContainer = document.createElement('div');
+    gameMapContainer.classList.add('gameMapContainer');
+
     const gameMap = document.createElement('div');
     gameMap.setAttribute('class', 'gameMap');
+    gameMapContainer.appendChild(gameMap);
     
     const content = document.getElementById('content');
     content.textContent = '';
@@ -115,7 +119,8 @@ function loadGameScreen() {
     leftContent.appendChild(resultDisplay);
 
     centerContent.appendChild(timerDisplay);
-    centerContent.appendChild(gameMap);
+    //centerContent.appendChild(gameMap);
+    centerContent.appendChild(gameMapContainer);
 
     rightContent.appendChild(lifeDisplay);
     rightContent.appendChild(keyDisplay);
@@ -1141,9 +1146,11 @@ function loadGameScreen() {
     function setTileColor(level) {
         let tileColor = level.tileColor,
             fontColor = level.fontColor,
+            dungeonBorder = level.dungeonBorder,
             root = document.querySelector(':root');
         root.style.setProperty('--tileColor', tileColor);
         root.style.setProperty('--fontColor', fontColor);
+        root.style.setProperty('--dungeonBorder', dungeonBorder);
     }
 
 
