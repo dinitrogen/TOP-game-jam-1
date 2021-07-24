@@ -1146,9 +1146,11 @@ function loadGameScreen() {
     function setTileColor(level) {
         let tileColor = level.tileColor,
             fontColor = level.fontColor,
+            dungeonBorder = level.dungeonBorder,
             root = document.querySelector(':root');
         root.style.setProperty('--tileColor', tileColor);
         root.style.setProperty('--fontColor', fontColor);
+        root.style.setProperty('--dungeonBorder', dungeonBorder);
     }
 
 
