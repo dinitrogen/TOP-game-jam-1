@@ -44,7 +44,7 @@ function loadGameScreen() {
     // TODO: Eventually remove result display, this is more for debugging.
     const resultDisplay = document.createElement('div');
     resultDisplay.setAttribute('id', 'resultDisplay');
-    resultDisplay.textContent = '[result]';
+    //resultDisplay.textContent = '[result]';
 
     const keyDisplay = document.createElement('div');
     keyDisplay.setAttribute('id', 'keyDisplay');
@@ -287,7 +287,7 @@ function loadGameScreen() {
             } else if (activeTile.classList.contains('correct')) {
 
                 if (levels[levelIndex].name === 'practice') {
-                    resultDisplay.textContent = `Correct! - ${correctAnswer}`;
+                    // resultDisplay.textContent = `Correct! - ${correctAnswer}`;
                     activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${correctOctave}`;
                     playNote(note, 1);
@@ -301,7 +301,7 @@ function loadGameScreen() {
                     updateStaffDiv(correctAnswer, correctOctave);
                 
                 } else if (levels[levelIndex].name === 'boss' || levels[levelIndex].name === 'finalBoss') {
-                    resultDisplay.textContent = `Correct! - ${correctAnswer}`;
+                    // resultDisplay.textContent = `Correct! - ${correctAnswer}`;
                     activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${correctOctave}`;
                     playNote(note, 1);
@@ -326,7 +326,7 @@ function loadGameScreen() {
 
                 } else {
                 
-                    resultDisplay.textContent = `Correct! - ${correctAnswer}`;
+                    // resultDisplay.textContent = `Correct! - ${correctAnswer}`;
                     activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${levels[levelIndex].notes[noteIndex].octave}`;
                     playNote(note, 1);
@@ -347,7 +347,7 @@ function loadGameScreen() {
                 }
             } else {
                 activeTile.textContent = 'X';
-                resultDisplay.textContent = 'Wrong!';
+                // resultDisplay.textContent = 'Wrong!';
                 if (levels[levelIndex].name === 'practice') {
                     return;
                 } else {
@@ -886,7 +886,7 @@ function loadGameScreen() {
 
     function displayGameOver() {
         gameOverStatus = true;
-        resultDisplay.textContent = 'GAME OVER';
+        // resultDisplay.textContent = 'GAME OVER';
         gameOver.textContent = 'GAME OVER';
         endGameOverlay.style.display = 'block';
         nextLevelButton.style.display = 'none';
@@ -896,7 +896,7 @@ function loadGameScreen() {
 
     function displayWinScreen() {
         playAudioTrack('end-credits', true, 0);
-        resultDisplay.textContent = 'You are a melody master!';
+        // resultDisplay.textContent = 'You are a melody master!';
         gameOver.textContent = 'YOU ARE A MELODY MASTER!';
         endGameOverlay.style.display = 'block';
         nextLevelButton.style.display = 'none';
@@ -905,7 +905,7 @@ function loadGameScreen() {
     }
 
     function levelComplete(level) {
-        resultDisplay.textContent = 'LEVEL COMPLETE';
+        // resultDisplay.textContent = 'LEVEL COMPLETE';
 
         playMelody(level);
         noteDelay = 2;
@@ -1405,7 +1405,7 @@ function loadGameScreen() {
         generateNotesList(gridArea);
         populateMap(gridArea);
         placeRandomLocks(gridArea, 1);
-        resultDisplay.textContent = '';
+        // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
         bossLife = 3;
@@ -1444,7 +1444,7 @@ function loadGameScreen() {
         generateNotesList(gridArea);
         populateMap(gridArea);
         setTileColor(levels[levelIndex]);
-        resultDisplay.textContent = '';
+        // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
         renderEnemySprite(bossTileIndex);
@@ -1492,7 +1492,7 @@ function loadGameScreen() {
         generateNotesList(gridArea);
         populateMap(gridArea);
         setTileColor(levels[levelIndex]);
-        resultDisplay.textContent = '';
+        // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
         // renderEnemySprite(finalBossTileIndex);
@@ -1514,6 +1514,8 @@ function loadGameScreen() {
 
     function startNewGame() {
         gameOverStatus = false;
+        finalSpellStatus = false;
+        spellChargeMax = 3;
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
         enemyTileIndices = [(gridArea - 1)];
@@ -1537,7 +1539,7 @@ function loadGameScreen() {
         bossNoteDisplay.innerHTML = '';
         score = 0;
         scoreDisplay.textContent = `Score: ${score}`;
-        resultDisplay.textContent = '';
+        // resultDisplay.textContent = '';
         bossLife = 3;
         enemyTileIndices.forEach(function(enemyTileIndex) {
             renderEnemySprite(enemyTileIndex);
@@ -1577,7 +1579,7 @@ function loadGameScreen() {
         levelNameDisplay.textContent = `${levels[levelIndex].name}`;
         life = 5;
         updateLifeBar(life);
-        resultDisplay.textContent = '';
+        // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
         bossNoteDisplay.innerHTML = '';

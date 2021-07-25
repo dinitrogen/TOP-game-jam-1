@@ -176,6 +176,11 @@ body, html, #content {
     border-radius: 0px;
 }
 
+.staffDiv {
+    font-size: 20px;
+    font-family: "Press Start 2P";
+}
+
 .timerDisplay {
     padding-bottom: 10px;
     font-size: 20px;
@@ -429,6 +434,7 @@ body, html, #content {
     -moz-animation: fadeIn 1s;
     -o-animation: fadeIn 1s;
     -ms-animation: fadeIn 1s;
+    animation: blink 0.2s infinite;
 }
 
 .note-green {
@@ -442,6 +448,8 @@ body, html, #content {
     -moz-animation: fadeIn 1s;
     -o-animation: fadeIn 1s;
     -ms-animation: fadeIn 1s;
+    animation: blink 0.2s infinite;
+
 }
 .note-orange {
     background: url(img/map-icons/note-orange.svg);
@@ -454,6 +462,8 @@ body, html, #content {
     -moz-animation: fadeIn 1s;
     -o-animation: fadeIn 1s;
     -ms-animation: fadeIn 1s;
+    animation: blink 0.2s infinite;
+
 }
 .note-purple {
     background: url(img/map-icons/note-purple.svg);
@@ -466,6 +476,7 @@ body, html, #content {
     -moz-animation: fadeIn 1s;
     -o-animation: fadeIn 1s;
     -ms-animation: fadeIn 1s;
+    animation: blink 0.2s infinite;
 }
 .note-red {
     background: url(img/map-icons/note-red.svg);
@@ -478,6 +489,7 @@ body, html, #content {
     -moz-animation: fadeIn 1s;
     -o-animation: fadeIn 1s;
     -ms-animation: fadeIn 1s;
+    animation: blink 0.2s infinite;
 }
 
 .finalBoss {
