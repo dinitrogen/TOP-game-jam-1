@@ -383,6 +383,8 @@ body, html, #content {
     font-size: 36px;
 }
 
+
+
 .stairsTile {
     background: url(img/map-icons/stairs.svg);
     background-color: var(--tileColor);

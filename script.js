@@ -3,7 +3,6 @@ import { notesLibrary } from './note-library.js';
 import { maps } from './maps.js';
 
 
-
 // Main game screen loader
 function loadGameScreen() {
 
@@ -869,6 +868,7 @@ function loadGameScreen() {
     }
 
     function decreaseLife() {
+        playSound('hero-damage');
         life--;
         updateLifeBar(life);
         if (life <= 0) {
@@ -878,9 +878,9 @@ function loadGameScreen() {
 
     function increaseLife() {
         if (life < 5) {
-            // TODO: play sound effect
             life++;
         }
+        playSound('heart-pickup');
         updateLifeBar(life);
     }
 
@@ -906,8 +906,11 @@ function loadGameScreen() {
 
     function levelComplete(level) {
         // resultDisplay.textContent = 'LEVEL COMPLETE';
-
-        playMelody(level);
+        setTimeout(function() {
+            playAudioTrack('stage-complete', false, 0);
+            //playMelody(level);
+        }, 1000);
+        
         noteDelay = 2;
 
         showStairs();
@@ -916,6 +919,7 @@ function loadGameScreen() {
     let bossDefeated = false;
 
     function defeatBoss(bossTileIndex) {
+        playSound('boss-defeated');
         bossDefeated = true;
         drawGrid();
         placeWalls(levels[levelIndex].mapId);
@@ -931,7 +935,9 @@ function loadGameScreen() {
     }
 
     function getBossNote() {
-        // TODO: play sound effect
+        
+        playSound('boss-note-pickup');
+        
         bossDefeated = false;
         let bossNoteImg = levels[levelIndex].bossNoteImg;
         let bossNote = document.createElement('object');
@@ -1019,11 +1025,13 @@ function loadGameScreen() {
             levelDisplay.textContent = `Level ${levelIndex + 1}`;
             levelNameDisplay.textContent = 'BOSS STAGE!';
             loadBossStage();
+            playSound('stairs');
     
         } else {
             levelDisplay.textContent = `Level ${levelIndex + 1}`;
             levelNameDisplay.textContent = `${levels[levelIndex].name}`
             startNewLevel(levels[levelIndex]);
+            playSound('stairs');
         }
     }
 
@@ -1062,7 +1070,7 @@ function loadGameScreen() {
     }
 
     function getKey() {
-        // TODO: play sound effect
+        playSound('item-pickup');
         if (haveKey === false) {
             let key = document.createElement('object');
             key.setAttribute('data', `./img/map-icons/key.svg`);
@@ -1074,7 +1082,7 @@ function loadGameScreen() {
     }
 
     function getStopwatch() {
-        // TODO: play sound effect
+        playSound('item-pickup');
         if (timeLeft + 10 > levels[levelIndex].time) {
             timeLeft = levels[levelIndex].time;
         } else {
@@ -1108,6 +1116,7 @@ function loadGameScreen() {
 
     function castSpell() {
         console.log('BOOM!');
+        playSound('spell-blast');
         spellCharge = 0;
         spellBarFill.classList.remove('blink');
         let root = document.querySelector(':root');
@@ -1282,11 +1291,13 @@ function loadGameScreen() {
             placeRandomLocks(gridArea, 0);
             staffDiv.innerHTML = '';
             staffDiv.textContent = 'MASTER CHORD CHARGED!'
+            
         }
         
     }
 
     function finalSpellCast() {
+        playSound('spell-blast');
         console.log('Final BOOM!');
         spellCharge = 0;
         spellBarFill.classList.remove('blink');
@@ -1323,6 +1334,37 @@ function loadGameScreen() {
         
         
     }
+
+    // TODO: function to draw an svg line between two tiles.
+    // function getTileCenterCoords(tile) {
+    //     let rect = tile.getBoundingClientRect();
+    //     return {
+    //         tileCoordX: rect.left + 0.5 * rect.width,
+    //         tileCoordY: rect.top + 0.5 * rect.height
+    //     };
+    // }
+
+    // function drawLine(tile1, tile2) {
+    //     let tile1Coords = getTileCenterCoords(tile1);
+    //     let tile2Coords = getTileCenterCoords(tile2);
+
+    //     let x1 = tile1Coords.tileCoordX;
+    //     let y1 = tile1Coords.tileCoordY;
+    //     let x2 = tile2Coords.tileCoordX;
+    //     let y2 = tile2Coords.tileCoordY;
+        
+    //     let line = document.createElement('line');
+    //     line.setAttribute('x1', x1);
+    //     line.setAttribute('y1', y1);
+    //     line.setAttribute('x2', x2);
+    //     line.setAttribute('y2', y2);
+    //     line.setAttribute('stroke', 'red');
+    //     line.setAttribute('stroke-width', '5');
+        
+    //     // TODO...
+    // }
+
+
 
 
     let bossLife = 3;
@@ -1555,6 +1597,7 @@ function loadGameScreen() {
         playAudioTrack('new-game', false);
         setTimeout(function() { playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime)}, 5000);
         startTimer();
+
     }
 
     function startPracticeMode() {
@@ -1759,6 +1802,7 @@ loadTitleScreen();
 
 // TODO : refactor code to move this variable and function back into a local scope.
 let bgMusicTrack;
+let soundEffect;
 
 // Plays background music/sounds from .wav files
 function playAudioTrack(trackName, loopStatus, loopStartTime) {
@@ -1770,6 +1814,11 @@ function playAudioTrack(trackName, loopStatus, loopStartTime) {
     bgMusicTrack.loopStart = loopStartTime;
     bgMusicTrack.autostart = true;
     bgMusicTrack.loop = loopStatus; // boolean
+}
+
+function playSound(trackName) {
+    soundEffect = new Tone.Player(`./sounds/${trackName}.wav`).toDestination();
+    soundEffect.autostart = true;
 }
 
 

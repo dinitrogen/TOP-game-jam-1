@@ -24,19 +24,61 @@ let levels = [
         ]
     },
 
-    // {
-    //     name: "Easy as 1-2-3",
-    //     mapId: 1,
-    //     tileColor: 'gray',
-    //     bgMusic: 'dungeon-a',
-    //     loopTime: 1.7,
-    //     time: 30,
-    //     notes: [
-    //         {letter: 'A', octave: '3', duration: 1},
-    //         {letter: 'B', octave: '3', duration: 1},
-    //         {letter: 'C', octave: '4', duration: 2}
-    //     ]
-    // },
+     {
+        name: "boss",
+        mapId: 0,
+        tileColor: 'bisque',
+        fontColor: 'black',
+        bgMusic: 'boss-theme-b',
+        dungeonBorder: `url(./img/graphics/border-2.svg)`,
+        loopTime: 0,
+        time: 120,
+        notes: [],
+        bossNoteImg: 'note-green',
+        chords: [
+            {
+                name: "C major (bass)",
+                chordNotes: [
+                    {letter: 'C', octave: '3', duration: 1},
+                    {letter: 'E', octave: '3', duration: 1},
+                    {letter: 'G', octave: '3', duration: 1},
+                ]
+            },
+            {
+                name: "F major (bass)",
+                chordNotes: [
+                    {letter: 'F', octave: '3', duration: 1},
+                    {letter: 'A', octave: '3', duration: 1},
+                    {letter: 'C', octave: '3', duration: 1},
+                ]
+            },
+            {
+                name: "G major (bass)",
+                chordNotes: [
+                    {letter: 'G', octave: '3', duration: 1},
+                    {letter: 'B', octave: '3', duration: 1},
+                    {letter: 'D', octave: '3', duration: 1},
+                ]
+            }
+
+        ]
+    },
+
+    {
+        name: "Easy as 1-2-3",
+        mapId: 1,
+        tileColor: 'gray',
+        fontColor: 'white',
+        dungeonBorder: `url(./img/graphics/border-1.svg)`,
+        bgMusic: 'dungeon-a',
+        loopTime: 1.7,
+        time: 30,
+        notes: [
+            {letter: 'A', octave: '3', duration: 1},
+            {letter: 'B', octave: '3', duration: 1},
+            {letter: 'C', octave: '4', duration: 2}
+        ]
+    },
 
     {
         name: "finalBoss", // Temporarliy changing to final boss
