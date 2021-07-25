@@ -176,6 +176,11 @@ body, html, #content {
     border-radius: 0px;
 }
 
+.staffDiv {
+    font-size: 20px;
+    font-family: "Press Start 2P";
+}
+
 .timerDisplay {
     padding-bottom: 10px;
     font-size: 20px;
@@ -416,6 +421,80 @@ body, html, #content {
     -moz-animation: fadeIn 1s;
     -o-animation: fadeIn 1s;
     -ms-animation: fadeIn 1s;
+}
+
+.note-blue {
+    background: url(img/map-icons/note-blue.svg);
+    background-color: var(--tileColor);
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+    animation: blink 0.2s infinite;
+}
+
+.note-green {
+    background: url(img/map-icons/note-green.svg);
+    background-color: var(--tileColor);
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+    animation: blink 0.2s infinite;
+
+}
+.note-orange {
+    background: url(img/map-icons/note-orange.svg);
+    background-color: var(--tileColor);
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+    animation: blink 0.2s infinite;
+
+}
+.note-purple {
+    background: url(img/map-icons/note-purple.svg);
+    background-color: var(--tileColor);
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+    animation: blink 0.2s infinite;
+}
+.note-red {
+    background: url(img/map-icons/note-red.svg);
+    background-color: var(--tileColor);
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+    animation: blink 0.2s infinite;
+}
+
+.finalBoss {
+    /* TODO: final boss sprites */
+    background-color: chartreuse;
 }
 
 .spellCast {

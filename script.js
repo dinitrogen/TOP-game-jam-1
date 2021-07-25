@@ -44,7 +44,7 @@ function loadGameScreen() {
     // TODO: Eventually remove result display, this is more for debugging.
     const resultDisplay = document.createElement('div');
     resultDisplay.setAttribute('id', 'resultDisplay');
-    resultDisplay.textContent = '[result]';
+    //resultDisplay.textContent = '[result]';
 
     const keyDisplay = document.createElement('div');
     keyDisplay.setAttribute('id', 'keyDisplay');
@@ -265,8 +265,9 @@ function loadGameScreen() {
                 } else {
                     return;
                 }
-            
-            } else if (levels[levelIndex].name === 'boss' && spellCharge >= spellChargeMax) {
+            } else if ((levels[levelIndex].name === 'finalBoss') && spellCharge >= spellChargeMax && finalSpellStatus) {
+                finalSpellCast();   
+            } else if ((levels[levelIndex].name === 'boss' || levels[levelIndex].name === 'finalBoss') && spellCharge >= spellChargeMax) {
                 castSpell();
             
             } else if (activeTile.textContent === ' ') {
@@ -286,7 +287,7 @@ function loadGameScreen() {
             } else if (activeTile.classList.contains('correct')) {
 
                 if (levels[levelIndex].name === 'practice') {
-                    resultDisplay.textContent = `Correct! - ${correctAnswer}`;
+                    // resultDisplay.textContent = `Correct! - ${correctAnswer}`;
                     activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${correctOctave}`;
                     playNote(note, 1);
@@ -299,29 +300,33 @@ function loadGameScreen() {
                     placeRandomLocks(gridArea, 1);
                     updateStaffDiv(correctAnswer, correctOctave);
                 
-                } else if (levels[levelIndex].name === 'boss') {
-                    resultDisplay.textContent = `Correct! - ${correctAnswer}`;
+                } else if (levels[levelIndex].name === 'boss' || levels[levelIndex].name === 'finalBoss') {
+                    // resultDisplay.textContent = `Correct! - ${correctAnswer}`;
                     activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${correctOctave}`;
                     playNote(note, 1);
                     increaseScore();
-                    chargeSpell(note);
-
-                    let nextBossNote = getNextBossNote();
-                    correctAnswer = nextBossNote.letter;
-                    correctOctave = nextBossNote.octave;
-                    // let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
-                    // correctAnswer = randomNote.note;
-                    // correctOctave = randomNote.octave;
-                    generateNotesList(gridArea);
-                    clearTileClasses();
-                    populateMap(gridArea);
-                    placeRandomLocks(gridArea, 1);
-                    updateStaffDiv(correctAnswer, correctOctave);
+                    
+                    if (finalSpellStatus) {
+                        chargeFinalSpell(note);
+                    } else {
+                        chargeSpell(note);                        
+                        let nextBossNote = getNextBossNote();
+                        correctAnswer = nextBossNote.letter;
+                        correctOctave = nextBossNote.octave;
+                        // let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+                        // correctAnswer = randomNote.note;
+                        // correctOctave = randomNote.octave;
+                        generateNotesList(gridArea);
+                        clearTileClasses();
+                        populateMap(gridArea);
+                        placeRandomLocks(gridArea, 1);
+                        updateStaffDiv(correctAnswer, correctOctave);
+                    }
 
                 } else {
                 
-                    resultDisplay.textContent = `Correct! - ${correctAnswer}`;
+                    // resultDisplay.textContent = `Correct! - ${correctAnswer}`;
                     activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${levels[levelIndex].notes[noteIndex].octave}`;
                     playNote(note, 1);
@@ -342,7 +347,7 @@ function loadGameScreen() {
                 }
             } else {
                 activeTile.textContent = 'X';
-                resultDisplay.textContent = 'Wrong!';
+                // resultDisplay.textContent = 'Wrong!';
                 if (levels[levelIndex].name === 'practice') {
                     return;
                 } else {
@@ -359,7 +364,11 @@ function loadGameScreen() {
         activeTile.classList.add('activeTile');
         renderHeroSprite(activeTileIndex, previousTileIndex);
         
-        if (levels[levelIndex].name === 'boss' && bossDefeated === false) {
+
+        if (levels[levelIndex].name === 'finalBoss' && finalBossDefeated === false) {
+            decideFinalBossMove(finalBossTileIndex);
+
+        } else if (levels[levelIndex].name === 'boss' && bossDefeated === false) {
             decideEnemyMove(bossTileIndex);
         } else {
             enemyTileIndices.forEach(function(enemyTileIndex, i, arr) {
@@ -502,6 +511,93 @@ function loadGameScreen() {
             resetEnemyPosition(enemyTileIndex, i, arr);
         }
     }
+
+    let finalBossDefeated = false;
+
+    function decideFinalBossMove(tileIndex) {
+        // Final boss moves randomly
+        let num = rollDice(4);
+        if (num === 1) {
+            (tileIndex % gridSize > 1) ? moveFinalBossLeft(): moveFinalBossRight();
+        } else if (num === 2) {
+            (tileIndex % gridSize < 8) ? moveFinalBossRight(): moveFinalBossLeft();
+        } else if (num === 3) {
+            (tileIndex - gridSize * 2 > 0) ? moveFinalBossUp(): moveFinalBossDown();
+        } else if (num === 4) {
+            (tileIndex + gridSize * 2 < gridArea) ? moveFinalBossDown(): moveFinalBossUp();
+        }
+
+        checkFinalBossDamage();
+    }
+
+    function checkFinalBossDamage() {
+        for (let i = 0; i < finalBossTileIndices.length; i++) {
+            if (activeTileIndex === finalBossTileIndices[i]) {
+                decreaseLife();
+                let previousActiveTileIndex = activeTileIndex;
+                activeTileIndex = 0;
+                renderHeroSprite(activeTileIndex, previousActiveTileIndex);
+                return;
+            }
+        }
+    }
+
+    function moveFinalBossUp(tileIndex) {
+        clearFinalBossTiles();
+        finalBossTileIndex = finalBossTileIndex - gridSize;
+        finalBossTileIndices.forEach(function(tileIndex, i, arr) {
+            tileIndex = tileIndex - gridSize;
+            arr[i] = tileIndex;
+        });
+        renderFinalBoss(finalBossTileIndices);
+    }
+
+    function moveFinalBossDown(tileIndex) {
+        clearFinalBossTiles();
+        finalBossTileIndex = finalBossTileIndex + gridSize;
+        finalBossTileIndices.forEach(function(tileIndex, i, arr) {
+            tileIndex = tileIndex + gridSize;
+            arr[i] = tileIndex;
+        });
+        renderFinalBoss(finalBossTileIndices);
+    }
+
+    function moveFinalBossLeft(tileIndex) {
+        clearFinalBossTiles();
+        finalBossTileIndex--;
+        finalBossTileIndices.forEach(function(tileIndex, i, arr) {
+            tileIndex--;
+            arr[i] = tileIndex;
+        });
+        renderFinalBoss(finalBossTileIndices);
+    }
+
+    function moveFinalBossRight(tileIndex) {
+        clearFinalBossTiles();
+        finalBossTileIndex++;
+        finalBossTileIndices.forEach(function(tileIndex, i, arr) {
+            tileIndex++;
+            arr[i] = tileIndex;
+        });
+        renderFinalBoss(finalBossTileIndices);
+    }
+
+    function clearFinalBossTiles() {
+        finalBossTileIndices.forEach(function(index) {
+            let tile = document.getElementById(`tile${index}`);
+            tile.classList.remove('finalBoss');
+        });
+    }
+
+    function renderFinalBoss() {
+        finalBossTileIndices.forEach(function(index) {
+            let tile = document.getElementById(`tile${index}`);
+            tile.classList.add('finalBoss');
+        });
+    }
+
+   
+
 
     function resetEnemyPosition(enemyTileIndex, i, arr) {
         let enemyTile = document.querySelector(`#tile${enemyTileIndex}`)
@@ -790,7 +886,7 @@ function loadGameScreen() {
 
     function displayGameOver() {
         gameOverStatus = true;
-        resultDisplay.textContent = 'GAME OVER';
+        // resultDisplay.textContent = 'GAME OVER';
         gameOver.textContent = 'GAME OVER';
         endGameOverlay.style.display = 'block';
         nextLevelButton.style.display = 'none';
@@ -800,7 +896,7 @@ function loadGameScreen() {
 
     function displayWinScreen() {
         playAudioTrack('end-credits', true, 0);
-        resultDisplay.textContent = 'You are a melody master!';
+        // resultDisplay.textContent = 'You are a melody master!';
         gameOver.textContent = 'YOU ARE A MELODY MASTER!';
         endGameOverlay.style.display = 'block';
         nextLevelButton.style.display = 'none';
@@ -809,7 +905,7 @@ function loadGameScreen() {
     }
 
     function levelComplete(level) {
-        resultDisplay.textContent = 'LEVEL COMPLETE';
+        // resultDisplay.textContent = 'LEVEL COMPLETE';
 
         playMelody(level);
         noteDelay = 2;
@@ -912,6 +1008,12 @@ function loadGameScreen() {
         levelIndex++;
         if (levelIndex >= levels.length) {
             displayWinScreen();
+        } else if (levels[levelIndex].name === 'finalBoss') {
+            console.log('final boss stage');
+            levelDisplay.textContent = `Level ${levelIndex + 1}`;
+            levelNameDisplay.textContent = 'FINAL BOSS!';
+            loadFinalBossStage();
+    
         } else if (levels[levelIndex].name === 'boss') {
             console.log('boss stage');
             levelDisplay.textContent = `Level ${levelIndex + 1}`;
@@ -1093,13 +1195,135 @@ function loadGameScreen() {
             });
         }, 200);
 
-        let bossTile = document.getElementById(`tile${bossTileIndex}`);
-        if (spellCastTiles.includes(bossTile)) {
-            damageBoss();
-
+        if (levels[levelIndex].name === 'boss') {
+            let bossTile = document.getElementById(`tile${bossTileIndex}`);
+            if (spellCastTiles.includes(bossTile)) {
+                damageBoss();
+            }
+        } else {
+            for (let i = 0; i < finalBossTileIndices.length; i++) {
+                let tile = document.getElementById(`tile${finalBossTileIndices[i]}`);
+                if (spellCastTiles.includes(tile)) {
+                    damageFinalBoss();
+                    return;
+                }
+            }
         }
 
     }
+
+    function damageFinalBoss() {
+        console.log('damage final boss!');
+        bossLife--;
+        let bossLifePercent = Math.floor(bossLife / maxBossLife * 100);
+        let bossLifeFill = `${bossLifePercent}%`;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--bossLifeFill', bossLifeFill);
+        
+        let hitTileIndex = finalBossTileIndices[0];
+        let hitTile = document.getElementById(`tile${hitTileIndex}`);
+        hitTile.classList.remove('finalBoss');
+        finalBossTileIndices.shift();
+        
+        if (finalBossTileIndices.length === 1) {
+            setupFinalSpell();
+        }
+        
+        if (finalBossTileIndices.length === 0) {
+            showStairs();
+        }
+    }
+
+    let finalSpellStatus = false;
+
+    function setupFinalSpell() {
+        finalSpellStatus = true;
+        spellChargeMax = levels[levelIndex].finalChord.length;
+        noteIndex = 0;
+        correctAnswer = levels[levelIndex].finalChord[noteIndex].letter;
+        correctOctave = levels[levelIndex].finalChord[noteIndex].octave;
+        generateNotesList(gridArea);
+        clearTileClasses();
+        populateMap(gridArea);
+        placeRandomLocks(gridArea, 1);
+        updateStaffDiv(correctAnswer, correctOctave);
+    }
+
+    let finalNotes = [
+        {tileIndex: 0, color: 'note-blue'},
+        {tileIndex: gridArea - 1, color: 'note-green'},
+        {tileIndex: gridSize-1, color: 'note-orange'},
+        {tileIndex: gridArea - gridSize, color: 'note-purple'},
+        {tileIndex: Math.floor(gridArea / 2 + gridSize / 2), color: 'note-red'} 
+    ]; 
+
+    function chargeFinalSpell(note) {
+        // TODO: display color note and remove from inventory
+        let tile = document.getElementById(`tile${finalNotes[spellCharge].tileIndex}`);
+        tile.classList.add(finalNotes[spellCharge].color);
+        chargeSpell(note);
+
+        if (noteIndex < levels[levelIndex].finalChord.length - 1) {
+            noteIndex++;
+            correctAnswer = levels[levelIndex].finalChord[noteIndex].letter;
+            correctOctave = levels[levelIndex].finalChord[noteIndex].octave;
+            generateNotesList(gridArea);
+            clearTileClasses();
+            populateMap(gridArea);
+            placeRandomLocks(gridArea, 1);
+            updateStaffDiv(correctAnswer, correctOctave);
+        
+        } else {
+            for (let i = 0; i < gridArea; i++) {
+                let tile = document.getElementById(`tile${i}`);
+                tile.textContent = '';
+            }
+            clearTileClasses();
+            placeRandomLocks(gridArea, 0);
+            staffDiv.innerHTML = '';
+            staffDiv.textContent = 'MASTER CHORD CHARGED!'
+        }
+        
+    }
+
+    function finalSpellCast() {
+        console.log('Final BOOM!');
+        spellCharge = 0;
+        spellBarFill.classList.remove('blink');
+        let root = document.querySelector(':root');
+        root.style.setProperty('--spellChargeFill', '0%');
+        spellChargedText.textContent = '';
+                
+        spellChargeNotes.forEach(function(note) {
+            let now = Tone.now();
+            playNote(note, 1, now);
+        });
+
+        spellChargeNotes = [];
+
+        let spellCastTiles = [];
+
+        for (let i = 0; i < gridArea; i++) {
+            let tile = document.getElementById(`tile${i}`);
+            spellCastTiles.push(tile);
+        }
+        
+        spellCastTiles.forEach(function(tile) {
+            tile.classList.add('spellCast');
+
+        });
+
+        setTimeout(function() {
+            spellCastTiles.forEach(function(tile) {
+                tile.classList.remove('spellCast');
+            });
+            damageFinalBoss();
+        }, 200);
+
+        
+        
+    }
+
 
     let bossLife = 3;
     let maxBossLife = 3;
@@ -1116,7 +1340,6 @@ function loadGameScreen() {
         
         if (bossLife <= 0) { 
             defeatBoss(bossTileIndex);
-
         } else {
             setTimeout(function() {
                 bossTile.classList.add('boss')
@@ -1182,7 +1405,7 @@ function loadGameScreen() {
         generateNotesList(gridArea);
         populateMap(gridArea);
         placeRandomLocks(gridArea, 1);
-        resultDisplay.textContent = '';
+        // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
         bossLife = 3;
@@ -1221,7 +1444,7 @@ function loadGameScreen() {
         generateNotesList(gridArea);
         populateMap(gridArea);
         setTileColor(levels[levelIndex]);
-        resultDisplay.textContent = '';
+        // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
         renderEnemySprite(bossTileIndex);
@@ -1234,9 +1457,65 @@ function loadGameScreen() {
         startTimer();
     }
 
+    let finalBossTileIndex;
+    let finalBossTileIndices = [];
+
+    function loadFinalBossStage() {
+        endGameOverlay.style.display = 'none';
+        activeTileIndex = 0;
+        enemyTileIndices = [];
+        finalBossTileIndex = Math.floor((gridArea / 2) - (gridSize / 2));
+        finalBossTileIndices = [
+            finalBossTileIndex + 1,
+            finalBossTileIndex - 1,
+            finalBossTileIndex + gridSize,
+            finalBossTileIndex - gridSize,
+            finalBossTileIndex
+        ];
+
+        maxBossLife = finalBossTileIndices.length;
+        bossLife = maxBossLife;
+
+        noteIndex = 0;
+        // let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+        // correctAnswer = randomNote.note;
+        // correctOctave = randomNote.octave;
+        
+        chordIndex = 0;
+        chordNoteIndex = 0;
+        correctAnswer = levels[levelIndex].chords[chordIndex].chordNotes[chordNoteIndex].letter;
+        correctOctave = levels[levelIndex].chords[chordIndex].chordNotes[chordNoteIndex].octave;
+        
+        updateStaffDiv(correctAnswer, correctOctave);
+        drawGrid();
+        // loadMap(1);
+        generateNotesList(gridArea);
+        populateMap(gridArea);
+        setTileColor(levels[levelIndex]);
+        // resultDisplay.textContent = '';
+        haveKey = false;
+        keyDisplay.innerHTML = '';
+        // renderEnemySprite(finalBossTileIndex);
+        
+        finalBossTileIndices.forEach(function(tileIndex) {
+            let tile = document.getElementById(`tile${tileIndex}`);
+            console.log(tile);
+            tile.classList.add('finalBoss');
+        });
+        renderHeroSprite(activeTileIndex);
+
+        let root = document.querySelector(':root');
+        root.style.setProperty('--bossLifeFill', '100%');
+        
+        playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime);
+        startTimer();
+    }
+
 
     function startNewGame() {
         gameOverStatus = false;
+        finalSpellStatus = false;
+        spellChargeMax = 3;
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
         enemyTileIndices = [(gridArea - 1)];
@@ -1260,7 +1539,7 @@ function loadGameScreen() {
         bossNoteDisplay.innerHTML = '';
         score = 0;
         scoreDisplay.textContent = `Score: ${score}`;
-        resultDisplay.textContent = '';
+        // resultDisplay.textContent = '';
         bossLife = 3;
         enemyTileIndices.forEach(function(enemyTileIndex) {
             renderEnemySprite(enemyTileIndex);
@@ -1300,7 +1579,7 @@ function loadGameScreen() {
         levelNameDisplay.textContent = `${levels[levelIndex].name}`;
         life = 5;
         updateLifeBar(life);
-        resultDisplay.textContent = '';
+        // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
         bossNoteDisplay.innerHTML = '';
