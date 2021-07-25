@@ -265,7 +265,8 @@ function loadGameScreen() {
                 } else {
                     return;
                 }
-            
+            } else if ((levels[levelIndex].name === 'finalBoss') && spellCharge >= spellChargeMax && finalSpellStatus) {
+                finalSpellCast();   
             } else if ((levels[levelIndex].name === 'boss' || levels[levelIndex].name === 'finalBoss') && spellCharge >= spellChargeMax) {
                 castSpell();
             
@@ -305,19 +306,23 @@ function loadGameScreen() {
                     let note = `${correctAnswer}${correctOctave}`;
                     playNote(note, 1);
                     increaseScore();
-                    chargeSpell(note);
-
-                    let nextBossNote = getNextBossNote();
-                    correctAnswer = nextBossNote.letter;
-                    correctOctave = nextBossNote.octave;
-                    // let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
-                    // correctAnswer = randomNote.note;
-                    // correctOctave = randomNote.octave;
-                    generateNotesList(gridArea);
-                    clearTileClasses();
-                    populateMap(gridArea);
-                    placeRandomLocks(gridArea, 1);
-                    updateStaffDiv(correctAnswer, correctOctave);
+                    
+                    if (finalSpellStatus) {
+                        chargeFinalSpell(note);
+                    } else {
+                        chargeSpell(note);                        
+                        let nextBossNote = getNextBossNote();
+                        correctAnswer = nextBossNote.letter;
+                        correctOctave = nextBossNote.octave;
+                        // let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+                        // correctAnswer = randomNote.note;
+                        // correctOctave = randomNote.octave;
+                        generateNotesList(gridArea);
+                        clearTileClasses();
+                        populateMap(gridArea);
+                        placeRandomLocks(gridArea, 1);
+                        updateStaffDiv(correctAnswer, correctOctave);
+                    }
 
                 } else {
                 
@@ -1219,10 +1224,86 @@ function loadGameScreen() {
         let hitTile = document.getElementById(`tile${hitTileIndex}`);
         hitTile.classList.remove('finalBoss');
         finalBossTileIndices.shift();
+        
+        if (finalBossTileIndices.length === 1) {
+            setupFinalSpell();
+        }
+        
         if (finalBossTileIndices.length === 0) {
             showStairs();
         }
     }
+
+    let finalSpellStatus = false;
+
+    function setupFinalSpell() {
+        finalSpellStatus = true;
+        spellChargeMax = levels[levelIndex].finalChord.length;
+        noteIndex = 0;
+        correctAnswer = levels[levelIndex].finalChord[noteIndex].letter;
+        correctOctave = levels[levelIndex].finalChord[noteIndex].octave;
+        generateNotesList(gridArea);
+        clearTileClasses();
+        populateMap(gridArea);
+        placeRandomLocks(gridArea, 1);
+        updateStaffDiv(correctAnswer, correctOctave);
+    }
+
+    function chargeFinalSpell(note) {
+        // TODO: display color note and remove from inventory
+        chargeSpell(note);
+        if (noteIndex < levels[levelIndex].finalChord.length - 1) {
+            noteIndex++;
+            correctAnswer = levels[levelIndex].finalChord[noteIndex].letter;
+            correctOctave = levels[levelIndex].finalChord[noteIndex].octave;
+            generateNotesList(gridArea);
+            clearTileClasses();
+            populateMap(gridArea);
+            placeRandomLocks(gridArea, 1);
+            updateStaffDiv(correctAnswer, correctOctave);
+        
+        }
+        
+    }
+
+    function finalSpellCast() {
+        console.log('Final BOOM!');
+        spellCharge = 0;
+        spellBarFill.classList.remove('blink');
+        let root = document.querySelector(':root');
+        root.style.setProperty('--spellChargeFill', '0%');
+        spellChargedText.textContent = '';
+                
+        spellChargeNotes.forEach(function(note) {
+            let now = Tone.now();
+            playNote(note, 1, now);
+        });
+
+        spellChargeNotes = [];
+
+        let spellCastTiles = [];
+
+        for (let i = 0; i < gridArea; i++) {
+            let tile = document.getElementById(`tile${i}`);
+            spellCastTiles.push(tile);
+        }
+        
+        spellCastTiles.forEach(function(tile) {
+            tile.classList.add('spellCast');
+
+        });
+
+        setTimeout(function() {
+            spellCastTiles.forEach(function(tile) {
+                tile.classList.remove('spellCast');
+            });
+            damageFinalBoss();
+        }, 200);
+
+        
+        
+    }
+
 
     let bossLife = 3;
     let maxBossLife = 3;
@@ -1239,7 +1320,6 @@ function loadGameScreen() {
         
         if (bossLife <= 0) { 
             defeatBoss(bossTileIndex);
-
         } else {
             setTimeout(function() {
                 bossTile.classList.add('boss')

@@ -75,7 +75,16 @@ let levels = [
                 ]
             }
 
-        ]
+            
+        ],
+        finalChord: [
+            {letter: 'C', octave: '4', duration: 1},
+            {letter: 'E', octave: '4', duration: 1},
+            {letter: 'G', octave: '4', duration: 1},
+            {letter: 'Bb', octave: '4', duration: 1},
+            {letter: 'C', octave: '5', duration: 1},
+        ],
+
     },
 
     // {
