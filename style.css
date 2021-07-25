@@ -418,6 +418,68 @@ body, html, #content {
     -ms-animation: fadeIn 1s;
 }
 
+.note-blue {
+    background: url(img/map-icons/note-blue.svg);
+    background-color: var(--tileColor);
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+}
+
+.note-green {
+    background: url(img/map-icons/note-green.svg);
+    background-color: var(--tileColor);
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+}
+.note-orange {
+    background: url(img/map-icons/note-orange.svg);
+    background-color: var(--tileColor);
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+}
+.note-purple {
+    background: url(img/map-icons/note-purple.svg);
+    background-color: var(--tileColor);
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+}
+.note-red {
+    background: url(img/map-icons/note-red.svg);
+    background-color: var(--tileColor);
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+}
+
 .finalBoss {
     /* TODO: final boss sprites */
     background-color: chartreuse;

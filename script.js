@@ -1249,9 +1249,20 @@ function loadGameScreen() {
         updateStaffDiv(correctAnswer, correctOctave);
     }
 
+    let finalNotes = [
+        {tileIndex: 0, color: 'note-blue'},
+        {tileIndex: gridArea - 1, color: 'note-green'},
+        {tileIndex: gridSize-1, color: 'note-orange'},
+        {tileIndex: gridArea - gridSize, color: 'note-purple'},
+        {tileIndex: Math.floor(gridArea / 2 + gridSize / 2), color: 'note-red'} 
+    ]; 
+
     function chargeFinalSpell(note) {
         // TODO: display color note and remove from inventory
+        let tile = document.getElementById(`tile${finalNotes[spellCharge].tileIndex}`);
+        tile.classList.add(finalNotes[spellCharge].color);
         chargeSpell(note);
+
         if (noteIndex < levels[levelIndex].finalChord.length - 1) {
             noteIndex++;
             correctAnswer = levels[levelIndex].finalChord[noteIndex].letter;
@@ -1262,6 +1273,15 @@ function loadGameScreen() {
             placeRandomLocks(gridArea, 1);
             updateStaffDiv(correctAnswer, correctOctave);
         
+        } else {
+            for (let i = 0; i < gridArea; i++) {
+                let tile = document.getElementById(`tile${i}`);
+                tile.textContent = '';
+            }
+            clearTileClasses();
+            placeRandomLocks(gridArea, 0);
+            staffDiv.innerHTML = '';
+            staffDiv.textContent = 'MASTER CHORD CHARGED!'
         }
         
     }
