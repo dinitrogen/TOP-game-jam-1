@@ -39,7 +39,7 @@ let levels = [
     // },
 
     {
-        name: "boss",
+        name: "finalBoss", // Temporarliy changing to final boss
         mapId: 0,
         tileColor: 'gray',
         fontColor: 'white',

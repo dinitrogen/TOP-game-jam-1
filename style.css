@@ -418,6 +418,10 @@ body, html, #content {
     -ms-animation: fadeIn 1s;
 }
 
+.finalBoss {
+    background-color: chartreuse;
+}
+
 .spellCast {
     background-color: red;
     animation: blink 0.1s infinite;

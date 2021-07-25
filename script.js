@@ -266,7 +266,7 @@ function loadGameScreen() {
                     return;
                 }
             
-            } else if (levels[levelIndex].name === 'boss' && spellCharge >= spellChargeMax) {
+            } else if ((levels[levelIndex].name === 'boss' || levels[levelIndex].name === 'finalBoss') && spellCharge >= spellChargeMax) {
                 castSpell();
             
             } else if (activeTile.textContent === ' ') {
@@ -299,7 +299,7 @@ function loadGameScreen() {
                     placeRandomLocks(gridArea, 1);
                     updateStaffDiv(correctAnswer, correctOctave);
                 
-                } else if (levels[levelIndex].name === 'boss') {
+                } else if (levels[levelIndex].name === 'boss' || levels[levelIndex].name === 'finalBoss') {
                     resultDisplay.textContent = `Correct! - ${correctAnswer}`;
                     activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${correctOctave}`;
@@ -359,7 +359,11 @@ function loadGameScreen() {
         activeTile.classList.add('activeTile');
         renderHeroSprite(activeTileIndex, previousTileIndex);
         
-        if (levels[levelIndex].name === 'boss' && bossDefeated === false) {
+
+        if (levels[levelIndex].name === 'finalBoss' && finalBossDefeated === false) {
+            decideFinalBossMove(finalBossTileIndex);
+
+        } else if (levels[levelIndex].name === 'boss' && bossDefeated === false) {
             decideEnemyMove(bossTileIndex);
         } else {
             enemyTileIndices.forEach(function(enemyTileIndex, i, arr) {
@@ -502,6 +506,93 @@ function loadGameScreen() {
             resetEnemyPosition(enemyTileIndex, i, arr);
         }
     }
+
+    let finalBossDefeated = false;
+
+    function decideFinalBossMove(tileIndex) {
+        // Final boss moves randomly
+        let num = rollDice(4);
+        if (num === 1) {
+            (tileIndex % gridSize > 1) ? moveFinalBossLeft(): moveFinalBossRight();
+        } else if (num === 2) {
+            (tileIndex % gridSize < 8) ? moveFinalBossRight(): moveFinalBossLeft();
+        } else if (num === 3) {
+            (tileIndex - gridSize * 2 > 0) ? moveFinalBossUp(): moveFinalBossDown();
+        } else if (num === 4) {
+            (tileIndex + gridSize * 2 < gridArea) ? moveFinalBossDown(): moveFinalBossUp();
+        }
+
+        checkFinalBossDamage();
+    }
+
+    function checkFinalBossDamage() {
+        for (let i = 0; i < finalBossTileIndices.length; i++) {
+            if (activeTileIndex === finalBossTileIndices[i]) {
+                decreaseLife();
+                let previousActiveTileIndex = activeTileIndex;
+                activeTileIndex = 0;
+                renderHeroSprite(activeTileIndex, previousActiveTileIndex);
+                return;
+            }
+        }
+    }
+
+    function moveFinalBossUp(tileIndex) {
+        clearFinalBossTiles();
+        finalBossTileIndex = finalBossTileIndex - gridSize;
+        finalBossTileIndices.forEach(function(tileIndex, i, arr) {
+            tileIndex = tileIndex - gridSize;
+            arr[i] = tileIndex;
+        });
+        renderFinalBoss(finalBossTileIndices);
+    }
+
+    function moveFinalBossDown(tileIndex) {
+        clearFinalBossTiles();
+        finalBossTileIndex = finalBossTileIndex + gridSize;
+        finalBossTileIndices.forEach(function(tileIndex, i, arr) {
+            tileIndex = tileIndex + gridSize;
+            arr[i] = tileIndex;
+        });
+        renderFinalBoss(finalBossTileIndices);
+    }
+
+    function moveFinalBossLeft(tileIndex) {
+        clearFinalBossTiles();
+        finalBossTileIndex--;
+        finalBossTileIndices.forEach(function(tileIndex, i, arr) {
+            tileIndex--;
+            arr[i] = tileIndex;
+        });
+        renderFinalBoss(finalBossTileIndices);
+    }
+
+    function moveFinalBossRight(tileIndex) {
+        clearFinalBossTiles();
+        finalBossTileIndex++;
+        finalBossTileIndices.forEach(function(tileIndex, i, arr) {
+            tileIndex++;
+            arr[i] = tileIndex;
+        });
+        renderFinalBoss(finalBossTileIndices);
+    }
+
+    function clearFinalBossTiles() {
+        finalBossTileIndices.forEach(function(index) {
+            let tile = document.getElementById(`tile${index}`);
+            tile.classList.remove('finalBoss');
+        });
+    }
+
+    function renderFinalBoss() {
+        finalBossTileIndices.forEach(function(index) {
+            let tile = document.getElementById(`tile${index}`);
+            tile.classList.add('finalBoss');
+        });
+    }
+
+   
+
 
     function resetEnemyPosition(enemyTileIndex, i, arr) {
         let enemyTile = document.querySelector(`#tile${enemyTileIndex}`)
@@ -912,6 +1003,12 @@ function loadGameScreen() {
         levelIndex++;
         if (levelIndex >= levels.length) {
             displayWinScreen();
+        } else if (levels[levelIndex].name === 'finalBoss') {
+            console.log('final boss stage');
+            levelDisplay.textContent = `Level ${levelIndex + 1}`;
+            levelNameDisplay.textContent = 'FINAL BOSS!';
+            loadFinalBossStage();
+    
         } else if (levels[levelIndex].name === 'boss') {
             console.log('boss stage');
             levelDisplay.textContent = `Level ${levelIndex + 1}`;
@@ -1093,12 +1190,38 @@ function loadGameScreen() {
             });
         }, 200);
 
-        let bossTile = document.getElementById(`tile${bossTileIndex}`);
-        if (spellCastTiles.includes(bossTile)) {
-            damageBoss();
-
+        if (levels[levelIndex].name === 'boss') {
+            let bossTile = document.getElementById(`tile${bossTileIndex}`);
+            if (spellCastTiles.includes(bossTile)) {
+                damageBoss();
+            }
+        } else {
+            for (let i = 0; i < finalBossTileIndices.length; i++) {
+                let tile = document.getElementById(`tile${finalBossTileIndices[i]}`);
+                if (spellCastTiles.includes(tile)) {
+                    damageFinalBoss();
+                    return;
+                }
+            }
         }
 
+    }
+
+    function damageFinalBoss() {
+        console.log('damage final boss!');
+        bossLife--;
+        let bossLifePercent = Math.floor(bossLife / maxBossLife * 100);
+        let bossLifeFill = `${bossLifePercent}%`;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--bossLifeFill', bossLifeFill);
+        
+        let hitTileIndex = finalBossTileIndices[0];
+        let hitTile = document.getElementById(`tile${hitTileIndex}`);
+        hitTile.classList.remove('finalBoss');
+        finalBossTileIndices.shift();
+        if (finalBossTileIndices.length === 0) {
+            showStairs();
+        }
     }
 
     let bossLife = 3;
@@ -1225,6 +1348,60 @@ function loadGameScreen() {
         haveKey = false;
         keyDisplay.innerHTML = '';
         renderEnemySprite(bossTileIndex);
+        renderHeroSprite(activeTileIndex);
+
+        let root = document.querySelector(':root');
+        root.style.setProperty('--bossLifeFill', '100%');
+        
+        playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime);
+        startTimer();
+    }
+
+    let finalBossTileIndex;
+    let finalBossTileIndices = [];
+
+    function loadFinalBossStage() {
+        endGameOverlay.style.display = 'none';
+        activeTileIndex = 0;
+        enemyTileIndices = [];
+        finalBossTileIndex = Math.floor((gridArea / 2) - (gridSize / 2));
+        finalBossTileIndices = [
+            finalBossTileIndex + 1,
+            finalBossTileIndex - 1,
+            finalBossTileIndex + gridSize,
+            finalBossTileIndex - gridSize,
+            finalBossTileIndex
+        ];
+
+        maxBossLife = finalBossTileIndices.length;
+        bossLife = maxBossLife;
+
+        noteIndex = 0;
+        // let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
+        // correctAnswer = randomNote.note;
+        // correctOctave = randomNote.octave;
+        
+        chordIndex = 0;
+        chordNoteIndex = 0;
+        correctAnswer = levels[levelIndex].chords[chordIndex].chordNotes[chordNoteIndex].letter;
+        correctOctave = levels[levelIndex].chords[chordIndex].chordNotes[chordNoteIndex].octave;
+        
+        updateStaffDiv(correctAnswer, correctOctave);
+        drawGrid();
+        // loadMap(1);
+        generateNotesList(gridArea);
+        populateMap(gridArea);
+        setTileColor(levels[levelIndex]);
+        resultDisplay.textContent = '';
+        haveKey = false;
+        keyDisplay.innerHTML = '';
+        // renderEnemySprite(finalBossTileIndex);
+        
+        finalBossTileIndices.forEach(function(tileIndex) {
+            let tile = document.getElementById(`tile${tileIndex}`);
+            console.log(tile);
+            tile.classList.add('finalBoss');
+        });
         renderHeroSprite(activeTileIndex);
 
         let root = document.querySelector(':root');
