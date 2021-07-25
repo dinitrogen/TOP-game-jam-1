@@ -857,14 +857,27 @@ function loadGameScreen() {
         stairsOn = true;
         stairsTileIndex = gridArea / 2 + Math.floor(gridSize / 2);
         let stairsTile;
-        if (stairsTileIndex === activeTileIndex) {
-            stairsTileIndex--;
-            stairsTile = document.getElementById(`tile${stairsTileIndex}`);
-            stairsTile.classList.add('stairsTile');
-        } else {
-            stairsTile = document.getElementById(`tile${stairsTileIndex}`);
-            stairsTile.classList.add('stairsTile');
-        }
+        console.log(levelIndex, levels.length);
+
+            if (stairsTileIndex === activeTileIndex) {
+                stairsTileIndex--;
+                stairsTile = document.getElementById(`tile${stairsTileIndex}`);
+                // Conditions for teleport to appear instead of stairs
+                if (levelIndex === levels.length - 2) {
+                    stairsTile.classList.add('stairsTile');  // Change to 'teleportTile'
+                } else {
+                    stairsTile.classList.add('stairsTile');
+                }
+            } else {
+                stairsTile = document.getElementById(`tile${stairsTileIndex}`);
+                // Conditions for telporter to appear instead of stairs
+                if (levelIndex === levels.length - 2) {
+                stairsTile.classList.add('stairsTile'); // Change to 'teleportTile'
+                } else {
+                stairsTile.classList.add('stairsTile');
+                }
+            }
+        
     }
 
     function playNote(note, duration, delay) {

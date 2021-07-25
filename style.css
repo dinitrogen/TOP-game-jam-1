@@ -386,6 +386,11 @@ body, html, #content {
     background-position: center;
 }
 
+.teleportTile {
+    background-color: yellow;
+    animation: blink 0.2s infinite;
+}
+
 
 .hero {
     background: url(img/map-icons/mage.svg);
