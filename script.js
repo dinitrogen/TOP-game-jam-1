@@ -1,3 +1,4 @@
+import { loadHowToPlayScreen } from './how-to-play.js';
 import { levels } from './levels.js';
 import { notesLibrary } from './note-library.js';
 import { maps } from './maps.js';
@@ -1694,14 +1695,16 @@ function createHowToPlayButton() {
     const howToPlayButton = document.createElement('button');
     howToPlayButton.classList.add('gameButton');
     howToPlayButton.textContent = 'How to Play';
-    howToPlayButton.addEventListener('click', loadHowToPlayScreen);
+    howToPlayButton.addEventListener('click', () => { 
+        loadHowToPlayScreen();
+        const returnButton = createReturnButton();
+        content.appendChild(returnButton);
+        const footerDiv = createFooterDiv();
+        content.appendChild(footerDiv);
+    });
     return howToPlayButton;
 }
 
-function loadHowToPlayScreen() {
-    //TODO
-    return;
-}
 
 function createOptionsButton() {
     const optionsButton = document.createElement('button');
@@ -1714,6 +1717,15 @@ function createOptionsButton() {
 function loadOptionsScreen() {
     //TODO
     return;
+}
+
+function createReturnButton () {
+    const returnButton = document.createElement('button');
+    returnButton.classList.add('gameButton');
+    returnButton.textContent = 'Back';
+    returnButton.style.margin = '0 200px';
+    returnButton.addEventListener('click', loadNewGameScreen);
+    return returnButton;
 }
 
 function createTitleLogoDiv() {
@@ -1795,6 +1807,8 @@ function loadNewGameScreen() {
     newGameScreenContent.appendChild(footerDiv);
 
 }
+
+
 
 loadTitleScreen();
 

@@ -19,6 +19,25 @@ body {
 
 body, html, #content {
     height: 100%;
+    background-color: rgb(202, 202, 202);
+}
+
+.howToPlayScreenContent {
+    padding: 50px 200px 100px 200px;
+    background-color: rgb(202, 202, 202);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Press Start 2P";
+    font-size: 20px;
+    line-height: 1.5;
+    color: black;
+}
+
+.howToPlayItemDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .titleScreenContent, .newGameScreenContent {
@@ -79,6 +98,10 @@ body, html, #content {
     border: none;
     background-color: transparent;
     margin: 10px;
+}
+
+.gameButton:hover {
+    color: white;
 }
 
 #gameScreenContent {
@@ -239,6 +262,7 @@ body, html, #content {
 
 .stopwatch {
     height: 40px;
+    padding-top: 10px;
 }
 
 .bossNote {

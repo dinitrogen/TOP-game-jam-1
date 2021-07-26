@@ -5,6 +5,8 @@ let levels = [
         mapId: 0,
         tileColor: 'gray',
         fontColor: 'white',
+        dungeonBorder: `url(./img/graphics/border-1.svg)`,
+
         notes: [] 
     },
 
