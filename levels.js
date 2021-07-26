@@ -17,6 +17,7 @@ let levels = [
         fontColor: 'white',
         dungeonBorder: `url(./img/graphics/border-1.svg)`,
         bgMusic: 'dungeon-a',
+        enemy: 'snake',
         loopTime: 1.7, // loop start time. TODO: Update dungeon-a music track so this is not needed.
         time: 30,
         notes: [
@@ -33,6 +34,7 @@ let levels = [
         fontColor: 'black',
         bgMusic: 'boss-theme-b',
         dungeonBorder: `url(./img/graphics/border-2.svg)`,
+        enemy: 'badguy',
         loopTime: 0,
         time: 120,
         notes: [],
@@ -73,6 +75,7 @@ let levels = [
         fontColor: 'white',
         dungeonBorder: `url(./img/graphics/border-1.svg)`,
         bgMusic: 'dungeon-a',
+        enemy: 'mummy',
         loopTime: 1.7,
         time: 30,
         notes: [

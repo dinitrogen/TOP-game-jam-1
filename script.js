@@ -619,10 +619,15 @@ function loadGameScreen() {
     }
 
     function renderEnemySprite(tileIndex, previousTileIndex) {
+        let enemySVG = levels[levelIndex].enemy
+        let root = document.querySelector(':root');
+        root.style.setProperty('--enemySVG', `url(./img/map-icons/${enemySVG}.svg)`);
+
         let tile = document.getElementById(`tile${tileIndex}`);
         let previousTile = document.getElementById(`tile${previousTileIndex}`);
         tile.classList.add('enemy');
         if (previousTile) previousTile.classList.remove('enemy');
+
     }
 
 
@@ -1812,7 +1817,7 @@ function loadNewGameScreen() {
 
 
 loadTitleScreen();
-resizeGameScreen();
+// resizeGameScreen();
 
 // Basic function to resize game contents to fit the window -  but seems to add large top and/or left margins.
 function resizeGameScreen() {

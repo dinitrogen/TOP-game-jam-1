@@ -14,6 +14,7 @@ body {
     --fontColor: white;
     --wallColor: rgb(48, 24, 0);
     --dungeonBorder: url(./img/graphics/border-1.svg);
+    --enemySVG: url(./img/map-icons/snake.svg);
 }
 
 
@@ -444,7 +445,7 @@ body, html, #content {
 }
 
 .enemy {
-    background: url(img/map-icons/badguy.svg);
+    background: var(--enemySVG);
     background-color: var(--tileColor);
     background-size: 50px 50px;
     background-repeat: no-repeat;
