@@ -1810,9 +1810,32 @@ function loadNewGameScreen() {
 
 
 
+
 loadTitleScreen();
+resizeGameScreen();
 
+// Basic function to resize game contents to fit the window -  but seems to add large top and/or left margins.
+function resizeGameScreen() {
+    let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
+    let scaleX = 1;
+    let scaleY = 1;
+    if (windowHeight < 1200) {
+        scaleY = windowHeight / 1200;
+        let content = document.getElementById('content');
+        content.style.transform = `scale(${scaleY})`;
+    }
+    if (windowWidth < 1200) {
+        scaleX = windowWidth / 1200;
+        if (scaleX > scaleY) {
+            return;
+        } else {
+            let content = document.getElementById('content');
+            content.style.transform = `scale(${scaleX})`;
+        }
 
+    }
+}
 
 // TODO : refactor code to move this variable and function back into a local scope.
 let bgMusicTrack;
