@@ -39,7 +39,28 @@ function loadGameScreen() {
 
     const scoreDisplay = document.createElement('div');
     scoreDisplay.setAttribute('id', 'scoreDisplay');
-    scoreDisplay.textContent = 'Score: 0';
+    const scoreTotal = document.createElement('div');
+    scoreTotal.classList.add('scoreTotal');
+    scoreTotal.textContent = 'Score: 0';
+    scoreDisplay.appendChild(scoreTotal);
+    
+    const multiplierDiv = document.createElement('div');
+    multiplierDiv.classList.add('multiplierDiv');
+    const multiplierBorder = document.createElement('div');
+    multiplierBorder.classList.add('multiplierBorder');
+    const multiplierEmpty = document.createElement('span');
+    multiplierEmpty.classList.add('multiplierEmpty');
+    const multiplierFill = document.createElement('span');
+    multiplierFill.classList.add('multiplierFill');
+    const multiplierText = document.createElement('span');
+    multiplierText.classList.add('multiplierText');
+    multiplierText.textContent = '1X';
+
+    multiplierBorder.appendChild(multiplierEmpty);
+    multiplierEmpty.appendChild(multiplierFill);
+    multiplierDiv.appendChild(multiplierBorder);
+    multiplierDiv.appendChild(multiplierText);
+
 
     // TODO: Eventually remove result display, this is more for debugging.
     const resultDisplay = document.createElement('div');
@@ -115,6 +136,7 @@ function loadGameScreen() {
     leftContent.appendChild(levelDisplay);
     leftContent.appendChild(levelNameDisplay);
     leftContent.appendChild(scoreDisplay);
+    leftContent.appendChild(multiplierDiv);
     leftContent.appendChild(staffDiv);
     leftContent.appendChild(resultDisplay);
 
@@ -868,12 +890,41 @@ function loadGameScreen() {
         return array;
     }
 
+    let scoreMultiplier = 1;
+    let consecutiveAnswers = 0;
+    let multiplierCharge = 0;
+
     function increaseScore() {
-        score++;
-        scoreDisplay.textContent = `Score: ${score}`;
+        consecutiveAnswers++;
+        multiplierCharge++;
+        
+        if (multiplierCharge >= 5) {
+            multiplierCharge = 0;
+        }
+
+        scoreMultiplier = Math.floor(consecutiveAnswers / 5) + 1;
+        if (scoreMultiplier > 10) {
+            scoreMultiplier = 10;
+        }
+
+        let multiplierPercent = Math.floor(multiplierCharge / 5 * 100);
+        let multiplierFill = `${multiplierPercent}%`;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--multiplierFill', multiplierFill);
+
+        score = score + (100 * scoreMultiplier);
+        scoreTotal.textContent = `Score: ${score}`;
+
+        multiplierText.textContent = `${scoreMultiplier}X`;
     }
 
     function decreaseLife() {
+        consecutiveAnswers = 0;
+        multiplierCharge = 0;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--multiplierFill', '0%');
+        multiplierText.textContent = `1X`;
+
         playSound('hero-damage');
         life--;
         updateLifeBar(life);
@@ -886,6 +937,9 @@ function loadGameScreen() {
         if (life < 5) {
             life++;
         }
+        score = score + 200;
+        scoreTotal.textContent = `Score: ${score}`;
+
         playSound('heart-pickup');
         updateLifeBar(life);
     }
@@ -925,6 +979,9 @@ function loadGameScreen() {
     let bossDefeated = false;
 
     function defeatBoss(bossTileIndex) {
+        score = score + (1000 * scoreMultiplier);
+        scoreTotal.textContent = `Score: ${score}`;
+
         playSound('boss-defeated');
         bossDefeated = true;
         drawGrid();
@@ -942,6 +999,9 @@ function loadGameScreen() {
 
     function getBossNote() {
         
+        score = score + 2000;
+        scoreTotal.textContent = `Score: ${score}`;
+
         playSound('boss-note-pickup');
         
         bossDefeated = false;
@@ -1076,6 +1136,9 @@ function loadGameScreen() {
     }
 
     function getKey() {
+        score = score + 200;
+        scoreTotal.textContent = `Score: ${score}`;
+
         playSound('item-pickup');
         if (haveKey === false) {
             let key = document.createElement('object');
@@ -1088,6 +1151,9 @@ function loadGameScreen() {
     }
 
     function getStopwatch() {
+        score = score + 500;
+        scoreTotal.textContent = `Score: ${score}`;
+
         playSound('item-pickup');
         if (timeLeft + 10 > levels[levelIndex].time) {
             timeLeft = levels[levelIndex].time;
@@ -1337,7 +1403,8 @@ function loadGameScreen() {
             damageFinalBoss();
         }, 200);
 
-        
+        score = score + (5000 * scoreMultiplier);
+        scoreTotal.textContent = `Score: ${score}`;
         
     }
 
@@ -1586,7 +1653,7 @@ function loadGameScreen() {
         keyDisplay.innerHTML = '';
         bossNoteDisplay.innerHTML = '';
         score = 0;
-        scoreDisplay.textContent = `Score: ${score}`;
+        scoreTotal.textContent = `Score: ${score}`;
         // resultDisplay.textContent = '';
         bossLife = 3;
         enemyTileIndices.forEach(function(enemyTileIndex) {
@@ -1638,9 +1705,17 @@ function loadGameScreen() {
         practiceStaff.setAttribute('class', 'practiceStaff');
         timerDisplay.innerHTML = '';
         timerDisplay.appendChild(practiceStaff);
+        scoreDisplay.innerHTML = '';
+        multiplierDiv.innerHTML = '';
+        spellDisplay.innerHTML = '';
+        spellBarBorder.innerHTML = '';
+        bossDisplay.innerHTML = '';
     }
 
+// Disable scrolling on game screen
+document.body.style.position = 'fixed';
 
+// Start a new game in practice or normal mode
 if (practiceModeStatus === true) {
         startPracticeMode();
     } else {

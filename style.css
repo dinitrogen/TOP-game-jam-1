@@ -7,6 +7,7 @@ body {
 
 :root {
     --gridSize: 10;
+    --multiplierFill: 0%;
     --spellChargeFill: 0%;
     --bossLifeFill: 0%;
     --timerFill: 100%;
@@ -21,7 +22,7 @@ body {
 
 
 body, html, #content {
-    position: fixed;
+
     top: 0;
     bottom: 0;
     left: 0;
@@ -139,6 +140,40 @@ body, html, #content {
 #scoreDisplay {
     font-size: 20px;
     font-family: "Press Start 2P";
+}
+
+.multiplierDiv {
+    display: inline-flex;
+    font-size: 20px;
+    font-family: "Press Start 2P";
+}
+
+.multiplierText {
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+.multiplierBorder {
+    width: 120px;
+    height: 15px;
+    background: rgb(185, 185, 185);
+    border-radius: 0px;
+    padding: 5px;
+}
+
+.multiplierEmpty {
+    background-color: black;
+    display: block;
+    height: 100%;
+    border-radius: 0px;
+}
+
+.multiplierFill {
+    background-color: rgb(255, 166, 0);
+    display: block;
+    width: var(--multiplierFill);
+    height: 100%;
+    border-radius: 0px;
 }
 
 
