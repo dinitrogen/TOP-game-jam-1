@@ -172,7 +172,7 @@ function loadGameScreen() {
     continueButton.addEventListener('click', () => {
         let currentWorld = Math.floor((levels[levelIndex].id - 1) / 10);
         let continueLevel = (currentWorld * 10) + 1;
-        score = score / 2;
+        score = Math.floor(score / 2);
         levelIndex = levels.findIndex(level => level.id === continueLevel);
         life = 5;
         startNewLevel(levels[levelIndex]);
@@ -1008,6 +1008,7 @@ function loadGameScreen() {
         playAudioTrack('end-credits', true, 0);
         // resultDisplay.textContent = 'You are a melody master!';
         gameOver.textContent = 'YOU ARE A MELODY MASTER!';
+        gameOverScore.textContent = `Score: ${score}`;
         endGameOverlay.style.display = 'block';
         // nextLevelButton.style.display = 'none';
         // replayButton.style.display = 'block';
