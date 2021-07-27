@@ -2,7 +2,7 @@ let levels = [
     // duration in seconds
     {
         id: 0,
-        name: "Practice", // Do not change as this name is referenced in the keydown event listener.
+        name: "Practice",
         type: 'practice',
         mapId: 0,
         tileColor: 'gray',
@@ -11,7 +11,7 @@ let levels = [
 
         notes: [] 
     },
-    // Levels 1 - 10
+    // Levels 1 - Entrance
     {
         id: 1,
         name: "1-1",
@@ -260,7 +260,7 @@ let levels = [
         loopTime: 0,
         time: 180,
         notes: [],
-        bossNoteImg: 'note-red',
+        bossNoteImg: 'note-green',
         bossLife: 3,
         chords: [
             {
@@ -290,7 +290,7 @@ let levels = [
 
         ]
     },
-    // Levels 11 - 20
+    // Level 2 - Tomb
     {
         id: 11,
         name: "2-1",
@@ -545,7 +545,82 @@ let levels = [
         time: 200,
         notes: [],
         bossLife: 5,
-        bossNoteImg: 'note-green',
+        bossNoteImg: 'note-orange',
+        chords: [
+            // TODO: update chords
+            {
+                name: "C minor",
+                chordNotes: [
+                    {letter: 'Eb', octave: '4', duration: 1},
+                    {letter: 'G', octave: '4', duration: 1},
+                    {letter: 'C', octave: '5', duration: 1},
+                ]
+            },
+            {
+                name: "D major",
+                chordNotes: [
+                    {letter: 'D', octave: '4', duration: 1},
+                    {letter: 'F#', octave: '4', duration: 1},
+                    {letter: 'A', octave: '4', duration: 1},
+                ]
+            },
+            {
+                name: "A major",
+                chordNotes: [
+                    {letter: 'A', octave: '4', duration: 1},
+                    {letter: 'C#', octave: '5', duration: 1},
+                    {letter: 'E', octave: '4', duration: 1},
+                ]
+            },
+            {
+                name: "Eb major",
+                chordNotes: [
+                    {letter: 'Eb', octave: '4', duration: 1},
+                    {letter: 'G', octave: '4', duration: 1},
+                    {letter: 'Bb', octave: '4', duration: 1},
+                ]
+            }
+
+        ]
+    },
+
+    // Level 3 - Fire
+        {
+        id: 21,
+        name: "3-1",
+        type: 'level',
+        mapId: 2,
+        tileColor: 'red',
+        fontColor: 'white',
+        dungeonBorder: 'border-4',
+        bgMusic: 'lava-dungeon',
+        enemy: 'fireball',
+        enemyCount: 1,
+        loopTime: 0,
+        time: 60,
+        notes: [
+            {letter: 'C', octave: '3', duration: 1},
+            {letter: 'D', octave: '3', duration: 1},
+            {letter: 'E', octave: '3', duration: 1},
+        ]
+    },
+
+    {
+        id: '3-B',
+        name: "3-B",
+        type: 'boss',
+        mapId: 0,
+        tileColor: 'red',
+        fontColor: 'white',
+        bgMusic: 'boss-theme-b',
+        dungeonBorder: 'border-4',
+        enemy: 'badguy',
+        enemyCount: 1,
+        loopTime: 0,
+        time: 200,
+        notes: [],
+        bossLife: 5,
+        bossNoteImg: 'note-red',
         chords: [
             {
                 name: "C minor",
@@ -583,6 +658,83 @@ let levels = [
         ]
     },
 
+    // Level 4 - Haunted
+    {
+        id: 31,
+        name: "4-1",
+        type: 'level',
+        mapId: 3,
+        tileColor: 'black',
+        fontColor: 'white',
+        dungeonBorder: 'border-5',
+        bgMusic: 'candlelight-dungeon',
+        enemy: 'ghost',
+        enemyCount: 1,
+        loopTime: 0,
+        time: 60,
+        notes: [
+            {letter: 'C#', octave: '3', duration: 1},
+            {letter: 'D#', octave: '3', duration: 1},
+            {letter: 'F#', octave: '3', duration: 1},
+        ]
+    },
+
+    {
+        id: '4-B',
+        name: "4-B",
+        type: 'boss',
+        mapId: 0,
+        tileColor: 'black',
+        fontColor: 'white',
+        bgMusic: 'boss-theme-b',
+        dungeonBorder: 'border-5',
+        enemy: 'badguy',
+        enemyCount: 1,
+        loopTime: 0,
+        time: 200,
+        notes: [],
+        bossLife: 5,
+        bossNoteImg: 'note-purple',
+        chords: [
+            {
+                name: "C minor",
+                chordNotes: [
+                    {letter: 'Eb', octave: '4', duration: 1},
+                    {letter: 'G', octave: '4', duration: 1},
+                    {letter: 'C', octave: '5', duration: 1},
+                ]
+            },
+            {
+                name: "D major",
+                chordNotes: [
+                    {letter: 'D', octave: '4', duration: 1},
+                    {letter: 'F#', octave: '4', duration: 1},
+                    {letter: 'A', octave: '4', duration: 1},
+                ]
+            },
+            {
+                name: "A major",
+                chordNotes: [
+                    {letter: 'A', octave: '4', duration: 1},
+                    {letter: 'C#', octave: '5', duration: 1},
+                    {letter: 'E', octave: '4', duration: 1},
+                ]
+            },
+            {
+                name: "Eb major",
+                chordNotes: [
+                    {letter: 'Eb', octave: '4', duration: 1},
+                    {letter: 'G', octave: '4', duration: 1},
+                    {letter: 'Bb', octave: '4', duration: 1},
+                ]
+            }
+
+        ]
+            // TODO: update chords
+            
+    },
+
+    //Final Boss
     {
         name: "Final Boss",
         type: 'finalBoss',
