@@ -22,7 +22,6 @@ function loadGameScreen() {
     rightContent.setAttribute('class', 'gameScreenSection');
     rightContent.setAttribute('class', 'gameScreenSectionRight');
 
-
     let logo = document.createElement('object');
     logo.setAttribute('data', `./img/graphics/logo.svg`);
     logo.setAttribute('type', 'image/svg+xml');
@@ -60,7 +59,6 @@ function loadGameScreen() {
     multiplierEmpty.appendChild(multiplierFill);
     multiplierDiv.appendChild(multiplierBorder);
     multiplierDiv.appendChild(multiplierText);
-
 
     // TODO: Eventually remove result display, this is more for debugging.
     const resultDisplay = document.createElement('div');
@@ -176,7 +174,6 @@ function loadGameScreen() {
         life = 5;
         startNewLevel(levels[levelIndex]);
     });
-
     continueButtonDiv.appendChild(continueButton);
     
     const continueNote = document.createElement('p');
@@ -184,7 +181,6 @@ function loadGameScreen() {
     continueNote.textContent = 'Your score will be halved.';
     continueButtonDiv.appendChild(continueNote);
     endGameOverlay.appendChild(continueButtonDiv);
-
 
     const backToTitleScreenDiv = document.createElement('div');
     backToTitleScreenDiv.classList.add('backToTitleScreenDiv');
@@ -198,21 +194,11 @@ function loadGameScreen() {
     });
     backToTitleScreenDiv.appendChild(backToTitleScreenButton);
     endGameOverlay.appendChild(backToTitleScreenDiv);
-    
     content.appendChild(endGameOverlay);
 
-    // const replayButton = document.querySelector('#replayButton');
-    // replayButton.addEventListener('click', () => {
-    //     startNewGame();
-    //     playAudioTrack('new-game', false, 0);
-    // });
-
-
-
-    // const nextLevelButton = document.querySelector('#nextLevelButton');
-    // nextLevelButton.addEventListener('click', goToNextLevel);
-
-    console.log(notesLibrary.length);
+    // console.log(notesLibrary.length);
+    
+    // Gameplay variables
     let notesList = [];
     let correctAnswer;
     let correctOctave;
@@ -220,24 +206,42 @@ function loadGameScreen() {
     let gridArea = gridSize ** 2;
     let activeTileIndex = 0;
     let activeTile;
-    
-    
     let enemyTileIndices = [];
-
     let enemyTiles = [];
-    
     let score = 0;
     let life = 5;
     let haveKey = false;
     let spellCharge = 0;
     let gameOverStatus = false;
-
     let levelIndex = 1;
     let noteIndex = 0;
     let noteDelay = 2;
     correctAnswer = levels[levelIndex].notes[noteIndex].letter;
-
-
+    let finalBossDefeated = false;
+    let scoreMultiplier = 1;
+    let consecutiveAnswers = 0;
+    let multiplierCharge = 0;
+    let bossDefeated = false;
+    let stairsOn = false;
+    let stairsTileIndex;
+    let spellChargeMax = 3;
+    let spellChargeNotes = [];
+    let finalSpellStatus = false;
+    let finalNotes = [
+        {tileIndex: 0, color: 'note-blue'},
+        {tileIndex: gridArea - 1, color: 'note-green'},
+        {tileIndex: gridSize-1, color: 'note-orange'},
+        {tileIndex: gridArea - gridSize, color: 'note-purple'},
+        {tileIndex: Math.floor(gridArea / 2 + gridSize / 2), color: 'note-red'} 
+    ]; 
+    let bossLife = 3;
+    let maxBossLife = 3;
+    let timeLeft;
+    let bossTileIndex;
+    let chordIndex;
+    let chordNoteIndex;
+    let finalBossTileIndex;
+    let finalBossTileIndices = [];
 
     document.addEventListener('keydown', movePlayer)
 
@@ -248,7 +252,6 @@ function loadGameScreen() {
         keyDisplay.removeChild(keyDisplay.firstChild);
     }
 
-      
     function movePlayer(event) {
         let previousTileIndex = activeTileIndex,
             leftTile = (activeTileIndex % gridSize === 0) ? undefined : document.querySelector(`#tile${activeTileIndex-1}`),
@@ -413,6 +416,8 @@ function loadGameScreen() {
                     }
 
                 }
+            } else if (activeTile.textContent === 'X') {
+                return; // Prevents player from choosing wrong note twice.
             } else {
                 activeTile.textContent = 'X';
                 // resultDisplay.textContent = 'Wrong!';
@@ -445,8 +450,6 @@ function loadGameScreen() {
             });
         }
     }
-
-  
 
     function moveEnemyLeft(enemyTileIndex, i, arr) {
         let enemyTile = document.querySelector(`#tile${enemyTileIndex}`);
@@ -544,8 +547,6 @@ function loadGameScreen() {
             blockedLeft = currentEnemyTile.classList.contains('wall-left') || (leftEnemyTile && leftEnemyTile.classList.contains('locked-tile')) || (leftEnemyTile && leftEnemyTile.classList.contains('enemy')),
             blockedRight = currentEnemyTile.classList.contains('wall-right') || (rightEnemyTile && rightEnemyTile.classList.contains('locked-tile')) || (rightEnemyTile && rightEnemyTile.classList.contains('enemy'));   
 
-      
-
         if (activeTileIndex < enemyTileIndex) {
             if ((activeTileIndex + gridSize < enemyTileIndex) && !blockedTop) {
                 moveEnemyUp(enemyTileIndex, i, arr);
@@ -579,8 +580,6 @@ function loadGameScreen() {
             resetEnemyPosition(enemyTileIndex, i, arr);
         }
     }
-
-    let finalBossDefeated = false;
 
     function decideFinalBossMove(tileIndex) {
         // Final boss moves randomly
@@ -664,9 +663,6 @@ function loadGameScreen() {
         });
     }
 
-   
-
-
     function resetEnemyPosition(enemyTileIndex, i, arr) {
         let enemyTile = document.querySelector(`#tile${enemyTileIndex}`)
         let previousEnemyTileIndex = enemyTileIndex;
@@ -697,7 +693,6 @@ function loadGameScreen() {
         if (previousTile) previousTile.classList.remove('enemy');
 
     }
-
 
     function drawGrid() {
         while (gameMap.firstChild) {
@@ -794,8 +789,6 @@ function loadGameScreen() {
         return notesList;
     }
 
-
-
     function placeRandomLocks(numTiles, lockCount) {
         // First, remove all of the locks
         let locks = document.querySelectorAll(".locked-tile");
@@ -884,8 +877,6 @@ function loadGameScreen() {
         if (previousTile) previousTile.classList.remove('hero');
     }
 
-
-
     function removeSprite(tileIndex, spriteClass) {
         document.getElementById(`tile${tileIndex}`).classList.remove(spriteClass);
     }
@@ -924,8 +915,6 @@ function loadGameScreen() {
         return randomNote;
     }
 
-
-
     function shuffleNotesArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             let j = Math.floor(Math.random() * (i + 1));
@@ -935,10 +924,6 @@ function loadGameScreen() {
         }
         return array;
     }
-
-    let scoreMultiplier = 1;
-    let consecutiveAnswers = 0;
-    let multiplierCharge = 0;
 
     function increaseScore() {
         consecutiveAnswers++;
@@ -1030,8 +1015,6 @@ function loadGameScreen() {
         showStairs();
     }
 
-    let bossDefeated = false;
-
     function defeatBoss(bossTileIndex) {
         score = score + (1000 * scoreMultiplier);
         scoreTotal.textContent = `Score: ${score}`;
@@ -1072,8 +1055,6 @@ function loadGameScreen() {
         showStairs();
     }
 
-    let stairsOn = false;
-    let stairsTileIndex;
     function showStairs() {
         // reset the board without letters
         drawGrid();
@@ -1118,7 +1099,6 @@ function loadGameScreen() {
         synth.triggerAttackRelease(note, duration, delay);
     }
 
-
     function playMelody(level) {
         for (let i = 0; i < level.notes.length; i++) {
             let now = Tone.now();
@@ -1128,9 +1108,6 @@ function loadGameScreen() {
             noteDelay = noteDelay + level.notes[i].duration;
         }
     }
-
-
-
 
     function goToNextLevel() {
         stairsOn = false;
@@ -1158,7 +1135,6 @@ function loadGameScreen() {
             playSound('stairs');
         }
     }
-
 
     function createTrebleStaffNote(note, octave) {
         let fullNote = `${note}${octave}`;
@@ -1220,9 +1196,6 @@ function loadGameScreen() {
         }
     }
     
-    let spellChargeMax = 3;
-    let spellChargeNotes = [];
-
     function chargeSpell(note) {
         spellCharge++;
         let spellChargePercent = Math.floor(spellCharge / spellChargeMax * 100);
@@ -1348,7 +1321,6 @@ function loadGameScreen() {
                 }
             }
         }
-
     }
 
     function damageFinalBoss() {
@@ -1373,8 +1345,6 @@ function loadGameScreen() {
         }
     }
 
-    let finalSpellStatus = false;
-
     function setupFinalSpell() {
         finalSpellStatus = true;
         spellChargeMax = levels[levelIndex].finalChord.length;
@@ -1387,14 +1357,6 @@ function loadGameScreen() {
         placeRandomLocks(gridArea, 1);
         updateStaffDiv(correctAnswer, correctOctave);
     }
-
-    let finalNotes = [
-        {tileIndex: 0, color: 'note-blue'},
-        {tileIndex: gridArea - 1, color: 'note-green'},
-        {tileIndex: gridSize-1, color: 'note-orange'},
-        {tileIndex: gridArea - gridSize, color: 'note-purple'},
-        {tileIndex: Math.floor(gridArea / 2 + gridSize / 2), color: 'note-red'} 
-    ]; 
 
     function chargeFinalSpell(note) {
         // TODO: display color note and remove from inventory
@@ -1420,10 +1382,8 @@ function loadGameScreen() {
             clearTileClasses();
             placeRandomLocks(gridArea, 0);
             staffDiv.innerHTML = '';
-            staffDiv.textContent = 'MASTER CHORD CHARGED!'
-            
+            staffDiv.textContent = 'MASTER CHORD CHARGED!'   
         }
-        
     }
 
     function finalSpellCast() {
@@ -1462,8 +1422,7 @@ function loadGameScreen() {
         }, 200);
 
         score = score + (5000 * scoreMultiplier);
-        scoreTotal.textContent = `Score: ${score}`;
-        
+        scoreTotal.textContent = `Score: ${score}`;  
     }
 
     // TODO: function to draw an svg line between two tiles.
@@ -1495,12 +1454,6 @@ function loadGameScreen() {
     //     // TODO...
     // }
 
-
-
-
-    let bossLife = 3;
-    let maxBossLife = 3;
-
     function damageBoss() { 
         bossLife--;
         let bossLifePercent = Math.floor(bossLife / maxBossLife * 100);
@@ -1518,12 +1471,7 @@ function loadGameScreen() {
                 bossTile.classList.add('boss')
             }, 100);  
         }
-
     }
-
-
-
-    let timeLeft;
 
     function startTimer() {
         timeLeft = levels[levelIndex].time;
@@ -1562,7 +1510,6 @@ function loadGameScreen() {
         root.style.setProperty('--fontColor', fontColor);
         gameMapContainer.dataset.dungeonBorder = dungeonBorder;
     }
-
 
     function startNewLevel(level) {
         endGameOverlay.style.display = 'none';
@@ -1606,9 +1553,6 @@ function loadGameScreen() {
         startTimer();
     }
 
-    let bossTileIndex;
-    let chordIndex;
-    let chordNoteIndex;
     function loadBossStage() {
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
@@ -1649,9 +1593,6 @@ function loadGameScreen() {
         playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime);
         startTimer();
     }
-
-    let finalBossTileIndex;
-    let finalBossTileIndices = [];
 
     function loadFinalBossStage() {
         endGameOverlay.style.display = 'none';
@@ -1704,7 +1645,6 @@ function loadGameScreen() {
         startTimer();
     }
 
-
     function startNewGame() {
         gameOverStatus = false;
         finalSpellStatus = false;
@@ -1748,7 +1688,6 @@ function loadGameScreen() {
         playAudioTrack('new-game', false);
         setTimeout(function() { playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime)}, 5000);
         startTimer();
-
     }
 
     function startPracticeMode() {
@@ -1790,7 +1729,6 @@ function loadGameScreen() {
         bossDisplay.innerHTML = '';
     }
 
-
 // Disable scrolling on game screen
 document.body.style.position = 'fixed';
 
@@ -1800,7 +1738,6 @@ if (practiceModeStatus === true) {
     } else {
         startNewGame();
     }
-
 }
 
 // Title and start screen functions
@@ -1862,7 +1799,6 @@ function createHowToPlayButton() {
     return howToPlayButton;
 }
 
-
 function createOptionsButton() {
     const optionsButton = document.createElement('button');
     optionsButton.classList.add('gameButton');
@@ -1916,7 +1852,6 @@ function createFooterDiv() {
     return footerDiv;
 }
 
-
 function loadTitleScreen() {
     const content = document.getElementById('content');
     content.textContent = '';
@@ -1933,7 +1868,6 @@ function loadTitleScreen() {
     titleScreenContent.appendChild(startButtonDiv);
     titleScreenContent.appendChild(spacerDiv);
     titleScreenContent.appendChild(footerDiv);
-
 }
 
 // Variable to toggle practice mode
@@ -1943,6 +1877,7 @@ function loadNewGameScreen() {
     playAudioTrack('title-screen', true, 0);
     const content = document.getElementById('content');
     content.textContent = '';
+    content.innerHTML = '';
     const newGameScreenContent = document.createElement('div');
     newGameScreenContent.classList.add('newGameScreenContent');
 
@@ -1963,10 +1898,7 @@ function loadNewGameScreen() {
     newGameScreenContent.appendChild(newGameButtonDiv);
     newGameScreenContent.appendChild(spacerDiv);
     newGameScreenContent.appendChild(footerDiv);
-
 }
-
-
 
 
 loadTitleScreen();
@@ -1991,10 +1923,10 @@ function resizeGameScreen() {
             let content = document.getElementById('content');
             content.style.transform = `scale(${scaleX})`;
         }
-
     }
 }
 
+// Music and sound effects player
 // TODO : refactor code to move this variable and function back into a local scope.
 let bgMusicTrack;
 let soundEffect;
