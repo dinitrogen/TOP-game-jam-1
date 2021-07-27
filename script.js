@@ -984,6 +984,9 @@ function loadGameScreen() {
         scoreTotal.textContent = `Score: ${score}`;
 
         playSound('boss-defeated');
+        setTimeout(function() {
+            playAudioTrack('stage-complete', false, 0);
+        }, 500);
         bossDefeated = true;
         drawGrid();
         placeWalls(levels[levelIndex].mapId);
@@ -1086,6 +1089,7 @@ function loadGameScreen() {
             levelDisplay.textContent = `Level ${levelIndex + 1}`;
             levelNameDisplay.textContent = 'FINAL BOSS!';
             loadFinalBossStage();
+            playSound('stairs');
     
         } else if (levels[levelIndex].name === 'boss') {
             console.log('boss stage');
@@ -1510,7 +1514,14 @@ function loadGameScreen() {
         endGameOverlay.style.display = 'none';
         activeTileIndex = 0;
         // TODO: embed # of enemies and placement inside the level objects
-        enemyTileIndices = [(gridArea - 1), 9];
+        enemyTileIndices = [];
+        let enemyCount = levels[levelIndex].enemyCount;
+        
+        for (let i = 0; i < enemyCount; i++) {
+            let enemyIndex = gridArea - 1 - i * 4;
+            enemyTileIndices.push(enemyIndex);
+        }
+        
         noteIndex = 0;
         correctAnswer = level.notes[noteIndex].letter;
         let octave = level.notes[noteIndex].octave;
@@ -1524,6 +1535,7 @@ function loadGameScreen() {
         // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
+        
         bossLife = 3;
 
         
@@ -1566,6 +1578,8 @@ function loadGameScreen() {
         renderEnemySprite(bossTileIndex);
         renderHeroSprite(activeTileIndex);
 
+        maxBossLife = levels[levelIndex].bossLife;
+        bossLife = levels[levelIndex].bossLife;
         let root = document.querySelector(':root');
         root.style.setProperty('--bossLifeFill', '100%');
         
