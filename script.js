@@ -4,6 +4,48 @@ import { notesLibrary } from './note-library.js';
 import { maps } from './maps.js';
 
 
+// Global variables
+let notesList,
+    correctAnswer,
+    correctOctave,
+    gridSize,
+    gridArea,
+    activeTileIndex,
+    activeTile,
+    enemyTileIndices,
+    enemyTiles,
+    score,
+    life,
+    haveKey,
+    spellCharge,
+    gameOverStatus,
+    levelIndex,
+    noteIndex,
+    noteDelay,
+    //correctAnswer = levels[levelIndex].notes[noteIndex].letter;
+    finalBossDefeated,
+    scoreMultiplier,
+    consecutiveAnswers,
+    multiplierCharge,
+    bossDefeated,
+    stairsOn,
+    stairsTileIndex,
+    spellChargeMax,
+    spellChargeNotes,
+    finalSpellStatus,
+    finalNotes,
+    bossLife,
+    maxBossLife,
+    timeLeft,
+    bossTileIndex,
+    chordIndex,
+    chordNoteIndex,
+    finalBossTileIndex,
+    finalBossTileIndices;
+
+let keyListenerOn = false;
+
+
 // Main game screen loader
 function loadGameScreen() {
 
@@ -199,51 +241,55 @@ function loadGameScreen() {
     // console.log(notesLibrary.length);
     
     // Gameplay variables
-    let notesList = [];
-    let correctAnswer;
-    let correctOctave;
-    let gridSize = 10; // Also must change in CSS
-    let gridArea = gridSize ** 2;
-    let activeTileIndex = 0;
-    let activeTile;
-    let enemyTileIndices = [];
-    let enemyTiles = [];
-    let score = 0;
-    let life = 5;
-    let haveKey = false;
-    let spellCharge = 0;
-    let gameOverStatus = false;
-    let levelIndex = 1;
-    let noteIndex = 0;
-    let noteDelay = 2;
+    notesList = [];
+    // correctAnswer;
+    correctOctave;
+    gridSize = 10; // Also must change in CSS
+    gridArea = gridSize ** 2;
+    activeTileIndex = 0;
+    activeTile;
+    enemyTileIndices = [];
+    enemyTiles = [];
+    score = 0;
+    life = 5;
+    haveKey = false;
+    spellCharge = 0;
+    gameOverStatus = false;
+    levelIndex = 1;
+    noteIndex = 0;
+    noteDelay = 2;
     correctAnswer = levels[levelIndex].notes[noteIndex].letter;
-    let finalBossDefeated = false;
-    let scoreMultiplier = 1;
-    let consecutiveAnswers = 0;
-    let multiplierCharge = 0;
-    let bossDefeated = false;
-    let stairsOn = false;
-    let stairsTileIndex;
-    let spellChargeMax = 3;
-    let spellChargeNotes = [];
-    let finalSpellStatus = false;
-    let finalNotes = [
+    finalBossDefeated = false;
+    scoreMultiplier = 1;
+    consecutiveAnswers = 0;
+    multiplierCharge = 0;
+    bossDefeated = false;
+    stairsOn = false;
+    stairsTileIndex;
+    spellChargeMax = 3;
+    spellChargeNotes = [];
+    finalSpellStatus = false;
+    finalNotes = [
         {tileIndex: 0, color: 'note-blue'},
         {tileIndex: gridArea - 1, color: 'note-green'},
         {tileIndex: gridSize-1, color: 'note-orange'},
         {tileIndex: gridArea - gridSize, color: 'note-purple'},
         {tileIndex: Math.floor(gridArea / 2 + gridSize / 2), color: 'note-red'} 
     ]; 
-    let bossLife = 3;
-    let maxBossLife = 3;
-    let timeLeft;
-    let bossTileIndex;
-    let chordIndex;
-    let chordNoteIndex;
-    let finalBossTileIndex;
-    let finalBossTileIndices = [];
+    bossLife = 3;
+    maxBossLife = 3;
+    timeLeft;
+    bossTileIndex;
+    chordIndex;
+    chordNoteIndex;
+    finalBossTileIndex;
+    finalBossTileIndices = [];
 
-    document.addEventListener('keydown', movePlayer)
+    // Only add the keyboard event listener if it has not already been added during this play session.
+    if (!keyListenerOn) {
+        document.addEventListener('keydown', movePlayer);
+        keyListenerOn = true;
+    }
 
     function useKey(tileIndex) {
         let lockedTile = document.querySelector(`#tile${tileIndex}`);
@@ -1877,7 +1923,6 @@ function loadNewGameScreen() {
     playAudioTrack('title-screen', true, 0);
     const content = document.getElementById('content');
     content.textContent = '';
-    content.innerHTML = '';
     const newGameScreenContent = document.createElement('div');
     newGameScreenContent.classList.add('newGameScreenContent');
 
