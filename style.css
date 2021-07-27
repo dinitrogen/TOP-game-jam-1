@@ -127,9 +127,17 @@ body, html, #content {
     justify-content: flex-start;
 }
 
-.gameScreenSectionThree {
-    width: 17%;
+.gameScreenSectionLeft {
+    flex-grow: 1;
+    margin-right: 15px;
+}
+.gameScreenSectionCenter {
+    flex-grow: 2;
+}
+.gameScreenSectionRight {
+    /* width: 17%; */
     margin-left: 15px;
+    flex-grow: 1;
 }
 
 #levelDisplay, #levelNameDisplay {

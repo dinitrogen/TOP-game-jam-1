@@ -12,15 +12,15 @@ function loadGameScreen() {
 
     const leftContent = document.createElement('div');
     leftContent.setAttribute('class', 'gameScreenSection');
-    leftContent.setAttribute('class', 'gameScreenSectionOne');
+    leftContent.setAttribute('class', 'gameScreenSectionLeft');
 
     const centerContent = document.createElement('div');
     centerContent.setAttribute('class', 'gameScreenSection');
-    centerContent.setAttribute('class', 'gameScreenSectionTwo');
+    centerContent.setAttribute('class', 'gameScreenSectionCenter');
 
     const rightContent = document.createElement('div');
     rightContent.setAttribute('class', 'gameScreenSection');
-    rightContent.setAttribute('class', 'gameScreenSectionThree');
+    rightContent.setAttribute('class', 'gameScreenSectionRight');
 
 
     let logo = document.createElement('object');
@@ -276,6 +276,7 @@ function loadGameScreen() {
                 }
             }
         } else if (event.code === "Space") {
+            event.preventDefault();
             if (stairsOn) {
                 return;
             
