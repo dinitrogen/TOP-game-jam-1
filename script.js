@@ -1503,10 +1503,11 @@ function loadGameScreen() {
         let tileColor = level.tileColor,
             fontColor = level.fontColor,
             dungeonBorder = level.dungeonBorder,
-            root = document.querySelector(':root');
+            root = document.querySelector(':root'),
+            gameMapContainer = document.querySelector('.gameMapContainer');
         root.style.setProperty('--tileColor', tileColor);
         root.style.setProperty('--fontColor', fontColor);
-        root.style.setProperty('--dungeonBorder', dungeonBorder);
+        gameMapContainer.dataset.dungeonBorder = dungeonBorder;
     }
 
 
