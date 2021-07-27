@@ -28,7 +28,7 @@ function loadGameScreen() {
 
     const levelDisplay = document.createElement('div');
     levelDisplay.setAttribute('id', 'levelDisplay');
-    levelDisplay.textContent = 'Level:';
+    // levelDisplay.textContent = 'Level:';
     
     const levelNameDisplay = document.createElement('div');
     levelNameDisplay.setAttribute('id', 'levelNameDisplay');
@@ -159,6 +159,9 @@ function loadGameScreen() {
     const gameOver = document.createElement('div');
     gameOver.setAttribute('id', 'gameOver');
     endGameOverlay.appendChild(gameOver);
+    const gameOverScore = document.createElement('div');
+    gameOverScore.classList.add('gameOverScore');
+    endGameOverlay.appendChild(gameOverScore);
 
     const continueButtonDiv = document.createElement('div');
     continueButtonDiv.classList.add('continueButtonDiv');
@@ -188,9 +191,13 @@ function loadGameScreen() {
     backToTitleScreenButton.classList.add('gameOverButton');
     backToTitleScreenButton.textContent = 'Back to Title Screen';
     backToTitleScreenButton.addEventListener('click', () => {
-        endGameOverlay.style.display = 'none';
-        loadNewGameScreen();
-    
+        // endGameOverlay.style.display = 'none';
+        // loadNewGameScreen();
+        // TODO: For now this button will restart from first level instead of going to title screen.
+        score = 0;
+        life = 5;
+        levelIndex = 1;
+        startNewLevel(levels[levelIndex]);
     });
     backToTitleScreenDiv.appendChild(backToTitleScreenButton);
     endGameOverlay.appendChild(backToTitleScreenDiv);
@@ -336,9 +343,9 @@ function loadGameScreen() {
                 } else {
                     return;
                 }
-            } else if ((levels[levelIndex].name === 'finalBoss') && spellCharge >= spellChargeMax && finalSpellStatus) {
+            } else if ((levels[levelIndex].type === 'finalBoss') && spellCharge >= spellChargeMax && finalSpellStatus) {
                 finalSpellCast();   
-            } else if ((levels[levelIndex].name === 'boss' || levels[levelIndex].name === 'finalBoss') && spellCharge >= spellChargeMax) {
+            } else if ((levels[levelIndex].type === 'boss' || levels[levelIndex].type === 'finalBoss') && spellCharge >= spellChargeMax) {
                 castSpell();
             
             } else if (activeTile.textContent === ' ') {
@@ -357,7 +364,7 @@ function loadGameScreen() {
                 activeTile.innerHTML = '';
             } else if (activeTile.classList.contains('correct')) {
 
-                if (levels[levelIndex].name === 'practice') {
+                if (levels[levelIndex].type === 'practice') {
                     // resultDisplay.textContent = `Correct! - ${correctAnswer}`;
                     activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${correctOctave}`;
@@ -371,7 +378,7 @@ function loadGameScreen() {
                     placeRandomLocks(gridArea, 1);
                     updateStaffDiv(correctAnswer, correctOctave);
                 
-                } else if (levels[levelIndex].name === 'boss' || levels[levelIndex].name === 'finalBoss') {
+                } else if (levels[levelIndex].type === 'boss' || levels[levelIndex].type === 'finalBoss') {
                     // resultDisplay.textContent = `Correct! - ${correctAnswer}`;
                     activeTile.classList.remove('correct');
                     let note = `${correctAnswer}${correctOctave}`;
@@ -421,7 +428,7 @@ function loadGameScreen() {
             } else {
                 activeTile.textContent = 'X';
                 // resultDisplay.textContent = 'Wrong!';
-                if (levels[levelIndex].name === 'practice') {
+                if (levels[levelIndex].type === 'practice') {
                     return;
                 } else {
                     decreaseLife();
@@ -438,10 +445,10 @@ function loadGameScreen() {
         renderHeroSprite(activeTileIndex, previousTileIndex);
         
 
-        if (levels[levelIndex].name === 'finalBoss' && finalBossDefeated === false) {
+        if (levels[levelIndex].type === 'finalBoss' && finalBossDefeated === false) {
             decideFinalBossMove(finalBossTileIndex);
 
-        } else if (levels[levelIndex].name === 'boss' && bossDefeated === false) {
+        } else if (levels[levelIndex].type === 'boss' && bossDefeated === false) {
             decideEnemyMove(bossTileIndex);
         } else {
             enemyTileIndices.forEach(function(enemyTileIndex, i, arr) {
@@ -464,7 +471,7 @@ function loadGameScreen() {
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
         
-        if (levels[levelIndex].name === 'boss') {
+        if (levels[levelIndex].type === 'boss') {
             bossTileIndex = enemyTileIndex;    
         } else {
             arr[i] = enemyTileIndex;
@@ -484,7 +491,7 @@ function loadGameScreen() {
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
         
-        if (levels[levelIndex].name === 'boss') {
+        if (levels[levelIndex].type === 'boss') {
             bossTileIndex = enemyTileIndex;    
         } else {
             arr[i] = enemyTileIndex;
@@ -504,7 +511,7 @@ function loadGameScreen() {
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
         
-        if (levels[levelIndex].name === 'boss') {
+        if (levels[levelIndex].type === 'boss') {
             bossTileIndex = enemyTileIndex;    
         } else {
             arr[i] = enemyTileIndex;
@@ -524,7 +531,7 @@ function loadGameScreen() {
         enemyTile.classList.add('enemyTile');
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
         
-        if (levels[levelIndex].name === 'boss') {
+        if (levels[levelIndex].type === 'boss') {
             bossTileIndex = enemyTileIndex;    
         } else {
             arr[i] = enemyTileIndex;
@@ -569,7 +576,7 @@ function loadGameScreen() {
             }
         }
         
-        if (levels[levelIndex].name === 'boss') {
+        if (levels[levelIndex].type === 'boss') {
             enemyTileIndex = bossTileIndex;
         } else {
             enemyTileIndex = arr[i];
@@ -675,7 +682,7 @@ function loadGameScreen() {
         renderEnemySprite(enemyTileIndex, previousEnemyTileIndex);
         
 
-        if (levels[levelIndex].name === 'boss') {
+        if (levels[levelIndex].type === 'boss') {
             bossTileIndex = enemyTileIndex;    
         } else {
             arr[i] = enemyTileIndex;
@@ -985,10 +992,14 @@ function loadGameScreen() {
         } else {
             gameOver.textContent = 'GAME OVER';
         }
-            endGameOverlay.style.display = 'block';
-            let currentWorld = Math.floor((levels[levelIndex].id - 1) / 10);
-            let continueLevel = (currentWorld * 10) + 1;
-            continueButton.textContent = `Continue? (Level ${continueLevel})`;
+        
+        gameOverScore.textContent = `Score: ${score}`;
+        endGameOverlay.style.display = 'block';
+        let currentWorld = Math.floor((levels[levelIndex].id - 1) / 10);
+        let continueLevel = (currentWorld * 10) + 1;
+        let index = levels.findIndex(level => level.id === continueLevel);
+        let levelName = levels[index].name;
+        continueButton.textContent = `Continue? (Level ${levelName})`;
         // nextLevelButton.style.display = 'none';
         // replayButton.style.display = 'block';
     }
@@ -1114,23 +1125,23 @@ function loadGameScreen() {
         levelIndex++;
         if (levelIndex >= levels.length) {
             displayWinScreen();
-        } else if (levels[levelIndex].name === 'finalBoss') {
+        } else if (levels[levelIndex].type === 'finalBoss') {
             console.log('final boss stage');
-            levelDisplay.textContent = `Level ${levelIndex + 1}`;
-            levelNameDisplay.textContent = 'FINAL BOSS!';
+            levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
+            // levelNameDisplay.textContent = 'FINAL BOSS!';
             loadFinalBossStage();
             playSound('stairs');
     
-        } else if (levels[levelIndex].name === 'boss') {
+        } else if (levels[levelIndex].type === 'boss') {
             console.log('boss stage');
-            levelDisplay.textContent = `Level ${levelIndex + 1}`;
-            levelNameDisplay.textContent = 'BOSS STAGE!';
+            levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
+            //levelNameDisplay.textContent = 'BOSS STAGE!';
             loadBossStage();
             playSound('stairs');
     
         } else {
-            levelDisplay.textContent = `Level ${levelIndex + 1}`;
-            levelNameDisplay.textContent = `${levels[levelIndex].name}`
+            levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
+            // levelNameDisplay.textContent = `${levels[levelIndex].name}`
             startNewLevel(levels[levelIndex]);
             playSound('stairs');
         }
@@ -1307,7 +1318,7 @@ function loadGameScreen() {
             });
         }, 200);
 
-        if (levels[levelIndex].name === 'boss') {
+        if (levels[levelIndex].type === 'boss') {
             let bossTile = document.getElementById(`tile${bossTileIndex}`);
             if (spellCastTiles.includes(bossTile)) {
                 damageBoss();
@@ -1538,7 +1549,7 @@ function loadGameScreen() {
         haveKey = false;
         keyDisplay.innerHTML = '';
         scoreTotal.textContent = `Score: ${score}`;
-        levelDisplay.textContent = `Level ${levelIndex + 1}`;
+        levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
         updateLifeBar(life);
         bossLife = 3;
 
@@ -1577,7 +1588,7 @@ function loadGameScreen() {
         // resultDisplay.textContent = '';
 
         scoreTotal.textContent = `Score: ${score}`;
-        levelDisplay.textContent = `Level ${levelIndex + 1}`;
+        levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
         updateLifeBar(life);
 
         haveKey = false;
@@ -1663,8 +1674,8 @@ function loadGameScreen() {
         generateNotesList(gridArea);
         populateMap(gridArea);
         placeRandomLocks(gridArea, 1);
-        levelDisplay.textContent = `Level ${levelIndex + 1}`;
-        levelNameDisplay.textContent = `${levels[levelIndex].name}`;
+        levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
+        // levelNameDisplay.textContent = `${levels[levelIndex].name}`;
         life = 5;
         updateLifeBar(life);
         haveKey = false;
@@ -1708,8 +1719,8 @@ function loadGameScreen() {
         generateNotesList(gridArea);
         populateMap(gridArea);
         setTileColor(levels[levelIndex]);
-        levelDisplay.textContent = `Level ${levelIndex}`;
-        levelNameDisplay.textContent = `${levels[levelIndex].name}`;
+        levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
+        // levelNameDisplay.textContent = `${levels[levelIndex].name}`;
         life = 5;
         updateLifeBar(life);
         // resultDisplay.textContent = '';
