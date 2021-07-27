@@ -14,7 +14,6 @@ body {
     --tileColor: gray;
     --fontColor: white;
     --wallColor: rgb(48, 24, 0);
-    --dungeonBorder: url(./img/graphics/border-1.svg);
     --enemySVG: url(./img/map-icons/snake.svg);
 }
 
@@ -334,16 +333,38 @@ body, html, #content {
 .gameMapContainer {
     height: 870px;
     width: 870px;
-    /* background: url(./img/graphics/dungeon-border.svg); */
-    background: var(--dungeonBorder);
-    background-size: 870px 870px;
-    background-repeat: no-repeat;
-    background-position: center;
 
     /* Display/align-items settins centers gameMap vertically */
     display:flex;
     align-items: center;
-    
+}
+
+.gameMapContainer[data-dungeon-border='border-1'] {
+    background: url(./img/graphics/border-1.svg);
+    background-size: 870px 870px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.gameMapContainer[data-dungeon-border='border-2'] {
+    background: url(./img/graphics/border-2.svg);
+    background-size: 870px 870px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.gameMapContainer[data-dungeon-border='border-3'] {
+    background: url(./img/graphics/border-3.svg);
+    background-size: 870px 870px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.gameMapContainer[data-dungeon-border='border-4'] {
+    background: url(./img/graphics/border-4.svg);
+    background-size: 870px 870px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .gameMap {
