@@ -18,9 +18,6 @@ body {
     --enemySVG: url(./img/map-icons/snake.svg);
 }
 
-
-
-
 body, html, #content {
 
     top: 0;
@@ -99,6 +96,8 @@ body, html, #content {
 .footerText {
     font-family: "Press Start 2P";
 }
+
+
 
 .gameButton {
     display: block;
@@ -415,14 +414,15 @@ body, html, #content {
 #endGameOverlay {
     position: fixed;
     display: none;
-    padding: 200px 0 0 0;
+ 
+    padding-top: 25%;
     width: 100%;
-    height: 40%;
-    top:25%;
+    height: 100%;
+    top:0;
     left:0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,1);
     z-index: 2;
     text-align: center;
     font-family: "Press Start 2P";
@@ -431,12 +431,16 @@ body, html, #content {
     color: white;
 }
 
-#replayDiv {
+.continueDiv {
     display: block;
     align-items: center;
 }
 
-#replayButton {
+.continueNote {
+    font-size: 20px;
+}
+
+.gameOverButton {
     font-family: "Press Start 2P";
     font-size: 28px;
     color: white;
@@ -444,19 +448,14 @@ body, html, #content {
     background-color: transparent;
 }
 
-#replayButton:hover {
+.gameOverButton:hover {
     font-size: 36px;
+    color: yellow;
 }
 
-#nextLevelButton {
-    font-size: 28px;
-    color: white;
-    border: none;
-    background-color: transparent;
-}
-
-#nextLevelButton:hover {
-    font-size: 36px;
+.backToTitleScreenDiv {
+    display: block;
+    align-items: center;
 }
 
 
