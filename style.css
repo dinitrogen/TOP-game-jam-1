@@ -474,7 +474,7 @@ body, html, #content {
     background-color: red;
 } */
 
-#endGameOverlay {
+.endGameOverlay {
     position: fixed;
     display: none;
  
@@ -493,6 +493,7 @@ body, html, #content {
     font-weight: bold;
     color: white;
 }
+
 
 .gameOverScore {
     font-size: 36px;

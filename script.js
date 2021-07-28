@@ -174,9 +174,9 @@ function loadGameScreen() {
     content.appendChild(gameScreenContent);
     
     const endGameOverlay = document.createElement('div');
-    endGameOverlay.setAttribute('id', 'endGameOverlay');
+    endGameOverlay.classList.add('endGameOverlay');
     const gameOver = document.createElement('div');
-    gameOver.setAttribute('id', 'gameOver');
+    gameOver.classList.add('gameOver');
     endGameOverlay.appendChild(gameOver);
     const gameOverScore = document.createElement('div');
     gameOverScore.classList.add('gameOverScore');
@@ -200,7 +200,7 @@ function loadGameScreen() {
     
     const continueNote = document.createElement('p');
     continueNote.classList.add('continueNote');
-    continueNote.textContent = 'Your score will be halved.';
+    continueNote.textContent = 'Your score will be reduced.';
     continueButtonDiv.appendChild(continueNote);
     endGameOverlay.appendChild(continueButtonDiv);
 
@@ -208,7 +208,7 @@ function loadGameScreen() {
     backToTitleScreenDiv.classList.add('backToTitleScreenDiv');
     const backToTitleScreenButton = document.createElement('button');
     backToTitleScreenButton.classList.add('gameOverButton');
-    backToTitleScreenButton.textContent = 'Back to Title Screen';
+    backToTitleScreenButton.textContent = 'Restart (Level 1-1)';
     backToTitleScreenButton.addEventListener('click', () => {
         // endGameOverlay.style.display = 'none';
         // loadNewGameScreen();
@@ -221,6 +221,20 @@ function loadGameScreen() {
     backToTitleScreenDiv.appendChild(backToTitleScreenButton);
     endGameOverlay.appendChild(backToTitleScreenDiv);
     content.appendChild(endGameOverlay);
+
+    const winScreen = document.createElement('div');
+    winScreen.classList.add('endGameOverlay');
+    const winText = document.createElement('div');
+    winText.classList.add('gameOver');
+    const winScore = document.createElement('div');
+    winScore.classList.add('gameOverScore');
+    const restartDiv = backToTitleScreenButton.cloneNode(true);
+
+    winScreen.appendChild(winText);
+    winScreen.appendChild(winScore);
+    winScreen.appendChild(restartDiv);
+    content.appendChild(winScreen);
+
 
     // console.log(notesLibrary.length);
     
@@ -372,15 +386,15 @@ function loadGameScreen() {
             } else if (activeTile.classList.contains('hasHeart')) {
                 increaseLife();
                 activeTile.classList.remove('hasHeart');
-                activeTile.innerHTML = '';
+                activeTile.textContent = ' ';
             } else if (activeTile.classList.contains('hasKey')) {
                 getKey();
                 activeTile.classList.remove('hasKey');
-                activeTile.innerHTML = '';
+                activeTile.textContent = ' ';
             } else if (activeTile.classList.contains('hasStopwatch')) {
                 getStopwatch();
                 activeTile.classList.remove('hasStopwatch');
-                activeTile.innerHTML = '';
+                activeTile.textContent = ' ';
             } else if (activeTile.classList.contains('correct')) {
 
                 if (levels[levelIndex].type === 'practice') {
@@ -1028,9 +1042,9 @@ function loadGameScreen() {
     function displayWinScreen() {
         playAudioTrack('end-credits', true, 0);
         // resultDisplay.textContent = 'You are a melody master!';
-        gameOver.textContent = 'YOU ARE A MELODY MASTER!';
-        gameOverScore.textContent = `Score: ${score}`;
-        endGameOverlay.style.display = 'block';
+        winText.textContent = 'YOU ARE A MELODY MASTER!';
+        winScore.textContent = `Final Score: ${score}`;
+        winScreen.style.display = 'block';
         // nextLevelButton.style.display = 'none';
         // replayButton.style.display = 'block';
         // TODO Win screen
@@ -1693,6 +1707,8 @@ function loadGameScreen() {
 
         let root = document.querySelector(':root');
         root.style.setProperty('--bossLifeFill', '100%');
+
+        root.style.setProperty('--levelProgressFill', '0%');
         
         playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime);
         startTimer();
@@ -1703,6 +1719,7 @@ function loadGameScreen() {
         finalSpellStatus = false;
         spellChargeMax = 3;
         endGameOverlay.style.display = 'none';
+        winScreen.style.display = 'none';
         activeTileIndex = 0;
         enemyTileIndices = [(gridArea - 1)];
         noteIndex = 0;
