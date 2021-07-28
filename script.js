@@ -191,7 +191,9 @@ function loadGameScreen() {
     continueButton.addEventListener('click', () => {
         let currentWorld = Math.floor((levels[levelIndex].id - 1) / 10);
         let continueLevel = (currentWorld * 10) + 1;
-        score = Math.floor(score / 2);
+        // score = Math.floor(score / 2);
+        score = 0;
+        scoreMultiplier = 1;
         levelIndex = levels.findIndex(level => level.id === continueLevel);
         life = 5;
         startNewLevel(levels[levelIndex]);
@@ -200,26 +202,46 @@ function loadGameScreen() {
     
     const continueNote = document.createElement('p');
     continueNote.classList.add('continueNote');
-    continueNote.textContent = 'Your score will be reduced.';
+    continueNote.textContent = 'Your score will be reset.';
     continueButtonDiv.appendChild(continueNote);
     endGameOverlay.appendChild(continueButtonDiv);
 
-    const backToTitleScreenDiv = document.createElement('div');
-    backToTitleScreenDiv.classList.add('backToTitleScreenDiv');
-    const backToTitleScreenButton = document.createElement('button');
-    backToTitleScreenButton.classList.add('gameOverButton');
-    backToTitleScreenButton.textContent = 'Restart (Level 1-1)';
-    backToTitleScreenButton.addEventListener('click', () => {
-        // endGameOverlay.style.display = 'none';
-        // loadNewGameScreen();
-        // TODO: For now this button will restart from first level instead of going to title screen.
-        score = 0;
-        life = 5;
-        levelIndex = 1;
-        startNewLevel(levels[levelIndex]);
-    });
-    backToTitleScreenDiv.appendChild(backToTitleScreenButton);
-    endGameOverlay.appendChild(backToTitleScreenDiv);
+    function createRestartButtonDiv() {
+        const restartButtonDiv = document.createElement('div');
+        restartButtonDiv.classList.add('restartButtonDiv');
+        const restartButton = document.createElement('button');
+        restartButton.classList.add('gameOverButton');
+        restartButton.textContent = 'Restart (Level 1-1)';
+        restartButton.addEventListener('click', () => {
+            score = 0;
+            scoreMultiplier = 1;
+            life = 5;
+            levelIndex = 1;
+            startNewLevel(levels[levelIndex]);
+        });
+        restartButtonDiv.appendChild(restartButton);
+        return restartButtonDiv;
+    }
+
+    // const backToTitleScreenDiv = document.createElement('div');
+    // backToTitleScreenDiv.classList.add('backToTitleScreenDiv');
+    // const backToTitleScreenButton = document.createElement('button');
+    // backToTitleScreenButton.classList.add('gameOverButton');
+    // backToTitleScreenButton.textContent = 'Restart (Level 1-1)';
+    // backToTitleScreenButton.addEventListener('click', () => {
+    //     // endGameOverlay.style.display = 'none';
+    //     // loadNewGameScreen();
+    //     // TODO: For now this button will restart from first level instead of going to title screen.
+    //     score = 0;
+    //     life = 5;
+    //     levelIndex = 1;
+    //     startNewLevel(levels[levelIndex]);
+    // });
+    // backToTitleScreenDiv.appendChild(backToTitleScreenButton);
+    // endGameOverlay.appendChild(backToTitleScreenDiv);
+    
+    const gameOverRestartDiv = createRestartButtonDiv();
+    endGameOverlay.appendChild(gameOverRestartDiv);
     content.appendChild(endGameOverlay);
 
     const winScreen = document.createElement('div');
@@ -228,11 +250,13 @@ function loadGameScreen() {
     winText.classList.add('gameOver');
     const winScore = document.createElement('div');
     winScore.classList.add('gameOverScore');
-    const restartDiv = backToTitleScreenButton.cloneNode(true);
+    // const restartDiv = backToTitleScreenButton.cloneNode(true);
+    const winScreenRestartDiv = createRestartButtonDiv();
 
     winScreen.appendChild(winText);
     winScreen.appendChild(winScore);
-    winScreen.appendChild(restartDiv);
+    // winScreen.appendChild(restartDiv);
+    winScreen.appendChild(winScreenRestartDiv);
     content.appendChild(winScreen);
 
 
@@ -298,7 +322,11 @@ function loadGameScreen() {
             rightTile = ((activeTileIndex + 1) % gridSize === 0) ? undefined : document.querySelector(`#tile${activeTileIndex+1}`),
             upTile = (activeTileIndex < gridSize) ? undefined : document.querySelector(`#tile${activeTileIndex - gridSize}`),
             downTile = (activeTileIndex >= gridArea - gridSize) ? undefined : document.querySelector(`#tile${activeTileIndex + gridSize}`);
-      
+        
+        if (gameOverStatus) {
+            return;
+        }
+            
         if (event.code === "ArrowLeft") {
             if (activeTileIndex === 0 || activeTileIndex % gridSize === 0 || activeTile.classList.contains('wall-left') || (leftTile && (leftTile.classList.contains('locked-tile') && !haveKey))) {
                 return;
@@ -644,7 +672,10 @@ function loadGameScreen() {
             if (activeTileIndex === finalBossTileIndices[i]) {
                 decreaseLife();
                 let previousActiveTileIndex = activeTileIndex;
+                activeTile.classList.remove('activeTile');
                 activeTileIndex = 0;
+                activeTile = document.querySelector(`#tile${activeTileIndex}`);
+                activeTile.classList.add('activeTile');
                 renderHeroSprite(activeTileIndex, previousActiveTileIndex);
                 return;
             }
@@ -1011,7 +1042,7 @@ function loadGameScreen() {
         if (life < 5) {
             life++;
         }
-        score = score + 200;
+        score = score + 200 * scoreMultiplier;
         scoreTotal.textContent = `Score: ${score}`;
 
         playSound('heart-pickup');
@@ -1040,6 +1071,7 @@ function loadGameScreen() {
     }
 
     function displayWinScreen() {
+        gameOverStatus = true; // To disable controls
         playAudioTrack('end-credits', true, 0);
         // resultDisplay.textContent = 'You are a melody master!';
         winText.textContent = 'YOU ARE A MELODY MASTER!';
@@ -1216,7 +1248,7 @@ function loadGameScreen() {
     }
 
     function getKey() {
-        score = score + 200;
+        score = score + 200 * scoreMultiplier;
         scoreTotal.textContent = `Score: ${score}`;
 
         playSound('item-pickup');
@@ -1231,7 +1263,7 @@ function loadGameScreen() {
     }
 
     function getStopwatch() {
-        score = score + 500;
+        score = score + 500 * scoreMultiplier;
         scoreTotal.textContent = `Score: ${score}`;
 
         playSound('item-pickup');
@@ -1559,6 +1591,7 @@ function loadGameScreen() {
 
     function startNewLevel(level) {
         endGameOverlay.style.display = 'none';
+        winScreen.style.display = 'none';
         gameOverStatus = false;
         activeTileIndex = 0;
         // TODO: embed # of enemies and placement inside the level objects
@@ -1741,6 +1774,7 @@ function loadGameScreen() {
         keyDisplay.innerHTML = '';
         bossNoteDisplay.innerHTML = '';
         score = 0;
+        scoreMultiplier = 1;
         scoreTotal.textContent = `Score: ${score}`;
         // resultDisplay.textContent = '';
         bossLife = 3;
@@ -1753,9 +1787,10 @@ function loadGameScreen() {
         let root = document.querySelector(':root');
         root.style.setProperty('--bossLifeFill', '0%');
         root.style.setProperty('--spellChargeFill', '0%');
+        root.style.setProperty('--levelProgressFill', '0%');
         spellChargedText.textContent = '';
         
-        playAudioTrack('new-game', false);
+        playAudioTrack('new-game', false, 0);
         setTimeout(function() { playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime)}, 5000);
         startTimer();
     }

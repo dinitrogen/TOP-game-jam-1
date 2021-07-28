@@ -32,26 +32,26 @@ let levels = [
         ]
     },
 
-    {
-        id: 2,
-        name: "1-2",
-        type: 'level',
-        mapId: 1,
-        tileColor: 'gray',
-        fontColor: 'white',
-        dungeonBorder: 'border-1',
-        bgMusic: 'dungeon-a',
-        enemy: 'snake',
-        enemyCount: 1,
-        loopTime: 1.7,
-        time: 60,
-        notes: [
-            {letter: 'C', octave: '4', duration: 1},
-            {letter: 'E', octave: '4', duration: 1},
-            {letter: 'D', octave: '4', duration: 1},
-            {letter: 'F', octave: '4', duration: 1},
-        ]
-    },
+    // {
+    //     id: 2,
+    //     name: "1-2",
+    //     type: 'level',
+    //     mapId: 1,
+    //     tileColor: 'gray',
+    //     fontColor: 'white',
+    //     dungeonBorder: 'border-1',
+    //     bgMusic: 'dungeon-a',
+    //     enemy: 'snake',
+    //     enemyCount: 1,
+    //     loopTime: 1.7,
+    //     time: 60,
+    //     notes: [
+    //         {letter: 'C', octave: '4', duration: 1},
+    //         {letter: 'E', octave: '4', duration: 1},
+    //         {letter: 'D', octave: '4', duration: 1},
+    //         {letter: 'F', octave: '4', duration: 1},
+    //     ]
+    // },
 
     // {
     //     id: 3,
@@ -247,7 +247,7 @@ let levels = [
     // },
 
     // {
-    //     id: '1-B',
+    //     id: 10.5,
     //     name: "1-B",
     //     type: 'boss',
     //     mapId: 0,
@@ -290,6 +290,7 @@ let levels = [
 
     //     ]
     // },
+
     // // Level 2 - Tomb
     // {
     //     id: 11,
@@ -531,7 +532,7 @@ let levels = [
     // },
 
     // {
-    //     id: '2-B',
+    //     id: 20.5,
     //     name: "2-B",
     //     type: 'boss',
     //     mapId: 0,
@@ -606,7 +607,7 @@ let levels = [
     // },
 
     // {
-    //     id: '3-B',
+    //     id: 30.5,
     //     name: "3-B",
     //     type: 'boss',
     //     mapId: 0,
@@ -680,7 +681,7 @@ let levels = [
     // },
 
     // {
-    //     id: '4-B',
+    //     id: 40.5,
     //     name: "4-B",
     //     type: 'boss',
     //     mapId: 0,
@@ -738,6 +739,7 @@ let levels = [
 
     //Final Boss
     {
+        id: 60.5, // TODO: adjust when all levels are added.
         name: "Final Boss",
         type: 'finalBoss',
         mapId: 0,
