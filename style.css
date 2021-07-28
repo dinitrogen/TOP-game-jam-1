@@ -8,6 +8,7 @@ body {
 :root {
     --gridSize: 10;
     --multiplierFill: 0%;
+    --levelProgressFill: 0%;
     --spellChargeFill: 0%;
     --bossLifeFill: 0%;
     --timerFill: 100%;
@@ -178,6 +179,40 @@ body, html, #content {
     background-color: rgb(255, 166, 0);
     display: block;
     width: var(--multiplierFill);
+    height: 100%;
+    border-radius: 0px;
+}
+
+.levelProgressDiv {
+    padding-top: 20px;
+    display: block;
+    font-size: 20px;
+    font-family: "Press Start 2P";
+}
+
+.levelProgressText {
+    line-height: 50px;
+}
+
+.levelProgressBorder {
+    width: 200px;
+    height: 15px;
+    background: rgb(185, 185, 185);
+    border-radius: 0px;
+    padding: 5px;
+}
+
+.levelProgressEmpty {
+    background-color: black;
+    display: block;
+    height: 100%;
+    border-radius: 0px;
+}
+
+.levelProgressFill {
+    background-color: rgb(0, 39, 211);
+    display: block;
+    width: var(--levelProgressFill);
     height: 100%;
     border-radius: 0px;
 }
@@ -361,6 +396,13 @@ body, html, #content {
 
 .gameMapContainer[data-dungeon-border='border-4'] {
     background: url(./img/graphics/border-4.svg);
+    background-size: 870px 870px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.gameMapContainer[data-dungeon-border='border-5'] {
+    background: url(./img/graphics/border-5.svg);
     background-size: 870px 870px;
     background-repeat: no-repeat;
     background-position: center;
