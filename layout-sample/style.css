@@ -1,0 +1,104 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    margin: 0;
+}
+
+div {
+    border: 1px solid black;
+}
+
+.content {
+    display: flex;
+    flex: 1;
+}
+
+.content > .game-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.content > .nav-container {
+    flex: 0 0 20vw;
+    background: beige;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.content > .stats-container {
+    flex: 0 0 20vw;
+    background: beige;
+    display: flex;
+    flex-direction: column;
+}
+
+.content > .nav-container {
+    order: -1;
+}
+
+.content > .controls-container {
+    display: none;
+}
+
+.container {
+    padding: .25em;
+}
+
+.content-timer {
+    height: 2em;
+}
+
+.content-grid {
+    flex: 1;
+}
+
+.nav-container-item {
+    flex-grow: 1;
+}
+
+.stats-container-item {
+    flex-grow: 1;
+}
+
+.controls-container-left,
+.controls-container-right {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-select {
+    width: 80px;
+    height: 80px;
+}
+
+.d-pad {
+    width: 40px;
+    height: 40px;
+}
+
+.d-pad-middle {
+    display: flex;
+    flex-direction: row;
+}
+
+@media only screen and (max-width: 600px) {
+    .content {
+        flex-direction: column;
+    }
+    .content > .controls-container {
+        display: flex;
+        flex: 0 0 20vw;
+        flex-direction: row;
+    }
+    .content-logo {
+        display: none;   
+    }
+}
