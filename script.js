@@ -60,6 +60,24 @@ function loadGameScreen() {
     multiplierDiv.appendChild(multiplierBorder);
     multiplierDiv.appendChild(multiplierText);
 
+    // Level progress bar
+    const levelProgressDiv = document.createElement('div');
+    levelProgressDiv.classList.add('levelProgressDiv');
+    const levelProgressBorder = document.createElement('div');
+    levelProgressBorder.classList.add('levelProgressBorder');
+    const levelProgressEmpty = document.createElement('span');
+    levelProgressEmpty.classList.add('levelProgressEmpty');
+    const levelProgressFill = document.createElement('span');
+    levelProgressFill.classList.add('levelProgressFill');
+    const levelProgressText = document.createElement('span');
+    levelProgressText.classList.add('levelProgressText');
+    levelProgressText.textContent = 'Progress:';
+
+    levelProgressBorder.appendChild(levelProgressEmpty);
+    levelProgressEmpty.appendChild(levelProgressFill);
+    levelProgressDiv.appendChild(levelProgressText);
+    levelProgressDiv.appendChild(levelProgressBorder);
+
     // TODO: Eventually remove result display, this is more for debugging.
     const resultDisplay = document.createElement('div');
     resultDisplay.setAttribute('id', 'resultDisplay');
@@ -136,7 +154,8 @@ function loadGameScreen() {
     leftContent.appendChild(scoreDisplay);
     leftContent.appendChild(multiplierDiv);
     leftContent.appendChild(staffDiv);
-    leftContent.appendChild(resultDisplay);
+    leftContent.appendChild(levelProgressDiv);
+    // leftContent.appendChild(resultDisplay);
 
     centerContent.appendChild(timerDisplay);
     //centerContent.appendChild(gameMap);
@@ -412,6 +431,7 @@ function loadGameScreen() {
                     correctAnswer = getNextNote(levels[levelIndex], noteIndex);
                     if (noteIndex >= levels[levelIndex].notes.length - 1) {
                         levelComplete(levels[levelIndex]);
+                        updateLevelProgressBar();
                     } else {
                         noteIndex++;
                         generateNotesList(gridArea);
@@ -420,6 +440,7 @@ function loadGameScreen() {
                         placeRandomLocks(gridArea, 1);
                         let octave = `${levels[levelIndex].notes[noteIndex].octave}`;
                         updateStaffDiv(correctAnswer, octave);
+                        updateLevelProgressBar();
                     }
 
                 }
@@ -1094,8 +1115,7 @@ function loadGameScreen() {
                 } else {
                 stairsTile.classList.add('stairsTile');
                 }
-            }
-        
+            }        
     }
 
     function playNote(note, duration, delay) {
@@ -1563,6 +1583,25 @@ function loadGameScreen() {
         playAudioTrack(level.bgMusic, true, level.loopTime);
 
         startTimer();
+
+        updateLevelProgressBar();
+    }
+
+    function updateLevelProgressBar () {
+        let progressPercent;
+        if (levels[levelIndex].type === 'level') {
+            progressPercent = Math.floor(noteIndex / levels[levelIndex].notes.length * 100);
+        } else {
+            progressPercent = 0;
+        }
+        let levelProgressFill = `${progressPercent}%`;
+        let root = document.querySelector(':root');
+
+        if (stairsOn) {
+            root.style.setProperty('--levelProgressFill', '100%');
+        } else {
+            root.style.setProperty('--levelProgressFill', levelProgressFill);
+        }
     }
 
     function loadBossStage() {
@@ -1601,6 +1640,8 @@ function loadGameScreen() {
         bossLife = levels[levelIndex].bossLife;
         let root = document.querySelector(':root');
         root.style.setProperty('--bossLifeFill', '100%');
+
+        root.style.setProperty('--levelProgressFill', '0%');
         
         playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime);
         startTimer();
