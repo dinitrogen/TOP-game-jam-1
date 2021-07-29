@@ -229,7 +229,7 @@ body, html, #content {
 }
 
 .spellBarBorder {
-    width: 100px;
+    width: 200px;
     height: 20px;
     background: rgb(185, 185, 185);
     border-radius: 0px;
@@ -261,7 +261,7 @@ body, html, #content {
 }
 
 .bossBarBorder {
-    width: 100px;
+    width: 200px;
     height: 20px;
     background: rgb(185, 185, 185);
     border-radius: 0px;
@@ -639,9 +639,73 @@ body, html, #content {
 }
 
 .finalBoss {
-    /* TODO: final boss sprites */
-    background-color: chartreuse;
+    background: url(img/map-icons/beholder-eye.svg);
+    background-color: var(--tileColor);
+    background-size: 70px 70px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
 }
+
+.finalBossArmRight {
+    background: url(img/map-icons/beholder-arm-right.svg);
+    background-color: var(--tileColor);
+    background-size: 70px 70px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+}
+
+.finalBossArmBottom {
+    background: url(img/map-icons/beholder-arm-bottom.svg);
+    background-color: var(--tileColor);
+    background-size: 70px 70px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+}
+
+.finalBossArmLeft {
+    background: url(img/map-icons/beholder-arm-left.svg);
+    background-color: var(--tileColor);
+    background-size: 70px 70px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+}
+
+.finalBossArmTop {
+    background: url(img/map-icons/beholder-arm-top.svg);
+    background-color: var(--tileColor);
+    background-size: 70px 70px;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    -moz-animation: fadeIn 1s;
+    -o-animation: fadeIn 1s;
+    -ms-animation: fadeIn 1s;
+}
+
+
+
+
 
 .spellCast {
     background-color: red;

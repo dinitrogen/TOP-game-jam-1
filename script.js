@@ -36,6 +36,10 @@ function loadGameScreen() {
     const lifeDisplay = document.createElement('div');
     lifeDisplay.setAttribute('id', 'lifeDisplay');
 
+    const heartsDiv = document.createElement('div');
+    heartsDiv.classList.add('heartsDiv');
+    lifeDisplay.appendChild(heartsDiv);
+
     const scoreDisplay = document.createElement('div');
     scoreDisplay.setAttribute('id', 'scoreDisplay');
     const scoreTotal = document.createElement('div');
@@ -155,6 +159,7 @@ function loadGameScreen() {
     leftContent.appendChild(multiplierDiv);
     leftContent.appendChild(staffDiv);
     leftContent.appendChild(levelProgressDiv);
+    leftContent.appendChild(bossNoteDisplay);
     // leftContent.appendChild(resultDisplay);
 
     centerContent.appendChild(timerDisplay);
@@ -162,10 +167,10 @@ function loadGameScreen() {
     centerContent.appendChild(gameMapContainer);
 
     rightContent.appendChild(lifeDisplay);
-    rightContent.appendChild(keyDisplay);
     rightContent.appendChild(spellDisplay);
     rightContent.appendChild(bossDisplay);
-    rightContent.appendChild(bossNoteDisplay);
+    rightContent.appendChild(keyDisplay);
+    
     
     gameScreenContent.appendChild(leftContent);
     gameScreenContent.appendChild(centerContent);
@@ -194,6 +199,12 @@ function loadGameScreen() {
         // score = Math.floor(score / 2);
         score = 0;
         scoreMultiplier = 1;
+        multiplierCharge = 0;
+        consecutiveAnswers = 0;
+        let multiplierFill = `0%`;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--multiplierFill', multiplierFill);
+        multiplierText.textContent = `${scoreMultiplier}X`;
         levelIndex = levels.findIndex(level => level.id === continueLevel);
         life = 5;
         startNewLevel(levels[levelIndex]);
@@ -215,6 +226,13 @@ function loadGameScreen() {
         restartButton.addEventListener('click', () => {
             score = 0;
             scoreMultiplier = 1;
+            multiplierCharge = 0;
+            consecutiveAnswers = 0;
+            let multiplierFill = `0%`;
+            let root = document.querySelector(':root');
+            root.style.setProperty('--multiplierFill', multiplierFill);
+            multiplierText.textContent = `${scoreMultiplier}X`;
+            bossNoteDisplay.textContent = '';
             life = 5;
             levelIndex = 1;
             startNewLevel(levels[levelIndex]);
@@ -509,6 +527,7 @@ function loadGameScreen() {
         
 
         if (levels[levelIndex].type === 'finalBoss' && finalBossDefeated === false) {
+            checkFinalBossDamage();
             decideFinalBossMove(finalBossTileIndex);
 
         } else if (levels[levelIndex].type === 'boss' && bossDefeated === false) {
@@ -725,14 +744,34 @@ function loadGameScreen() {
     function clearFinalBossTiles() {
         finalBossTileIndices.forEach(function(index) {
             let tile = document.getElementById(`tile${index}`);
-            tile.classList.remove('finalBoss');
+            if (index === finalBossTileIndex) {
+                tile.classList.remove('finalBoss');
+            } else if (index === finalBossTileIndex + gridSize) {
+                tile.classList.remove('finalBossArmBottom');
+            } else if (index === finalBossTileIndex - 1) {
+                tile.classList.remove('finalBossArmLeft');
+            } else if (index === finalBossTileIndex - gridSize) {
+                tile.classList.remove('finalBossArmTop');
+            } else {
+                tile.classList.remove('finalBossArmRight');
+            }
         });
     }
 
     function renderFinalBoss() {
         finalBossTileIndices.forEach(function(index) {
             let tile = document.getElementById(`tile${index}`);
-            tile.classList.add('finalBoss');
+            if (index === finalBossTileIndex) {
+                tile.classList.add('finalBoss');
+            } else if (index === finalBossTileIndex + gridSize) {
+                tile.classList.add('finalBossArmBottom');
+            } else if (index === finalBossTileIndex - 1) {
+                tile.classList.add('finalBossArmLeft');
+            } else if (index === finalBossTileIndex - gridSize) {
+                tile.classList.add('finalBossArmTop');
+            } else {
+                tile.classList.add('finalBossArmRight');
+            }
         });
     }
 
@@ -1236,6 +1275,7 @@ function loadGameScreen() {
     }
 
     function updateLifeBar(life) {
+        heartsDiv.textContent = '';
         lifeDisplay.textContent = 'LIFE:';
         
         for (let i = 0; i < life; i++) {
@@ -1243,8 +1283,9 @@ function loadGameScreen() {
             heart.setAttribute('data', `./img/map-icons/heart.svg`);
             heart.setAttribute('type', 'image/svg+xml');
             heart.setAttribute('class', 'heart');
-            lifeDisplay.appendChild(heart);
+            heartsDiv.appendChild(heart);
         }
+        lifeDisplay.appendChild(heartsDiv);
     }
 
     function getKey() {
@@ -1411,7 +1452,19 @@ function loadGameScreen() {
         
         let hitTileIndex = finalBossTileIndices[0];
         let hitTile = document.getElementById(`tile${hitTileIndex}`);
-        hitTile.classList.remove('finalBoss');
+        
+        if (hitTileIndex === finalBossTileIndex) {
+            hitTile.classList.remove('finalBoss');
+        } else if (hitTileIndex === finalBossTileIndex + gridSize) {
+            hitTile.classList.remove('finalBossArmBottom');
+        } else if (hitTileIndex === finalBossTileIndex - 1) {
+            hitTile.classList.remove('finalBossArmLeft');
+        } else if (hitTileIndex === finalBossTileIndex - gridSize) {
+            hitTile.classList.remove('finalBossArmTop');
+        } else {
+            hitTile.classList.remove('finalBossArmRight');
+        }
+        
         finalBossTileIndices.shift();
         
         if (finalBossTileIndices.length === 1) {
@@ -1593,6 +1646,8 @@ function loadGameScreen() {
         endGameOverlay.style.display = 'none';
         winScreen.style.display = 'none';
         gameOverStatus = false;
+        finalSpellStatus = false;
+        spellChargeMax = 3;
         activeTileIndex = 0;
         // TODO: embed # of enemies and placement inside the level objects
         enemyTileIndices = [];
@@ -1730,12 +1785,9 @@ function loadGameScreen() {
         haveKey = false;
         keyDisplay.innerHTML = '';
         // renderEnemySprite(finalBossTileIndex);
-        
-        finalBossTileIndices.forEach(function(tileIndex) {
-            let tile = document.getElementById(`tile${tileIndex}`);
-            console.log(tile);
-            tile.classList.add('finalBoss');
-        });
+ 
+        renderFinalBoss();
+
         renderHeroSprite(activeTileIndex);
 
         let root = document.querySelector(':root');

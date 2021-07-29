@@ -246,50 +246,50 @@ let levels = [
     //     ]
     // },
 
-    // {
-    //     id: 10.5,
-    //     name: "1-B",
-    //     type: 'boss',
-    //     mapId: 0,
-    //     tileColor: 'gray',
-    //     fontColor: 'white',
-    //     bgMusic: 'boss-theme-b',
-    //     dungeonBorder: 'border-1',
-    //     enemy: 'badguy',
-    //     enemyCount: 1,
-    //     loopTime: 0,
-    //     time: 180,
-    //     notes: [],
-    //     bossNoteImg: 'note-green',
-    //     bossLife: 3,
-    //     chords: [
-    //         {
-    //             name: "C major",
-    //             chordNotes: [
-    //                 {letter: 'C', octave: '4', duration: 1},
-    //                 {letter: 'E', octave: '4', duration: 1},
-    //                 {letter: 'G', octave: '4', duration: 1},
-    //             ]
-    //         },
-    //         {
-    //             name: "F major",
-    //             chordNotes: [
-    //                 {letter: 'F', octave: '4', duration: 1},
-    //                 {letter: 'A', octave: '4', duration: 1},
-    //                 {letter: 'C', octave: '5', duration: 1},
-    //             ]
-    //         },
-    //         {
-    //             name: "G major",
-    //             chordNotes: [
-    //                 {letter: 'G', octave: '4', duration: 1},
-    //                 {letter: 'B', octave: '4', duration: 1},
-    //                 {letter: 'D', octave: '5', duration: 1},
-    //             ]
-    //         }
+    {
+        id: 10.5,
+        name: "1-B",
+        type: 'boss',
+        mapId: 0,
+        tileColor: 'gray',
+        fontColor: 'white',
+        bgMusic: 'boss-theme-b',
+        dungeonBorder: 'border-1',
+        enemy: 'badguy',
+        enemyCount: 1,
+        loopTime: 0,
+        time: 180,
+        notes: [],
+        bossNoteImg: 'note-green',
+        bossLife: 3,
+        chords: [
+            {
+                name: "C major",
+                chordNotes: [
+                    {letter: 'C', octave: '4', duration: 1},
+                    {letter: 'E', octave: '4', duration: 1},
+                    {letter: 'G', octave: '4', duration: 1},
+                ]
+            },
+            {
+                name: "F major",
+                chordNotes: [
+                    {letter: 'F', octave: '4', duration: 1},
+                    {letter: 'A', octave: '4', duration: 1},
+                    {letter: 'C', octave: '5', duration: 1},
+                ]
+            },
+            {
+                name: "G major",
+                chordNotes: [
+                    {letter: 'G', octave: '4', duration: 1},
+                    {letter: 'B', octave: '4', duration: 1},
+                    {letter: 'D', octave: '5', duration: 1},
+                ]
+            }
 
-    //     ]
-    // },
+        ]
+    },
 
     // // Level 2 - Tomb
     // {
