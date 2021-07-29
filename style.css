@@ -494,6 +494,32 @@ body, html, #content {
     color: white;
 }
 
+.endingScreen {
+    position: fixed;
+    display: none;
+    padding-top: 0%;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    background-color: gray;
+    z-index: 2;
+    text-align: center;
+}
+
+.endingGraphic {
+    display: block;
+    margin: auto;
+    width: 900px;
+}
+
+.endingButtonDiv {
+    display: flex;
+    justify-content: center;
+}
+
 
 .gameOverScore {
     font-size: 36px;

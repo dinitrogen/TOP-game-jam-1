@@ -240,23 +240,6 @@ function loadGameScreen() {
         restartButtonDiv.appendChild(restartButton);
         return restartButtonDiv;
     }
-
-    // const backToTitleScreenDiv = document.createElement('div');
-    // backToTitleScreenDiv.classList.add('backToTitleScreenDiv');
-    // const backToTitleScreenButton = document.createElement('button');
-    // backToTitleScreenButton.classList.add('gameOverButton');
-    // backToTitleScreenButton.textContent = 'Restart (Level 1-1)';
-    // backToTitleScreenButton.addEventListener('click', () => {
-    //     // endGameOverlay.style.display = 'none';
-    //     // loadNewGameScreen();
-    //     // TODO: For now this button will restart from first level instead of going to title screen.
-    //     score = 0;
-    //     life = 5;
-    //     levelIndex = 1;
-    //     startNewLevel(levels[levelIndex]);
-    // });
-    // backToTitleScreenDiv.appendChild(backToTitleScreenButton);
-    // endGameOverlay.appendChild(backToTitleScreenDiv);
     
     const gameOverRestartDiv = createRestartButtonDiv();
     endGameOverlay.appendChild(gameOverRestartDiv);
@@ -276,6 +259,35 @@ function loadGameScreen() {
     // winScreen.appendChild(restartDiv);
     winScreen.appendChild(winScreenRestartDiv);
     content.appendChild(winScreen);
+    
+    
+    // Ending screen
+    const endingScreen = document.createElement('div');
+    endingScreen.classList.add('endingScreen');
+    const endingGraphicDiv = document.createElement('div');
+    endingGraphicDiv.classList.add('endingGraphicDiv');
+    
+    const endingGraphic = document.createElement('img');
+    endingGraphic.src = './img/graphics/ending-screen.png';
+    endingGraphic.classList.add('endingGraphic');
+    endingGraphicDiv.appendChild(endingGraphic);
+
+    const endingButtonDiv = document.createElement('div');
+    endingButtonDiv.classList.add('endingButtonDiv');
+    const endingButton = document.createElement('button');
+    endingButton.classList.add('gameButton');
+    endingButton.textContent = 'Continue';    
+    endingButton.addEventListener('click', () => { 
+        endingScreen.style.display = 'none';
+        displayWinScreen(); 
+    });
+    endingButtonDiv.appendChild(endingButton);
+    endingScreen.appendChild(endingGraphicDiv);
+    endingScreen.appendChild(endingButtonDiv);
+    content.appendChild(endingScreen);
+
+
+
 
 
     // console.log(notesLibrary.length);
@@ -1109,6 +1121,12 @@ function loadGameScreen() {
         // replayButton.style.display = 'block';
     }
 
+    function displayEndingScreen() {
+        gameOverStatus = true; // To disable controls
+        playAudioTrack('ending', false, 0);
+        endingScreen.style.display = 'block';
+    }
+
     function displayWinScreen() {
         gameOverStatus = true; // To disable controls
         playAudioTrack('end-credits', true, 0);
@@ -1230,7 +1248,7 @@ function loadGameScreen() {
         stairsOn = false;
         levelIndex++;
         if (levelIndex >= levels.length) {
-            displayWinScreen();
+            displayEndingScreen();
         } else if (levels[levelIndex].type === 'finalBoss') {
             console.log('final boss stage');
             levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
