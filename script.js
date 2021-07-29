@@ -1186,17 +1186,17 @@ function loadGameScreen() {
             if (stairsTileIndex === activeTileIndex) {
                 stairsTileIndex--;
                 stairsTile = document.getElementById(`tile${stairsTileIndex}`);
-                // Conditions for teleport to appear instead of stairs
-                if (levelIndex === levels.length - 2) {
-                    stairsTile.classList.add('stairsTile');  // Change to 'teleportTile'
+                // Show stairs going up if final boss stage
+                if (levelIndex === levels.length - 1) {
+                    stairsTile.classList.add('stairsUpTile');
                 } else {
                     stairsTile.classList.add('stairsTile');
                 }
             } else {
                 stairsTile = document.getElementById(`tile${stairsTileIndex}`);
                 // Conditions for telporter to appear instead of stairs
-                if (levelIndex === levels.length - 2) {
-                stairsTile.classList.add('stairsTile'); // Change to 'teleportTile'
+                if (levelIndex === levels.length - 1) {
+                stairsTile.classList.add('stairsUpTile');
                 } else {
                 stairsTile.classList.add('stairsTile');
                 }
@@ -1420,18 +1420,30 @@ function loadGameScreen() {
 
         });
 
-        setTimeout(function() {
-            spellCastTiles.forEach(function(tile) {
-                tile.classList.remove('spellCast');
-            });
-        }, 200);
-
         if (levels[levelIndex].type === 'boss') {
             let bossTile = document.getElementById(`tile${bossTileIndex}`);
             if (spellCastTiles.includes(bossTile)) {
-                damageBoss();
+                setTimeout(function() {
+                    spellCastTiles.forEach(function(tile) {
+                        tile.classList.remove('spellCast');
+                    });
+                    damageBoss();
+                }, 200);
+            } else {
+                setTimeout(function() {
+                    spellCastTiles.forEach(function(tile) {
+                        tile.classList.remove('spellCast');
+                    });
+                }, 200);
             }
+            
         } else {
+            setTimeout(function() {
+                spellCastTiles.forEach(function(tile) {
+                    tile.classList.remove('spellCast');
+                });
+            }, 200);
+            
             for (let i = 0; i < finalBossTileIndices.length; i++) {
                 let tile = document.getElementById(`tile${finalBossTileIndices[i]}`);
                 if (spellCastTiles.includes(tile)) {

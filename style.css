@@ -12,7 +12,7 @@ body {
     --spellChargeFill: 0%;
     --bossLifeFill: 0%;
     --timerFill: 100%;
-    --tileColor: gray;
+    --tileColor: rgb(128, 128, 128);
     --fontColor: white;
     --wallColor: rgb(48, 24, 0);
     --enemySVG: url(./img/map-icons/snake.svg);
@@ -537,6 +537,14 @@ body, html, #content {
     background-position: center;
 }
 
+.stairsUpTile {
+    background: url(img/map-icons/stairs-up.svg);
+    background-color: var(--tileColor);
+    background-size: 62px 62px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .teleportTile {
     background-color: yellow;
     animation: blink 0.2s infinite;
@@ -702,9 +710,6 @@ body, html, #content {
     -o-animation: fadeIn 1s;
     -ms-animation: fadeIn 1s;
 }
-
-
-
 
 
 .spellCast {

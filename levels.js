@@ -152,7 +152,7 @@ let levels = [
     //     dungeonBorder: 'border-1',
     //     bgMusic: 'dungeon-a',
     //     enemy: 'snake',
-    //     enemyCount: 1,
+    //     enemyCount: 2,
     //     loopTime: 1.7,
     //     time: 90,
     //     notes: [
@@ -178,7 +178,7 @@ let levels = [
     //     dungeonBorder: 'border-1',
     //     bgMusic: 'dungeon-a',
     //     enemy: 'snake',
-    //     enemyCount: 1,
+    //     enemyCount: 2,
     //     loopTime: 1.7,
     //     time: 90,
     //     notes: [
@@ -205,7 +205,7 @@ let levels = [
     //     dungeonBorder: 'border-1',
     //     bgMusic: 'dungeon-a',
     //     enemy: 'snake',
-    //     enemyCount: 1,
+    //     enemyCount: 2,
     //     loopTime: 1.7,
     //     time: 90,
     //     notes: [
@@ -230,7 +230,7 @@ let levels = [
     //     dungeonBorder: 'border-1',
     //     bgMusic: 'dungeon-a',
     //     enemy: 'snake',
-    //     enemyCount: 1,
+    //     enemyCount: 2,
     //     loopTime: 1.7,
     //     time: 90,
     //     notes: [
@@ -442,7 +442,7 @@ let levels = [
     //     dungeonBorder: 'border-2',
     //     bgMusic: 'tone-raider',
     //     enemy: 'mummy',
-    //     enemyCount: 1,
+    //     enemyCount: 2,
     //     loopTime: 0,
     //     time: 80,
     //     notes: [
@@ -737,9 +737,9 @@ let levels = [
 
     // Level 5 - Fortress?
 
-    //Final Boss
+    // Final Boss
     {
-        id: 60.5, // TODO: adjust when all levels are added.
+        id: 10.6, // TODO: adjust when all levels are added.
         name: "Final Boss",
         type: 'finalBoss',
         mapId: 0,
