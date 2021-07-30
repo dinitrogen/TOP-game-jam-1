@@ -1862,7 +1862,7 @@ function loadGameScreen() {
     }
 
     function startPracticeMode() {
-        stopAudio();
+        stopBackgroundAudio();
         gameOverStatus = false;
         // Set level index to practice level
         levelIndex = 0;
@@ -1879,7 +1879,7 @@ function loadGameScreen() {
         setTileColor(levels[levelIndex]);
         levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
         // levelNameDisplay.textContent = `${levels[levelIndex].name}`;
-        life = 5;
+        life = 3;
         updateLifeBar(life);
         // resultDisplay.textContent = '';
         haveKey = false;
@@ -1897,10 +1897,7 @@ function loadGameScreen() {
         spellBarBorder.innerHTML = '';
         bossDisplay.innerHTML = '';
 
-        const returnButton = createReturnButton();
-        returnButton.textContent = 'Back to Title Screen';
-        returnButton.style.margin = 'auto';
-        leftContent.appendChild(returnButton);
+        // TODO: return to title button.
     }
 
 // Disable scrolling on game screen
