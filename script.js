@@ -58,11 +58,16 @@ function loadGameScreen() {
     const multiplierText = document.createElement('span');
     multiplierText.classList.add('multiplierText');
     multiplierText.textContent = '1X';
-
+    
     multiplierBorder.appendChild(multiplierEmpty);
     multiplierEmpty.appendChild(multiplierFill);
     multiplierDiv.appendChild(multiplierBorder);
     multiplierDiv.appendChild(multiplierText);
+
+    const noteStreakDiv = document.createElement('div');
+    noteStreakDiv.classList.add('noteStreakDiv');
+    noteStreakDiv.textContent = 'Note streak: 0';
+    
 
     // Level progress bar
     const levelProgressDiv = document.createElement('div');
@@ -159,6 +164,7 @@ function loadGameScreen() {
     leftContent.appendChild(levelNameDisplay);
     leftContent.appendChild(scoreDisplay);
     leftContent.appendChild(multiplierDiv);
+    leftContent.appendChild(noteStreakDiv);
     leftContent.appendChild(staffDiv);
     leftContent.appendChild(levelProgressDiv);
     leftContent.appendChild(bossNoteDisplay);
@@ -203,10 +209,12 @@ function loadGameScreen() {
         scoreMultiplier = 1;
         multiplierCharge = 0;
         consecutiveAnswers = 0;
+        longestNoteStreak = 0;
         let multiplierFill = `0%`;
         let root = document.querySelector(':root');
         root.style.setProperty('--multiplierFill', multiplierFill);
         multiplierText.textContent = `${scoreMultiplier}X`;
+        noteStreakDiv.textContent = 'Note streak: 0';
         levelIndex = levels.findIndex(level => level.id === continueLevel);
         life = 5;
         startNewLevel(levels[levelIndex]);
@@ -230,10 +238,12 @@ function loadGameScreen() {
             scoreMultiplier = 1;
             multiplierCharge = 0;
             consecutiveAnswers = 0;
+            longestNoteStreak = 0;
             let multiplierFill = `0%`;
             let root = document.querySelector(':root');
             root.style.setProperty('--multiplierFill', multiplierFill);
             multiplierText.textContent = `${scoreMultiplier}X`;
+            noteStreakDiv.textContent = 'Note streak: 0';
             bossNoteDisplay.textContent = '';
             life = 5;
             levelIndex = 1;
@@ -316,6 +326,7 @@ function loadGameScreen() {
     let finalBossDefeated = false;
     let scoreMultiplier = 1;
     let consecutiveAnswers = 0;
+    let longestNoteStreak = 0;
     let multiplierCharge = 0;
     let bossDefeated = false;
     let stairsOn = false;
@@ -1075,6 +1086,11 @@ function loadGameScreen() {
         scoreTotal.textContent = `Score: ${score}`;
 
         multiplierText.textContent = `${scoreMultiplier}X`;
+        noteStreakDiv.textContent = `Note streak: ${consecutiveAnswers}`;
+
+        if (consecutiveAnswers > longestNoteStreak) {
+            longestNoteStreak = consecutiveAnswers;
+        }
     }
 
     function decreaseLife() {
@@ -1083,6 +1099,8 @@ function loadGameScreen() {
         let root = document.querySelector(':root');
         root.style.setProperty('--multiplierFill', '0%');
         multiplierText.textContent = `1X`;
+        noteStreakDiv.textContent = `Note streak: ${consecutiveAnswers}`;
+
 
         playSoundEffect('hero-damage');
         life--;
@@ -1114,7 +1132,7 @@ function loadGameScreen() {
             gameOver.textContent = 'GAME OVER';
         }
         
-        gameOverScore.textContent = `Score: ${score}`;
+        gameOverScore.textContent = `Score: ${score} - Note streak: ${longestNoteStreak}`;
         endGameOverlay.style.display = 'block';
         let currentWorld = Math.floor((levels[levelIndex].id - 1) / 10);
         let continueLevel = (currentWorld * 10) + 1;
@@ -1136,7 +1154,7 @@ function loadGameScreen() {
         playBackgroundAudioLoop('end-credits');
         // resultDisplay.textContent = 'You are a melody master!';
         winText.textContent = 'YOU ARE A MELODY MASTER!';
-        winScore.textContent = `Final Score: ${score}`;
+        winScore.textContent = `Final Score: ${score} - Note streak: ${longestNoteStreak}`;
         winScreen.style.display = 'block';
         // nextLevelButton.style.display = 'none';
         // replayButton.style.display = 'block';

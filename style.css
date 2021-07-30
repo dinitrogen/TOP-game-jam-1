@@ -145,7 +145,7 @@ body, html, #content {
     flex-grow: 1;
 }
 
-#levelDisplay, #levelNameDisplay {
+#levelDisplay, #levelNameDisplay, .noteStreakDiv {
     font-size: 20px;
     font-family: "Press Start 2P";
 }
