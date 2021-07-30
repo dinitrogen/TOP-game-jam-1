@@ -1063,8 +1063,8 @@ function loadGameScreen() {
     }
 
     function increaseScore() {
-        if (!easyModeStatus) {
             consecutiveAnswers++;
+        if (!easyModeStatus) {
             multiplierCharge++;
 
             if (multiplierCharge >= 5) {
@@ -1149,7 +1149,7 @@ function loadGameScreen() {
         scoreMultiplier = 1;
         consecutiveAnswers = 0;
         longestNoteStreak = 0;
-        saveGameData();
+        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, consecutiveAnswers, longestNoteStreak);
     }
 
     function displayEndingScreen() {
@@ -1254,7 +1254,7 @@ function loadGameScreen() {
         stairsOn = false;
         
         // Update progress of the current game and save to local storage
-        saveGameData(levelIndex, score, scoreMultiplier, consecutiveAnswers, longestNoteStreak);
+        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, consecutiveAnswers, longestNoteStreak);
 
         levelIndex++;
 

@@ -81,7 +81,8 @@ function saveHighScores() {
 }
 
 
-function saveGameData(index, score, multiplier, consecAns, noteStreak) {
+function saveGameData(easyModeStatus, index, score, multiplier, consecAns, noteStreak) {
+    gameState.easyModeStatus = easyModeStatus
     gameState.levelIndex = index;
     gameState.score = score;
     gameState.multiplier = multiplier;
