@@ -786,6 +786,7 @@ let levels = [
             {letter: 'Bb', octave: '4', duration: 1},
             {letter: 'C', octave: '5', duration: 1},
         ],
+        finalChordName: 'Cb7'
 
     },
 

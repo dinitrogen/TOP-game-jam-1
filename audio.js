@@ -94,7 +94,7 @@ function loadSoundEffect(soundEffect) {
 // Plays a sound effect just one time
 function playSoundEffect(soundEffect) {
     loadSoundEffect(soundEffect).then(() => {
-        soundEffectPlayer.volume.value = -10;
+        soundEffectPlayer.volume.value = 0;
         soundEffectPlayer.loop = false;
         soundEffectPlayer.start();
     });

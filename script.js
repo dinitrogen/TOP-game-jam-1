@@ -1,4 +1,5 @@
 import { loadHowToPlayScreen } from './how-to-play.js';
+import { loadHighScoresScreen } from './high-scores.js';
 import { levels } from './levels.js';
 import { notesLibrary } from './note-library.js';
 import { maps } from './maps.js';
@@ -58,11 +59,16 @@ function loadGameScreen() {
     const multiplierText = document.createElement('span');
     multiplierText.classList.add('multiplierText');
     multiplierText.textContent = '1X';
-
+    
     multiplierBorder.appendChild(multiplierEmpty);
     multiplierEmpty.appendChild(multiplierFill);
     multiplierDiv.appendChild(multiplierBorder);
     multiplierDiv.appendChild(multiplierText);
+
+    const noteStreakDiv = document.createElement('div');
+    noteStreakDiv.classList.add('noteStreakDiv');
+    noteStreakDiv.textContent = 'Note streak: 0';
+    
 
     // Level progress bar
     const levelProgressDiv = document.createElement('div');
@@ -103,12 +109,14 @@ function loadGameScreen() {
     spellBarEmpty.classList.add('spellBarEmpty');
     const spellBarFill = document.createElement('span');
     spellBarFill.classList.add('spellBarFill');
-    const spellChargedText = document.createElement('div');
-    spellChargedText.classList.add('spellChargedText');
+    
     spellBarBorder.appendChild(spellBarEmpty);
     spellBarEmpty.appendChild(spellBarFill);
     spellDisplay.appendChild(spellBarBorder);
-    spellDisplay.appendChild(spellChargedText);
+    
+    const spellChargedText = document.createElement('div');
+    spellChargedText.classList.add('spellChargedText');
+    levelProgressDiv.appendChild(spellChargedText);
 
     const bossDisplay = document.createElement('div');
     bossDisplay.setAttribute('id', 'bossDisplay');
@@ -157,6 +165,7 @@ function loadGameScreen() {
     leftContent.appendChild(levelNameDisplay);
     leftContent.appendChild(scoreDisplay);
     leftContent.appendChild(multiplierDiv);
+    leftContent.appendChild(noteStreakDiv);
     leftContent.appendChild(staffDiv);
     leftContent.appendChild(levelProgressDiv);
     leftContent.appendChild(bossNoteDisplay);
@@ -201,10 +210,12 @@ function loadGameScreen() {
         scoreMultiplier = 1;
         multiplierCharge = 0;
         consecutiveAnswers = 0;
+        longestNoteStreak = 0;
         let multiplierFill = `0%`;
         let root = document.querySelector(':root');
         root.style.setProperty('--multiplierFill', multiplierFill);
         multiplierText.textContent = `${scoreMultiplier}X`;
+        noteStreakDiv.textContent = 'Note streak: 0';
         levelIndex = levels.findIndex(level => level.id === continueLevel);
         life = 5;
         startNewLevel(levels[levelIndex]);
@@ -228,10 +239,12 @@ function loadGameScreen() {
             scoreMultiplier = 1;
             multiplierCharge = 0;
             consecutiveAnswers = 0;
+            longestNoteStreak = 0;
             let multiplierFill = `0%`;
             let root = document.querySelector(':root');
             root.style.setProperty('--multiplierFill', multiplierFill);
             multiplierText.textContent = `${scoreMultiplier}X`;
+            noteStreakDiv.textContent = 'Note streak: 0';
             bossNoteDisplay.textContent = '';
             life = 5;
             levelIndex = 1;
@@ -313,6 +326,7 @@ function loadGameScreen() {
     let finalBossDefeated = false;
     let scoreMultiplier = 1;
     let consecutiveAnswers = 0;
+    let longestNoteStreak = 0;
     let multiplierCharge = 0;
     let bossDefeated = false;
     let stairsOn = false;
@@ -1072,6 +1086,11 @@ function loadGameScreen() {
         scoreTotal.textContent = `Score: ${score}`;
 
         multiplierText.textContent = `${scoreMultiplier}X`;
+        noteStreakDiv.textContent = `Note streak: ${consecutiveAnswers}`;
+
+        if (consecutiveAnswers > longestNoteStreak) {
+            longestNoteStreak = consecutiveAnswers;
+        }
     }
 
     function decreaseLife() {
@@ -1080,6 +1099,8 @@ function loadGameScreen() {
         let root = document.querySelector(':root');
         root.style.setProperty('--multiplierFill', '0%');
         multiplierText.textContent = `1X`;
+        noteStreakDiv.textContent = `Note streak: ${consecutiveAnswers}`;
+
 
         playSoundEffect('hero-damage');
         life--;
@@ -1110,8 +1131,7 @@ function loadGameScreen() {
         } else {
             gameOver.textContent = 'GAME OVER';
         }
-
-        gameOverScore.textContent = `Score: ${score}`;
+        gameOverScore.textContent = `Score: ${score} - Note streak: ${longestNoteStreak}`;
         endGameOverlay.style.display = 'block';
         let currentWorld = Math.floor((levels[levelIndex].id - 1) / 10);
         let continueLevel = (currentWorld * 10) + 1;
@@ -1120,6 +1140,10 @@ function loadGameScreen() {
         continueButton.textContent = `Continue? (Level ${levelName})`;
         // nextLevelButton.style.display = 'none';
         // replayButton.style.display = 'block';
+        updateHighScores(score);
+        updateHighNoteStreaks(longestNoteStreak);
+        saveHighScores();
+
     }
 
     function displayEndingScreen() {
@@ -1133,11 +1157,13 @@ function loadGameScreen() {
         playBackgroundAudioLoop('end-credits');
         // resultDisplay.textContent = 'You are a melody master!';
         winText.textContent = 'YOU ARE A MELODY MASTER!';
-        winScore.textContent = `Final Score: ${score}`;
+        winScore.textContent = `Final Score: ${score} - Note streak: ${longestNoteStreak}`;
         winScreen.style.display = 'block';
         // nextLevelButton.style.display = 'none';
         // replayButton.style.display = 'block';
-        // TODO Win screen
+        updateHighScores(score);
+        updateHighNoteStreaks(longestNoteStreak);
+        saveHighScores();
     }
 
     function levelComplete(level) {
@@ -1321,6 +1347,17 @@ function loadGameScreen() {
 
         if (spellCharge === spellChargeMax) {
             spellBarFill.classList.add('blink');
+            let chordName;
+            
+            if (finalSpellStatus) {
+                chordName = levels[levelIndex].finalChordName;
+            } else {
+                chordName = levels[levelIndex].chords[chordIndex].name;
+            }
+            
+            const chordNameText = document.createElement('div');
+            chordNameText.textContent = `${chordName} chord charged!`;
+            spellChargedText.appendChild(chordNameText);
         }
 
     }
@@ -1649,6 +1686,11 @@ function loadGameScreen() {
         gameOverStatus = false;
         finalSpellStatus = false;
         spellChargeMax = 3;
+        spellCharge = 0;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--spellChargeFill', '0%');
+        root.style.setProperty('--bossLifeFill', '0%');
+
         activeTileIndex = 0;
         // TODO: embed # of enemies and placement inside the level objects
         enemyTileIndices = [];
@@ -1858,6 +1900,7 @@ function loadGameScreen() {
 
     function startPracticeMode() {
         stopAllBackgroundAudio();
+
         gameOverStatus = false;
         // Set level index to practice level
         levelIndex = 0;
@@ -1874,7 +1917,7 @@ function loadGameScreen() {
         setTileColor(levels[levelIndex]);
         levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
         // levelNameDisplay.textContent = `${levels[levelIndex].name}`;
-        life = 5;
+        life = 3;
         updateLifeBar(life);
         // resultDisplay.textContent = '';
         haveKey = false;
@@ -1892,10 +1935,7 @@ function loadGameScreen() {
         spellBarBorder.innerHTML = '';
         bossDisplay.innerHTML = '';
 
-        const returnButton = createReturnButton();
-        returnButton.textContent = 'Back to Title Screen';
-        returnButton.style.margin = 'auto';
-        leftContent.appendChild(returnButton);
+        // TODO: return to title button.
     }
 
     // Disable scrolling on game screen
@@ -2040,15 +2080,17 @@ function createHowToPlayButton() {
 function createHighScoresButton() {
     const highScoresButton = document.createElement('button');
     highScoresButton.classList.add('gameButton');
-    highScoresButton.textContent = 'High Scores (coming soon!)';
-    highScoresButton.addEventListener('click', loadHighScoresScreen);
+    highScoresButton.textContent = 'High Scores';
+    highScoresButton.addEventListener('click', () => {
+        loadHighScoresScreen();
+        const returnButton = createReturnButton();
+        content.appendChild(returnButton);
+        const footerDiv = createFooterDiv();
+        content.appendChild(footerDiv);
+    });
     return highScoresButton;
 }
 
-function loadHighScoresScreen() {
-    //TODO
-    return;
-}
 
 function createReturnButton() {
     const returnButton = document.createElement('button');
@@ -2169,3 +2211,4 @@ function resizeGameScreen() {
         }
     }
 }
+
