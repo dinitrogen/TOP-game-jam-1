@@ -5,6 +5,7 @@ let gameState = {
     levelIndex: 1,
     score: 0,
     multiplier: 1,
+    multiplierCharge: 0,
     consecutiveAnswers: 0,
     longestNoteStreak: 0,
 };
@@ -81,11 +82,12 @@ function saveHighScores() {
 }
 
 
-function saveGameData(easyModeStatus, index, score, multiplier, consecAns, noteStreak) {
+function saveGameData(easyModeStatus, index, score, multiplier, multiplierCharge, consecAns, noteStreak) {
     gameState.easyModeStatus = easyModeStatus
     gameState.levelIndex = index;
     gameState.score = score;
     gameState.multiplier = multiplier;
+    gameState.multiplierCharge = multiplierCharge;
     gameState.consecutiveAnswers = consecAns;
     gameState.longestNoteStreak = noteStreak;
     saveGameState();

@@ -1149,7 +1149,7 @@ function loadGameScreen() {
         scoreMultiplier = 1;
         consecutiveAnswers = 0;
         longestNoteStreak = 0;
-        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, consecutiveAnswers, longestNoteStreak);
+        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, multiplierCharge, consecutiveAnswers, longestNoteStreak);
     }
 
     function displayEndingScreen() {
@@ -1254,7 +1254,7 @@ function loadGameScreen() {
         stairsOn = false;
         
         // Update progress of the current game and save to local storage
-        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, consecutiveAnswers, longestNoteStreak);
+        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, multiplierCharge, consecutiveAnswers, longestNoteStreak);
 
         levelIndex++;
 
@@ -1958,6 +1958,10 @@ function loadGameScreen() {
         scoreTotal.textContent = `Score: ${score}`;
         multiplierText.textContent = `${scoreMultiplier}X`;
         noteStreakDiv.textContent = `Note streak: ${consecutiveAnswers}`;
+        let multiplierPercent = Math.floor(multiplierCharge / 5 * 100);
+        let multiplierFill = `${multiplierPercent}%`;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--multiplierFill', multiplierFill);
 
         // TODO: add bossNotes to inventory
     }
@@ -1974,6 +1978,7 @@ function loadGameScreen() {
         levelIndex = gameState.levelIndex;
         score = gameState.score;
         scoreMultiplier = gameState.multiplier;
+        multiplierCharge = gameState.multiplierCharge
         consecutiveAnswers = gameState.consecutiveAnswers;
         longestNoteStreak = gameState.longestNoteStreak;
         updateScoreDisplays();
@@ -2114,6 +2119,7 @@ function loadNameInputScreen() {
     nameInputDiv.appendChild(nameInput);
 
     const startButton = document.createElement('button');
+    startButton.setAttribute('id', 'startButton');
     startButton.classList.add('gameButton');
     startButton.textContent = 'Enter the Dungeon!';
     startButton.addEventListener('click', () => {
@@ -2122,9 +2128,13 @@ function loadNameInputScreen() {
         gameState.playerName = nameInput.value;
         console.log(gameState.playerName);
         saveGameState();
+        document.getElementById('startButton').setAttribute('disabled', 'true');
+        document.getElementById('returnButton').setAttribute('disabled', 'true');
         playBackgroundAudioOnce('new-game').then(() => {
             loadGameScreen();
         });
+        document.getElementById('startButton').setAttribute('disabled', 'false');
+        document.getElementById('returnButton').setAttribute('disabled', 'false');
     });
 
     nameInputDiv.appendChild(startButton);
@@ -2192,6 +2202,7 @@ function createHighScoresButton() {
 function createReturnButton() {
     const returnButton = document.createElement('button');
     returnButton.classList.add('gameButton');
+    returnButton.setAttribute('id', 'returnButton');
     returnButton.textContent = 'Back';
     returnButton.style.margin = '0 200px';
     returnButton.style.padding = '20px 0px 20px 0px';
