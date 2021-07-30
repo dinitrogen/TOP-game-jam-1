@@ -1143,7 +1143,13 @@ function loadGameScreen() {
         updateHighScores(score);
         updateHighNoteStreaks(longestNoteStreak);
         saveHighScores();
-
+        
+        // Prevent save scumming
+        score = 0;
+        scoreMultiplier = 1;
+        consecutiveAnswers = 0;
+        longestNoteStreak = 0;
+        saveGameData();
     }
 
     function displayEndingScreen() {
@@ -1164,6 +1170,9 @@ function loadGameScreen() {
         updateHighScores(score);
         updateHighNoteStreaks(longestNoteStreak);
         saveHighScores();
+
+        // Prevent save scumming
+        resetGameState();
     }
 
     function levelComplete(level) {
@@ -1243,7 +1252,12 @@ function loadGameScreen() {
 
     function goToNextLevel() {
         stairsOn = false;
+        
+        // Update progress of the current game and save to local storage
+        saveGameData(levelIndex, score, scoreMultiplier, consecutiveAnswers, longestNoteStreak);
+
         levelIndex++;
+
         if (levelIndex >= levels.length) {
             displayEndingScreen();
         } else if (levels[levelIndex].type === 'finalBoss') {
@@ -1732,6 +1746,7 @@ function loadGameScreen() {
         }
 
         updateLevelProgressBar();
+
     }
 
     function updateLevelProgressBar() {
@@ -1931,6 +1946,7 @@ function loadGameScreen() {
         timerDisplay.appendChild(practiceStaff);
         scoreDisplay.innerHTML = '';
         multiplierDiv.innerHTML = '';
+        noteStreakDiv.innerHTML = '';
         spellDisplay.innerHTML = '';
         spellBarBorder.innerHTML = '';
         bossDisplay.innerHTML = '';
@@ -1938,11 +1954,33 @@ function loadGameScreen() {
         // TODO: return to title button.
     }
 
+    function updateScoreDisplays() {
+        scoreTotal.textContent = `Score: ${score}`;
+        multiplierText.textContent = `${scoreMultiplier}X`;
+        noteStreakDiv.textContent = `Note streak: ${consecutiveAnswers}`;
+
+        // TODO: add bossNotes to inventory
+    }
+
+
     // Disable scrolling on game screen
     document.body.style.position = 'fixed';
 
+    // If continuing a saved game, update properties and go to next level
+    if (continueGameStatus) {
+        
+        continueGameStatus = false;
+        easyModeStatus = gameState.easyModeStatus;
+        levelIndex = gameState.levelIndex;
+        score = gameState.score;
+        scoreMultiplier = gameState.multiplier;
+        consecutiveAnswers = gameState.consecutiveAnswers;
+        longestNoteStreak = gameState.longestNoteStreak;
+        updateScoreDisplays();
+        goToNextLevel();
+
     // Start a new game in practice or normal mode
-    if (practiceModeStatus === true) {
+    } else if (practiceModeStatus === true) {
         startPracticeMode();
     } else {
         startNewGame();
@@ -1984,6 +2022,8 @@ function createNewGameButtonDiv() {
     return newGameButtonDiv;
 }
 
+let continueGameStatus = false;
+
 function createContinueButtonDiv() {
     const continueButtonDiv = document.createElement('div');
     continueButtonDiv.classList.add('newGameButtonDiv');
@@ -1991,14 +2031,22 @@ function createContinueButtonDiv() {
     continueButton.setAttribute('id', 'continueButton');
     continueButton.setAttribute('class', 'gameButton');
     const continueButtonText = document.createElement('span');
-    continueButtonText.textContent = 'Continue (coming soon!)';
+    continueButtonText.textContent = 'Continue';
     continueButton.addEventListener('click', () => {
-        return;
-        //TODO: retrieve saved game from local storage
-        //loadGameScreen();
+        if (localStorage.getItem('myGameState')) {
+            loadGameState();
+            continueGameStatus = true;
+            easyModeStatus = gameState.easyModeStatus;
+            loadGameScreen();  
+        }
     });
     continueButton.appendChild(continueButtonText);
     continueButtonDiv.appendChild(continueButton);
+    
+    if (!localStorage.getItem('myGameState')) {
+        console.log('No saved game found.');
+        // TODO: Disable button  
+    }
     return continueButtonDiv;
 }
 
@@ -2014,8 +2062,7 @@ function loadDifficultySettings() {
     normalModeButton.classList.add('gameButton');
     normalModeButton.textContent = 'Normal';
     normalModeButton.addEventListener('click', () => {
-        playBackgroundAudioOnce('new-game').then(() => {
-            loadGameScreen();
+        loadNameInputScreen();
         });
     });
 
@@ -2023,10 +2070,8 @@ function loadDifficultySettings() {
     easyModeButton.classList.add('gameButton');
     easyModeButton.textContent = 'Easy (No timer, but score multipliers are disabled)';
     easyModeButton.addEventListener('click', () => {
-        easyModeStatus = true;
-        playBackgroundAudioOnce('new-game').then(() => {
-            loadGameScreen();
-        });
+        easyModeStatus = true;      
+        loadNameInputScreen();
     });
 
     difficultySettingsDiv.appendChild(difficultyText);
@@ -2050,6 +2095,56 @@ function loadDifficultySettings() {
     newGameScreenContent.appendChild(footerDiv);
 
     content.appendChild(newGameScreenContent);
+}
+
+function loadNameInputScreen() {
+    const nameInputDiv = document.createElement('div');
+    nameInputDiv.classList.add('newGameButtonDiv');
+    const nameInputText = document.createElement('div');
+    nameInputText.classList.add('nameInputText');
+    nameInputText.textContent = 'Enter your name:';
+    nameInputDiv.appendChild(nameInputText);
+
+    const nameInput = document.createElement('input');
+    nameInput.setAttribute('id', 'nameInput');
+    nameInput.setAttribute('type', 'text');
+    nameInput.setAttribute('autofocus', true);
+    nameInput.setAttribute('maxlength', 15);
+    nameInput.setAttribute('autocomplete', 'off');
+    nameInputDiv.appendChild(nameInput);
+
+    const startButton = document.createElement('button');
+    startButton.classList.add('gameButton');
+    startButton.textContent = 'Enter the Dungeon!';
+    startButton.addEventListener('click', () => {
+        resetGameState();
+        const nameInput = document.getElementById('nameInput');
+        gameState.playerName = nameInput.value;
+        console.log(gameState.playerName);
+        saveGameState();
+        playBackgroundAudioOnce('new-game').then(() => {
+            loadGameScreen();
+    });
+    nameInputDiv.appendChild(startButton);
+
+    const content = document.getElementById('content');
+    content.textContent = '';
+    content.innerHTML = '';
+    const newGameScreenContent = document.createElement('div');
+    newGameScreenContent.classList.add('newGameScreenContent');
+    const titleLogoDiv = createTitleLogoDiv();
+    const spacerDiv = createSpacerDiv();
+    const footerDiv = createFooterDiv();
+    const returnButton = createReturnButton();
+
+    newGameScreenContent.appendChild(titleLogoDiv);
+    newGameScreenContent.appendChild(nameInputDiv);
+    newGameScreenContent.appendChild(returnButton);
+    newGameScreenContent.appendChild(spacerDiv);
+    newGameScreenContent.appendChild(footerDiv);
+    
+    content.appendChild(newGameScreenContent);
+
 }
 
 function createPracticeModeButton() {
