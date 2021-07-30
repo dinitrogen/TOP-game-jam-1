@@ -2063,8 +2063,8 @@ function loadDifficultySettings() {
     normalModeButton.textContent = 'Normal';
     normalModeButton.addEventListener('click', () => {
         loadNameInputScreen();
-        });
     });
+    
 
     const easyModeButton = document.createElement('button');
     easyModeButton.classList.add('gameButton');
@@ -2124,7 +2124,9 @@ function loadNameInputScreen() {
         saveGameState();
         playBackgroundAudioOnce('new-game').then(() => {
             loadGameScreen();
+        });
     });
+
     nameInputDiv.appendChild(startButton);
 
     const content = document.getElementById('content');
