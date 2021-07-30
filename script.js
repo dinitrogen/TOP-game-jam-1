@@ -1125,7 +1125,7 @@ function loadGameScreen() {
 
     function displayEndingScreen() {
         gameOverStatus = true; // To disable controls
-        playAudioTrack('ending', false, 0);
+        playBackgroundAudioOnce('ending');
         endingScreen.style.display = 'block';
     }
 
