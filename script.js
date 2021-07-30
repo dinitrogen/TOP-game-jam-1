@@ -103,12 +103,14 @@ function loadGameScreen() {
     spellBarEmpty.classList.add('spellBarEmpty');
     const spellBarFill = document.createElement('span');
     spellBarFill.classList.add('spellBarFill');
-    const spellChargedText = document.createElement('div');
-    spellChargedText.classList.add('spellChargedText');
+    
     spellBarBorder.appendChild(spellBarEmpty);
     spellBarEmpty.appendChild(spellBarFill);
     spellDisplay.appendChild(spellBarBorder);
-    spellDisplay.appendChild(spellChargedText);
+    
+    const spellChargedText = document.createElement('div');
+    spellChargedText.classList.add('spellChargedText');
+    levelProgressDiv.appendChild(spellChargedText);
 
     const bossDisplay = document.createElement('div');
     bossDisplay.setAttribute('id', 'bossDisplay');
@@ -1324,6 +1326,17 @@ function loadGameScreen() {
 
         if (spellCharge === spellChargeMax) {
             spellBarFill.classList.add('blink');
+            let chordName;
+            
+            if (finalSpellStatus) {
+                chordName = levels[levelIndex].finalChordName;
+            } else {
+                chordName = levels[levelIndex].chords[chordIndex].name;
+            }
+            
+            const chordNameText = document.createElement('div');
+            chordNameText.textContent = `${chordName} chord charged!`;
+            spellChargedText.appendChild(chordNameText);
         }
 
     }
@@ -1652,6 +1665,11 @@ function loadGameScreen() {
         gameOverStatus = false;
         finalSpellStatus = false;
         spellChargeMax = 3;
+        spellCharge = 0;
+        let root = document.querySelector(':root');
+        root.style.setProperty('--spellChargeFill', '0%');
+        root.style.setProperty('--bossLifeFill', '0%');
+
         activeTileIndex = 0;
         // TODO: embed # of enemies and placement inside the level objects
         enemyTileIndices = [];
