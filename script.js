@@ -1050,22 +1050,24 @@ function loadGameScreen() {
     }
 
     function increaseScore() {
-        consecutiveAnswers++;
-        multiplierCharge++;
-        
-        if (multiplierCharge >= 5) {
-            multiplierCharge = 0;
-        }
+        if (!easyModeStatus) {
+            consecutiveAnswers++;
+            multiplierCharge++;
+            
+            if (multiplierCharge >= 5) {
+                multiplierCharge = 0;
+            }
 
-        scoreMultiplier = Math.floor(consecutiveAnswers / 5) + 1;
-        if (scoreMultiplier > 10) {
-            scoreMultiplier = 10;
-        }
+            scoreMultiplier = Math.floor(consecutiveAnswers / 5) + 1;
+            if (scoreMultiplier > 10) {
+                scoreMultiplier = 10;
+            }
 
-        let multiplierPercent = Math.floor(multiplierCharge / 5 * 100);
-        let multiplierFill = `${multiplierPercent}%`;
-        let root = document.querySelector(':root');
-        root.style.setProperty('--multiplierFill', multiplierFill);
+            let multiplierPercent = Math.floor(multiplierCharge / 5 * 100);
+            let multiplierFill = `${multiplierPercent}%`;
+            let root = document.querySelector(':root');
+            root.style.setProperty('--multiplierFill', multiplierFill);
+        }
 
         score = score + (100 * scoreMultiplier);
         scoreTotal.textContent = `Score: ${score}`;
@@ -1925,6 +1927,11 @@ function loadGameScreen() {
         spellDisplay.innerHTML = '';
         spellBarBorder.innerHTML = '';
         bossDisplay.innerHTML = '';
+
+        const returnButton = createReturnButton();
+        returnButton.textContent = 'Back to Title Screen';
+        returnButton.style.margin = 'auto';
+        leftContent.appendChild(returnButton);
     }
 
 // Disable scrolling on game screen
@@ -1963,7 +1970,7 @@ function createNewGameButtonDiv() {
     newGameButton.setAttribute('id', 'newGameButton');
     newGameButton.setAttribute('class', 'gameButton');
     const newGameButtonText = document.createElement('span');
-    newGameButtonText.textContent = 'Enter the Dungeon';
+    newGameButtonText.textContent = 'New Game';
     newGameButton.addEventListener('click', () => {
         loadDifficultySettings();
         //loadGameScreen();
@@ -1973,11 +1980,32 @@ function createNewGameButtonDiv() {
     return newGameButtonDiv;
 }
 
+function createContinueButtonDiv() {
+    const continueButtonDiv = document.createElement('div');
+    continueButtonDiv.classList.add('newGameButtonDiv');
+    const continueButton = document.createElement('button');
+    continueButton.setAttribute('id', 'continueButton');
+    continueButton.setAttribute('class', 'gameButton');
+    const continueButtonText = document.createElement('span');
+    continueButtonText.textContent = 'Continue (coming soon!)';
+    continueButton.addEventListener('click', () => {
+        return;
+        //TODO: retrieve saved game from local storage
+        //loadGameScreen();
+    });
+    continueButton.appendChild(continueButtonText);
+    continueButtonDiv.appendChild(continueButton);
+    return continueButtonDiv;
+}
+
 let easyModeStatus = false;
 
 function loadDifficultySettings() {
     const difficultySettingsDiv = document.createElement('div');
-    difficultySettingsDiv.classList.add('newGameButtonDiv')
+    difficultySettingsDiv.classList.add('newGameButtonDiv');
+    const difficultyText = document.createElement('div');
+    difficultyText.classList.add('difficultyText');
+    difficultyText.textContent = 'Choose Difficulty:';
     const normalModeButton = document.createElement('button');
     normalModeButton.classList.add('gameButton');
     normalModeButton.textContent = 'Normal';
@@ -1993,6 +2021,7 @@ function loadDifficultySettings() {
         loadGameScreen();
     });
 
+    difficultySettingsDiv.appendChild(difficultyText);
     difficultySettingsDiv.appendChild(normalModeButton);
     difficultySettingsDiv.appendChild(easyModeButton);
 
@@ -2040,15 +2069,15 @@ function createHowToPlayButton() {
     return howToPlayButton;
 }
 
-function createOptionsButton() {
-    const optionsButton = document.createElement('button');
-    optionsButton.classList.add('gameButton');
-    optionsButton.textContent = 'Options';
-    optionsButton.addEventListener('click', loadOptionsScreen);
-    return optionsButton;
+function createHighScoresButton() {
+    const highScoresButton = document.createElement('button');
+    highScoresButton.classList.add('gameButton');
+    highScoresButton.textContent = 'High Scores (coming soon!)';
+    highScoresButton.addEventListener('click', loadHighScoresScreen);
+    return highScoresButton;
 }
 
-function loadOptionsScreen() {
+function loadHighScoresScreen() {
     //TODO
     return;
 }
@@ -2058,7 +2087,11 @@ function createReturnButton () {
     returnButton.classList.add('gameButton');
     returnButton.textContent = 'Back';
     returnButton.style.margin = '0 200px';
-    returnButton.addEventListener('click', loadNewGameScreen);
+    returnButton.style.padding = '20px 0px 20px 0px';
+    returnButton.addEventListener('click', () => {
+        practiceModeStatus = false;
+        loadNewGameScreen();
+    });
     return returnButton;
 }
 
@@ -2124,12 +2157,14 @@ function loadNewGameScreen() {
 
     const titleLogoDiv = createTitleLogoDiv();
     const newGameButtonDiv = createNewGameButtonDiv();
+    const continueButtonDiv = createContinueButtonDiv();
     const practiceModeButton = createPracticeModeButton();
     const howToPlayButton = createHowToPlayButton();
-    const optionsButton = createOptionsButton();
+    const optionsButton = createHighScoresButton();
     const spacerDiv = createSpacerDiv();
     const footerDiv = createFooterDiv();
 
+    newGameButtonDiv.appendChild(continueButtonDiv);
     newGameButtonDiv.appendChild(practiceModeButton);
     newGameButtonDiv.appendChild(howToPlayButton);
     newGameButtonDiv.appendChild(optionsButton);

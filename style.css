@@ -76,7 +76,13 @@ body, html, #content {
     background-color: rgb(202, 202, 202);
     display: flex;
     flex-direction: column;
-    
+    text-align: center;    
+}
+
+.difficultyText {
+    font-family: "Press Start 2P";
+    font-size: 24px;
+    padding: 20px 0px 20px 0px;
 }
 
 .spacerDiv {
