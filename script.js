@@ -1082,7 +1082,7 @@ function loadGameScreen() {
         root.style.setProperty('--multiplierFill', '0%');
         multiplierText.textContent = `1X`;
 
-        playSound('hero-damage');
+        playSoundEffect('hero-damage');
         life--;
         updateLifeBar(life);
         if (life <= 0) {
@@ -1098,12 +1098,12 @@ function loadGameScreen() {
         score = score + 200 * scoreMultiplier;
         scoreTotal.textContent = `Score: ${score}`;
 
-        playSound('heart-pickup');
+        playSoundEffect('heart-pickup');
         updateLifeBar(life);
     }
 
     function displayGameOver() {
-        playAudioTrack('game-over', true, 0);
+        playBackgroundAudioLoop('game-over');
         gameOverStatus = true;
         // resultDisplay.textContent = 'GAME OVER';
         if (timeLeft <= 0) {
@@ -1131,7 +1131,7 @@ function loadGameScreen() {
 
     function displayWinScreen() {
         gameOverStatus = true; // To disable controls
-        playAudioTrack('end-credits', true, 0);
+        playBackgroundAudioLoop('end-credits');
         // resultDisplay.textContent = 'You are a melody master!';
         winText.textContent = 'YOU ARE A MELODY MASTER!';
         winScore.textContent = `Final Score: ${score}`;
@@ -1143,10 +1143,7 @@ function loadGameScreen() {
 
     function levelComplete(level) {
         // resultDisplay.textContent = 'LEVEL COMPLETE';
-        setTimeout(function() {
-            playAudioTrack('stage-complete', false, 0);
-            //playMelody(level);
-        }, 1000);
+        playBackgroundAudioOnce('stage-complete', false);
         
         noteDelay = 2;
 
@@ -1157,10 +1154,8 @@ function loadGameScreen() {
         score = score + (1000 * scoreMultiplier);
         scoreTotal.textContent = `Score: ${score}`;
 
-        playSound('boss-defeated');
-        setTimeout(function() {
-            playAudioTrack('stage-complete', false, 0);
-        }, 500);
+        playSoundEffect('boss-defeated');
+        playBackgroundAudioOnce('stage-complete', false);
         bossDefeated = true;
         drawGrid();
         placeWalls(levels[levelIndex].mapId);
@@ -1180,7 +1175,7 @@ function loadGameScreen() {
         score = score + 2000;
         scoreTotal.textContent = `Score: ${score}`;
 
-        playSound('boss-note-pickup');
+        playSoundEffect('boss-note-pickup');
         
         bossDefeated = false;
         let bossNoteImg = levels[levelIndex].bossNoteImg;
@@ -1223,29 +1218,6 @@ function loadGameScreen() {
             }        
     }
 
-    function playNote(note, duration, delay) {
-        if (bgMusicTrack) {
-            bgMusicTrack.volume.value = -30;
-            setTimeout(function() {
-                bgMusicTrack.volume.value = -10
-            }, (duration * 1000));
-        }
-        
-        const synth = new Tone.Synth().toDestination();
-        synth.volume.value = 0;
-        synth.triggerAttackRelease(note, duration, delay);
-    }
-
-    function playMelody(level) {
-        for (let i = 0; i < level.notes.length; i++) {
-            let now = Tone.now();
-            let note = `${level.notes[i].letter}${level.notes[i].octave}`;
-            let duration = level.notes[i].duration;
-            playNote(note, duration, now + noteDelay);
-            noteDelay = noteDelay + level.notes[i].duration;
-        }
-    }
-
     function goToNextLevel() {
         stairsOn = false;
         levelIndex++;
@@ -1256,20 +1228,20 @@ function loadGameScreen() {
             levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
             // levelNameDisplay.textContent = 'FINAL BOSS!';
             loadFinalBossStage();
-            playSound('stairs');
+            playSoundEffect('stairs');
     
         } else if (levels[levelIndex].type === 'boss') {
             console.log('boss stage');
             levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
             //levelNameDisplay.textContent = 'BOSS STAGE!';
             loadBossStage();
-            playSound('stairs');
+            playSoundEffect('stairs');
     
         } else {
             levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
             // levelNameDisplay.textContent = `${levels[levelIndex].name}`
             startNewLevel(levels[levelIndex]);
-            playSound('stairs');
+            playSoundEffect('stairs');
         }
     }
 
@@ -1312,7 +1284,7 @@ function loadGameScreen() {
         score = score + 200 * scoreMultiplier;
         scoreTotal.textContent = `Score: ${score}`;
 
-        playSound('item-pickup');
+        playSoundEffect('item-pickup');
         if (haveKey === false) {
             let key = document.createElement('object');
             key.setAttribute('data', `./img/map-icons/key.svg`);
@@ -1327,7 +1299,7 @@ function loadGameScreen() {
         score = score + 500 * scoreMultiplier;
         scoreTotal.textContent = `Score: ${score}`;
 
-        playSound('item-pickup');
+        playSoundEffect('item-pickup');
         if (timeLeft + 10 > levels[levelIndex].time) {
             timeLeft = levels[levelIndex].time;
         } else {
@@ -1358,7 +1330,7 @@ function loadGameScreen() {
 
     function castSpell() {
         console.log('BOOM!');
-        playSound('spell-blast');
+        playSoundEffect('spell-blast');
         spellCharge = 0;
         spellBarFill.classList.remove('blink');
         let root = document.querySelector(':root');
@@ -1550,7 +1522,7 @@ function loadGameScreen() {
     }
 
     function finalSpellCast() {
-        playSound('spell-blast');
+        playSoundEffect('spell-blast');
         console.log('Final BOOM!');
         spellCharge = 0;
         spellBarFill.classList.remove('blink');
@@ -1714,7 +1686,7 @@ function loadGameScreen() {
         });
         renderHeroSprite(activeTileIndex);
         
-        playAudioTrack(level.bgMusic, true, level.loopTime);
+        playBackgroundAudioLoop(level.bgMusic);
 
         if (!easyModeStatus) {
             startTimer();
@@ -1779,8 +1751,7 @@ function loadGameScreen() {
 
         root.style.setProperty('--levelProgressFill', '0%');
         
-        playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime);
-        
+        playBackgroundAudioLoop(levels[levelIndex].bgMusic);
         if (!easyModeStatus) {
             startTimer();
         }
@@ -1832,8 +1803,7 @@ function loadGameScreen() {
 
         root.style.setProperty('--levelProgressFill', '0%');
         
-        playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime);
-        
+        playBackgroundAudioLoop(levels[levelIndex].bgMusic);
         if (!easyModeStatus) {
             startTimer();
         }
@@ -1882,8 +1852,9 @@ function loadGameScreen() {
         root.style.setProperty('--levelProgressFill', '0%');
         spellChargedText.textContent = '';
         
-        playAudioTrack('new-game', false, 0);
-        setTimeout(function() { playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime)}, 5000);
+        playBackgroundAudioOnce('new-game').then(() => {
+            playBackgroundAudioLoop(levels[levelIndex].bgMusic);    
+        });
         
         if (!easyModeStatus) {
             startTimer();
@@ -1891,9 +1862,7 @@ function loadGameScreen() {
     }
 
     function startPracticeMode() {
-        if(bgMusicTrack) {
-            bgMusicTrack.stop();
-        }
+        stopAudio();
         gameOverStatus = false;
         // Set level index to practice level
         levelIndex = 0;
@@ -2148,7 +2117,7 @@ function loadTitleScreen() {
 let practiceModeStatus = false;
 
 function loadNewGameScreen() {
-    playAudioTrack('title-screen', true, 0);
+    playBackgroundAudioLoop('title-screen');
     const content = document.getElementById('content');
     content.textContent = '';
     content.innerHTML = '';
@@ -2201,30 +2170,3 @@ function resizeGameScreen() {
         }
     }
 }
-
-// Music and sound effects player
-// TODO : refactor code to move this variable and function back into a local scope.
-let bgMusicTrack;
-let soundEffect;
-
-// Plays background music/sounds from .wav files
-function playAudioTrack(trackName, loopStatus, loopStartTime) {
-    if(bgMusicTrack) {
-        bgMusicTrack.stop();
-    }
-    bgMusicTrack = new Tone.Player(`./music/${trackName}.wav`).toDestination();
-    bgMusicTrack.volume.value = -10;
-    bgMusicTrack.loopStart = loopStartTime;
-    bgMusicTrack.autostart = true;
-    bgMusicTrack.loop = loopStatus; // boolean
-}
-
-function playSound(trackName) {
-    soundEffect = new Tone.Player(`./sounds/${trackName}.wav`).toDestination();
-    soundEffect.autostart = true;
-}
-
-
-
-
-
