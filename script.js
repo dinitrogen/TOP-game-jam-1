@@ -1,4 +1,5 @@
 import { loadHowToPlayScreen } from './how-to-play.js';
+import { loadHighScoresScreen } from './high-scores.js';
 import { levels } from './levels.js';
 import { notesLibrary } from './note-library.js';
 import { maps } from './maps.js';
@@ -1141,6 +1142,10 @@ function loadGameScreen() {
         continueButton.textContent = `Continue? (Level ${levelName})`;
         // nextLevelButton.style.display = 'none';
         // replayButton.style.display = 'block';
+        updateHighScores(score);
+        updateHighNoteStreaks(longestNoteStreak);
+        saveHighScores();
+
     }
 
     function displayEndingScreen() {
@@ -1158,7 +1163,9 @@ function loadGameScreen() {
         winScreen.style.display = 'block';
         // nextLevelButton.style.display = 'none';
         // replayButton.style.display = 'block';
-        // TODO Win screen
+        updateHighScores(score);
+        updateHighNoteStreaks(longestNoteStreak);
+        saveHighScores();
     }
 
     function levelComplete(level) {
@@ -2074,15 +2081,17 @@ function createHowToPlayButton() {
 function createHighScoresButton() {
     const highScoresButton = document.createElement('button');
     highScoresButton.classList.add('gameButton');
-    highScoresButton.textContent = 'High Scores (coming soon!)';
-    highScoresButton.addEventListener('click', loadHighScoresScreen);
+    highScoresButton.textContent = 'High Scores';
+    highScoresButton.addEventListener('click', () => {
+        loadHighScoresScreen();
+        const returnButton = createReturnButton();
+        content.appendChild(returnButton);
+        const footerDiv = createFooterDiv();
+        content.appendChild(footerDiv);
+    });
     return highScoresButton;
 }
 
-function loadHighScoresScreen() {
-    //TODO
-    return;
-}
 
 function createReturnButton () {
     const returnButton = document.createElement('button');
@@ -2203,3 +2212,4 @@ function resizeGameScreen() {
         }
     }
 }
+

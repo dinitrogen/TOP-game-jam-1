@@ -28,7 +28,7 @@ body, html, #content {
     background-color: rgb(202, 202, 202);
 }
 
-.howToPlayScreenContent {
+.howToPlayScreenContent, .highScoresScreenContent {
     padding: 50px 200px 100px 200px;
     background-color: rgb(202, 202, 202);
     display: flex;
