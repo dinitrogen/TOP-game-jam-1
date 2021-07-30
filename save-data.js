@@ -1,6 +1,7 @@
 
 let gameState = {
     playerName: 'Player',
+    easyModeStatus: false,
     levelIndex: 1,
     score: 0,
     multiplier: 1,
@@ -27,6 +28,7 @@ let highNoteStreaks = [
 function resetGameState() {
     gameState = {
         playerName: 'Player',
+        easyModeStatus: false,
         levelIndex: 1,
         score: 0,
         multiplier: 1,
@@ -80,7 +82,7 @@ function saveHighScores() {
 
 
 function saveGameData(index, score, multiplier, consecAns, noteStreak) {
-    gameState.levelId = index;
+    gameState.levelIndex = index;
     gameState.score = score;
     gameState.multiplier = multiplier;
     gameState.consecutiveAnswers = consecAns;

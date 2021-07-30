@@ -1174,11 +1174,7 @@ function loadGameScreen() {
         saveHighScores();
 
         // Prevent save scumming
-        score = 0;
-        scoreMultiplier = 1;
-        consecutiveAnswers = 0;
-        longestNoteStreak = 0;
-        saveGameData();
+        resetGameState();
     }
 
     function levelComplete(level) {
@@ -1260,10 +1256,11 @@ function loadGameScreen() {
 
     function goToNextLevel() {
         stairsOn = false;
-        levelIndex++;
-
+        
         // Update progress of the current game and save to local storage
         saveGameData(levelIndex, score, scoreMultiplier, consecutiveAnswers, longestNoteStreak);
+
+        levelIndex++;
 
         if (levelIndex >= levels.length) {
             displayEndingScreen();
@@ -1954,6 +1951,7 @@ function loadGameScreen() {
         timerDisplay.appendChild(practiceStaff);
         scoreDisplay.innerHTML = '';
         multiplierDiv.innerHTML = '';
+        noteStreakDiv.innerHTML = '';
         spellDisplay.innerHTML = '';
         spellBarBorder.innerHTML = '';
         bossDisplay.innerHTML = '';
@@ -1961,11 +1959,33 @@ function loadGameScreen() {
         // TODO: return to title button.
     }
 
-// Disable scrolling on game screen
-document.body.style.position = 'fixed';
+    function updateScoreDisplays() {
+        scoreTotal.textContent = `Score: ${score}`;
+        multiplierText.textContent = `${scoreMultiplier}X`;
+        noteStreakDiv.textContent = `Note streak: ${consecutiveAnswers}`;
 
-// Start a new game in practice or normal mode
-if (practiceModeStatus === true) {
+        // TODO: add bossNotes to inventory
+    }
+
+
+    // Disable scrolling on game screen
+    document.body.style.position = 'fixed';
+
+    // If continuing a saved game, update properties and go to next level
+    if (continueGameStatus) {
+        
+        continueGameStatus = false;
+        easyModeStatus = gameState.easyModeStatus;
+        levelIndex = gameState.levelIndex;
+        score = gameState.score;
+        scoreMultiplier = gameState.multiplier;
+        consecutiveAnswers = gameState.consecutiveAnswers;
+        longestNoteStreak = gameState.longestNoteStreak;
+        updateScoreDisplays();
+        goToNextLevel();
+
+    // Start a new game in practice or normal mode
+    } else if (practiceModeStatus === true) {
         startPracticeMode();
     } else {
         startNewGame();
@@ -2007,6 +2027,8 @@ function createNewGameButtonDiv() {
     return newGameButtonDiv;
 }
 
+let continueGameStatus = false;
+
 function createContinueButtonDiv() {
     const continueButtonDiv = document.createElement('div');
     continueButtonDiv.classList.add('newGameButtonDiv');
@@ -2014,14 +2036,22 @@ function createContinueButtonDiv() {
     continueButton.setAttribute('id', 'continueButton');
     continueButton.setAttribute('class', 'gameButton');
     const continueButtonText = document.createElement('span');
-    continueButtonText.textContent = 'Continue (coming soon!)';
+    continueButtonText.textContent = 'Continue';
     continueButton.addEventListener('click', () => {
-        return;
-        //TODO: retrieve saved game from local storage
-        //loadGameScreen();
+        if (localStorage.getItem('myGameState')) {
+            loadGameState();
+            continueGameStatus = true;
+            easyModeStatus = gameState.easyModeStatus;
+            loadGameScreen();  
+        }
     });
     continueButton.appendChild(continueButtonText);
     continueButtonDiv.appendChild(continueButton);
+    
+    if (!localStorage.getItem('myGameState')) {
+        console.log('No saved game found.');
+        // TODO: Disable button  
+    }
     return continueButtonDiv;
 }
 
@@ -2083,7 +2113,8 @@ function loadNameInputScreen() {
     nameInput.setAttribute('id', 'nameInput');
     nameInput.setAttribute('type', 'text');
     nameInput.setAttribute('autofocus', true);
-    nameInput.setAttribute('maxlength', 10);
+    nameInput.setAttribute('maxlength', 15);
+    nameInput.setAttribute('autocomplete', 'off');
     nameInputDiv.appendChild(nameInput);
 
     const startButton = document.createElement('button');
