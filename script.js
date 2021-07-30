@@ -1714,7 +1714,9 @@ function loadGameScreen() {
         
         playAudioTrack(level.bgMusic, true, level.loopTime);
 
-        startTimer();
+        if (!easyModeStatus) {
+            startTimer();
+        }
 
         updateLevelProgressBar();
     }
@@ -1776,7 +1778,10 @@ function loadGameScreen() {
         root.style.setProperty('--levelProgressFill', '0%');
         
         playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime);
-        startTimer();
+        
+        if (!easyModeStatus) {
+            startTimer();
+        }
     }
 
     function loadFinalBossStage() {
@@ -1826,7 +1831,10 @@ function loadGameScreen() {
         root.style.setProperty('--levelProgressFill', '0%');
         
         playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime);
-        startTimer();
+        
+        if (!easyModeStatus) {
+            startTimer();
+        }
     }
 
     function startNewGame() {
@@ -1874,7 +1882,10 @@ function loadGameScreen() {
         
         playAudioTrack('new-game', false, 0);
         setTimeout(function() { playAudioTrack(levels[levelIndex].bgMusic, true, levels[levelIndex].loopTime)}, 5000);
-        startTimer();
+        
+        if (!easyModeStatus) {
+            startTimer();
+        }
     }
 
     function startPracticeMode() {
@@ -1954,11 +1965,54 @@ function createNewGameButtonDiv() {
     const newGameButtonText = document.createElement('span');
     newGameButtonText.textContent = 'Enter the Dungeon';
     newGameButton.addEventListener('click', () => {
-        loadGameScreen();
+        loadDifficultySettings();
+        //loadGameScreen();
     });
     newGameButton.appendChild(newGameButtonText);
     newGameButtonDiv.appendChild(newGameButton);
     return newGameButtonDiv;
+}
+
+let easyModeStatus = false;
+
+function loadDifficultySettings() {
+    const difficultySettingsDiv = document.createElement('div');
+    difficultySettingsDiv.classList.add('newGameButtonDiv')
+    const normalModeButton = document.createElement('button');
+    normalModeButton.classList.add('gameButton');
+    normalModeButton.textContent = 'Normal';
+    normalModeButton.addEventListener('click', () => {
+        loadGameScreen();
+    });
+
+    const easyModeButton = document.createElement('button');
+    easyModeButton.classList.add('gameButton');
+    easyModeButton.textContent = 'Easy (No timer, but score multipliers are disabled)';
+    easyModeButton.addEventListener('click', () => {
+        easyModeStatus = true;
+        loadGameScreen();
+    });
+
+    difficultySettingsDiv.appendChild(normalModeButton);
+    difficultySettingsDiv.appendChild(easyModeButton);
+
+    const content = document.getElementById('content');
+    content.textContent = '';
+    content.innerHTML = '';
+    const newGameScreenContent = document.createElement('div');
+    newGameScreenContent.classList.add('newGameScreenContent');
+    const titleLogoDiv = createTitleLogoDiv();
+    const spacerDiv = createSpacerDiv();
+    const footerDiv = createFooterDiv();
+    const returnButton = createReturnButton();
+
+    newGameScreenContent.appendChild(titleLogoDiv);
+    newGameScreenContent.appendChild(difficultySettingsDiv);
+    newGameScreenContent.appendChild(returnButton);
+    newGameScreenContent.appendChild(spacerDiv);
+    newGameScreenContent.appendChild(footerDiv);
+    
+    content.appendChild(newGameScreenContent);
 }
 
 function createPracticeModeButton() {
