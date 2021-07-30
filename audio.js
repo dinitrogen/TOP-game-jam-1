@@ -10,7 +10,7 @@ function loadBackgroundAudio(audio) {
 
 // Stops any currently playing background audio and disposes the player
 function stopBackgroundAudio() {
-    if (backgroundAudioPlayer) {
+    if (backgroundAudioPlayer && backgroundAudioPlayer.state === 'started') {
         backgroundAudioPlayer.stop();
         backgroundAudioPlayer.dispose();
     }
@@ -26,7 +26,7 @@ function playBackgroundAudioOnce(audio) {
                     clearInterval(audioCheckInterval);
                     resolve();
                 }
-            }, 100); // Check the status of the 
+            }, 100); // Check the state of the player every 100ms
         });
     });
 }
@@ -43,8 +43,13 @@ function playBackgroundAudio(audio, loop) {
         loadBackgroundAudio(audio).then(() => {
             backgroundAudioPlayer.volume.value = -10;
             backgroundAudioPlayer.loop = loop;
-            backgroundAudioPlayer.start();
-            resolve();
+            checkLoadedInterval = setInterval(function () {
+                if (backgroundAudioPlayer && backgroundAudioPlayer.loaded === true) {
+                    clearInterval(checkLoadedInterval);
+                    backgroundAudioPlayer.start();
+                    resolve();
+                }
+            }, 100); // Check the loaded state of the player buffer every 100ms
         });
     });
 }
