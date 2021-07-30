@@ -17,11 +17,38 @@ function loadHighScoresScreen() {
 
     const highNoteStreaksDiv = document.createElement('div');
     highNoteStreaksDiv.classList.add('highNoteStreaksDiv');
+
+    const resetScoresButton = document.createElement('button');
+    resetScoresButton.classList.add('gameButton');
+    resetScoresButton.style.padding = '50px 0px 0px 0px';
+    resetScoresButton.textContent = 'Reset scores';
+    resetScoresButton.addEventListener('click', () => {
+        let resetConfirm = prompt('Are you sure? type "yes"');
+        if (resetConfirm === 'yes') {
+            resetScores();
+            highScoresDiv.textContent = '';
+            highScores.forEach(function(score) {
+                const scoreText = document.createElement('p');
+                scoreText.textContent = `${score.name} - ${score.score}`;
+                highScoresDiv.appendChild(scoreText);
+            });
+            
+            highNoteStreaksDiv.textContent = '';
+            highNoteStreaks.forEach(function(noteStreak) {
+                const noteStreakText = document.createElement('p');
+                noteStreakText.textContent = `${noteStreak.name} - ${noteStreak.score}`;
+                highNoteStreaksDiv.appendChild(noteStreakText);
+            });
+
+        }
+    });
+    
     
     highScoresScreenContent.appendChild(highScoresHeader);
     highScoresScreenContent.appendChild(highScoresDiv);
     highScoresScreenContent.appendChild(highNoteStreaksHeader);
     highScoresScreenContent.appendChild(highNoteStreaksDiv);
+    highScoresScreenContent.appendChild(resetScoresButton);
 
     
     content.appendChild(highScoresScreenContent);

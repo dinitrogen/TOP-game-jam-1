@@ -1145,7 +1145,13 @@ function loadGameScreen() {
         updateHighScores(score);
         updateHighNoteStreaks(longestNoteStreak);
         saveHighScores();
-
+        
+        // Prevent save scumming
+        score = 0;
+        scoreMultiplier = 1;
+        consecutiveAnswers = 0;
+        longestNoteStreak = 0;
+        saveGameData();
     }
 
     function displayEndingScreen() {
@@ -1166,6 +1172,13 @@ function loadGameScreen() {
         updateHighScores(score);
         updateHighNoteStreaks(longestNoteStreak);
         saveHighScores();
+
+        // Prevent save scumming
+        score = 0;
+        scoreMultiplier = 1;
+        consecutiveAnswers = 0;
+        longestNoteStreak = 0;
+        saveGameData();
     }
 
     function levelComplete(level) {
@@ -1248,6 +1261,10 @@ function loadGameScreen() {
     function goToNextLevel() {
         stairsOn = false;
         levelIndex++;
+
+        // Update progress of the current game and save to local storage
+        saveGameData(levelIndex, score, scoreMultiplier, consecutiveAnswers, longestNoteStreak);
+
         if (levelIndex >= levels.length) {
             displayEndingScreen();
         } else if (levels[levelIndex].type === 'finalBoss') {
@@ -1736,6 +1753,7 @@ function loadGameScreen() {
         }
 
         updateLevelProgressBar();
+
     }
 
     function updateLevelProgressBar () {
@@ -2019,7 +2037,7 @@ function loadDifficultySettings() {
     normalModeButton.classList.add('gameButton');
     normalModeButton.textContent = 'Normal';
     normalModeButton.addEventListener('click', () => {
-        loadGameScreen();
+        loadNameInputScreen();
     });
 
     const easyModeButton = document.createElement('button');
@@ -2027,7 +2045,7 @@ function loadDifficultySettings() {
     easyModeButton.textContent = 'Easy (No timer, but score multipliers are disabled)';
     easyModeButton.addEventListener('click', () => {
         easyModeStatus = true;
-        loadGameScreen();
+        loadNameInputScreen();
     });
 
     difficultySettingsDiv.appendChild(difficultyText);
@@ -2051,6 +2069,54 @@ function loadDifficultySettings() {
     newGameScreenContent.appendChild(footerDiv);
     
     content.appendChild(newGameScreenContent);
+}
+
+function loadNameInputScreen() {
+    const nameInputDiv = document.createElement('div');
+    nameInputDiv.classList.add('newGameButtonDiv');
+    const nameInputText = document.createElement('div');
+    nameInputText.classList.add('nameInputText');
+    nameInputText.textContent = 'Enter your name:';
+    nameInputDiv.appendChild(nameInputText);
+
+    const nameInput = document.createElement('input');
+    nameInput.setAttribute('id', 'nameInput');
+    nameInput.setAttribute('type', 'text');
+    nameInput.setAttribute('autofocus', true);
+    nameInput.setAttribute('maxlength', 10);
+    nameInputDiv.appendChild(nameInput);
+
+    const startButton = document.createElement('button');
+    startButton.classList.add('gameButton');
+    startButton.textContent = 'Enter the Dungeon!';
+    startButton.addEventListener('click', () => {
+        resetGameState();
+        const nameInput = document.getElementById('nameInput');
+        gameState.playerName = nameInput.value;
+        console.log(gameState.playerName);
+        saveGameState();
+        loadGameScreen();
+    });
+    nameInputDiv.appendChild(startButton);
+
+    const content = document.getElementById('content');
+    content.textContent = '';
+    content.innerHTML = '';
+    const newGameScreenContent = document.createElement('div');
+    newGameScreenContent.classList.add('newGameScreenContent');
+    const titleLogoDiv = createTitleLogoDiv();
+    const spacerDiv = createSpacerDiv();
+    const footerDiv = createFooterDiv();
+    const returnButton = createReturnButton();
+
+    newGameScreenContent.appendChild(titleLogoDiv);
+    newGameScreenContent.appendChild(nameInputDiv);
+    newGameScreenContent.appendChild(returnButton);
+    newGameScreenContent.appendChild(spacerDiv);
+    newGameScreenContent.appendChild(footerDiv);
+    
+    content.appendChild(newGameScreenContent);
+
 }
 
 function createPracticeModeButton() {
