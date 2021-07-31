@@ -3,6 +3,7 @@ let gameState = {
     playerName: 'Player',
     easyModeStatus: false,
     levelIndex: 1,
+    life: 5,
     score: 0,
     multiplier: 1,
     multiplierCharge: 0,
@@ -33,6 +34,7 @@ function resetGameState() {
         gameState.easyModeStatus = false;
         gameState.levelIndex = 1;
         gameState.score = 0;
+        gameState.life = 5;
         gameState.multiplier = 1;
         gameState.multiplierCharge = 0;
         gameState.consecutiveAnswers = 0;
@@ -84,9 +86,10 @@ function saveHighScores() {
 }
 
 
-function saveGameData(easyModeStatus, index, score, multiplier, multiplierCharge, consecAns, noteStreak, bossNoteIndices) {
+function saveGameData(easyModeStatus, index, life, score, multiplier, multiplierCharge, consecAns, noteStreak, bossNoteIndices) {
     gameState.easyModeStatus = easyModeStatus
     gameState.levelIndex = index;
+    gameState.life = life;
     gameState.score = score;
     gameState.multiplier = multiplier;
     gameState.multiplierCharge = multiplierCharge;

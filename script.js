@@ -1154,11 +1154,13 @@ function loadGameScreen() {
         saveHighScores();
         
         // Prevent save scumming
+        life = 5;
         score = 0;
         scoreMultiplier = 1;
         consecutiveAnswers = 0;
         longestNoteStreak = 0;
-        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, multiplierCharge, consecutiveAnswers, longestNoteStreak, bossNoteIndices);
+        // level index - 1 because if you die on a boss stage, continuing would advance you to the next world
+        saveGameData(easyModeStatus,levelIndex - 1, life, score, scoreMultiplier, multiplierCharge, consecutiveAnswers, longestNoteStreak, bossNoteIndices);
     }
 
     function displayEndingScreen() {
@@ -1283,7 +1285,7 @@ function loadGameScreen() {
         stairsOn = false;
         
         // Update progress of the current game and save to local storage
-        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, multiplierCharge, consecutiveAnswers, longestNoteStreak, bossNoteIndices);
+        saveGameData(easyModeStatus,levelIndex, life, score, scoreMultiplier, multiplierCharge, consecutiveAnswers, longestNoteStreak, bossNoteIndices);
 
         levelIndex++;
 
@@ -1831,8 +1833,8 @@ function loadGameScreen() {
         bossLife = levels[levelIndex].bossLife;
         let root = document.querySelector(':root');
         root.style.setProperty('--bossLifeFill', '100%');
-
         root.style.setProperty('--levelProgressFill', '0%');
+        spellBarFill.classList.remove('blink');
 
         playBackgroundAudioLoop(levels[levelIndex].bgMusic);
         if (!easyModeStatus) {
@@ -1857,6 +1859,8 @@ function loadGameScreen() {
         maxBossLife = finalBossTileIndices.length;
         bossLife = maxBossLife;
 
+        spellCharge = 0;
+        
         noteIndex = 0;
         // let randomNote = notesLibrary[Math.floor(Math.random() * 47)];
         // correctAnswer = randomNote.note;
@@ -1877,6 +1881,8 @@ function loadGameScreen() {
         // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
+        scoreTotal.textContent = `Score: ${score}`;
+
         // renderEnemySprite(finalBossTileIndex);
 
         renderFinalBoss();
@@ -1885,8 +1891,9 @@ function loadGameScreen() {
 
         let root = document.querySelector(':root');
         root.style.setProperty('--bossLifeFill', '100%');
-
         root.style.setProperty('--levelProgressFill', '0%');
+        root.style.setProperty('--spellChargeFill', '0%');
+        spellBarFill.classList.remove('blink');
 
         playBackgroundAudioLoop(levels[levelIndex].bgMusic);
         if (!easyModeStatus) {
@@ -2001,7 +2008,6 @@ function loadGameScreen() {
         let root = document.querySelector(':root');
         root.style.setProperty('--multiplierFill', multiplierFill);
 
-        // TODO: add bossNotes to inventory
     }
 
 
@@ -2019,12 +2025,14 @@ function loadGameScreen() {
         } else {
             levelIndex = gameState.levelIndex;
         }
+        life = gameState.life;
         score = gameState.score;
         scoreMultiplier = gameState.multiplier;
         multiplierCharge = gameState.multiplierCharge
         consecutiveAnswers = gameState.consecutiveAnswers;
         longestNoteStreak = gameState.longestNoteStreak;
         bossNoteIndices = gameState.bossNoteIndices;
+        updateLifeBar(life);
         updateScoreDisplays();
         updateBossNoteDisplay();
         goToNextLevel();
