@@ -456,6 +456,10 @@ body, html, #content {
     width: 65px;
 }
 
+.flip {
+    transform: rotate(180deg);
+}
+
 .wall-right {    
     border-right: solid var(--wallColor) 3px;
     margin-right: 0px;

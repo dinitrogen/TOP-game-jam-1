@@ -2043,6 +2043,13 @@ function loadGameScreen() {
     } else {
         startNewGame();
     }
+
+    var flip = new Konami(function() { 
+        let tiles = document.getElementsByClassName('gameTile');
+        for (let i = 0; i < tiles.length; i++) {
+            tiles[i].classList.add('flip');
+        }   
+    });
 }
 
 // Title and start screen functions
@@ -2351,6 +2358,9 @@ function loadNewGameScreen() {
 
 loadTitleScreen();
 // resizeGameScreen();
+
+
+
 
 // Basic function to resize game contents to fit the window -  but seems to add large top and/or left margins.
 function resizeGameScreen() {
