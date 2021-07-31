@@ -309,11 +309,6 @@ function loadGameScreen() {
     content.appendChild(endingScreen);
 
 
-
-
-
-    // console.log(notesLibrary.length);
-
     // Gameplay variables
     let notesList = [];
     let correctAnswer;
@@ -862,8 +857,6 @@ function loadGameScreen() {
 
     function placeWalls(mapId) {
         // retrieve the map from the map collection which matches the requested map ID
-
-        // TODO: add mapID as a property to each level object
         let map = maps.filter(obj => {
             return obj.id === mapId
         })[0];
@@ -1259,7 +1252,6 @@ function loadGameScreen() {
         stairsOn = true;
         stairsTileIndex = gridArea / 2 + Math.floor(gridSize / 2);
         let stairsTile;
-        console.log(levelIndex, levels.length);
 
         if (stairsTileIndex === activeTileIndex) {
             stairsTileIndex--;
@@ -1292,14 +1284,12 @@ function loadGameScreen() {
         if (levelIndex >= levels.length) {
             displayEndingScreen();
         } else if (levels[levelIndex].type === 'finalBoss') {
-            console.log('final boss stage');
             levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
             // levelNameDisplay.textContent = 'FINAL BOSS!';
             loadFinalBossStage();
             playSoundEffect('stairs');
 
         } else if (levels[levelIndex].type === 'boss') {
-            console.log('boss stage');
             levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
             //levelNameDisplay.textContent = 'BOSS STAGE!';
             loadBossStage();
@@ -1383,7 +1373,6 @@ function loadGameScreen() {
         root.style.setProperty('--spellChargeFill', spellChargeFill);
 
         spellChargeNotes.push(note);
-        console.log(spellChargeNotes);
         if (spellCharge === 1) {
             spellChargedText.textContent = `${correctAnswer}`;
         } else {
@@ -1408,7 +1397,6 @@ function loadGameScreen() {
     }
 
     function castSpell() {
-        console.log('BOOM!');
         playSoundEffect('spell-blast');
         spellCharge = 0;
         spellBarFill.classList.remove('blink');
@@ -1531,7 +1519,6 @@ function loadGameScreen() {
     }
 
     function damageFinalBoss() {
-        console.log('damage final boss!');
         bossLife--;
         let bossLifePercent = Math.floor(bossLife / maxBossLife * 100);
         let bossLifeFill = `${bossLifePercent}%`;
@@ -1578,7 +1565,6 @@ function loadGameScreen() {
     }
 
     function chargeFinalSpell(note) {
-        // TODO: display color note and remove from inventory
         let tile = document.getElementById(`tile${finalNotes[spellCharge].tileIndex}`);
         tile.classList.add(finalNotes[spellCharge].color);
         chargeSpell(note);
@@ -1607,7 +1593,6 @@ function loadGameScreen() {
 
     function finalSpellCast() {
         playSoundEffect('spell-blast');
-        console.log('Final BOOM!');
         spellCharge = 0;
         spellBarFill.classList.remove('blink');
         let root = document.querySelector(':root');
@@ -1669,8 +1654,6 @@ function loadGameScreen() {
     //     line.setAttribute('y2', y2);
     //     line.setAttribute('stroke', 'red');
     //     line.setAttribute('stroke-width', '5');
-
-    //     // TODO...
     // }
 
     function damageBoss() {
@@ -1742,7 +1725,6 @@ function loadGameScreen() {
         root.style.setProperty('--bossLifeFill', '0%');
 
         activeTileIndex = 0;
-        // TODO: embed # of enemies and placement inside the level objects
         enemyTileIndices = [];
         let enemyCount = level.enemyCount;
 
@@ -2196,7 +2178,6 @@ function loadNameInputScreen() {
         resetGameState();
         const nameInput = document.getElementById('nameInput');
         gameState.playerName = nameInput.value;
-        console.log(gameState.playerName);
         saveGameState();
         document.getElementById('startButton').setAttribute('disabled', 'true');
         document.getElementById('returnButton').setAttribute('disabled', 'true');

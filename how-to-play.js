@@ -1,6 +1,5 @@
 
 function loadHowToPlayScreen() {
-   
 
     const content = document.getElementById('content');
     content.textContent = '';
@@ -87,9 +86,6 @@ function loadHowToPlayScreen() {
     howToPlayItemDiv.appendChild(stopwatchDiv);
     howToPlayItemDiv.appendChild(bossNoteDiv);
     
-    
-
-
     howToPlayScreenContent.appendChild(howToPlayHeader);
     howToPlayScreenContent.appendChild(storyHeader);
     howToPlayScreenContent.appendChild(storyText);
@@ -100,13 +96,10 @@ function loadHowToPlayScreen() {
     howToPlayScreenContent.appendChild(directionsText);
     howToPlayScreenContent.appendChild(howToPlayItemDiv);
     
-    
-    
     content.appendChild(howToPlayScreenContent);
     
-
-
 }
+
 
 export { loadHowToPlayScreen };
 
