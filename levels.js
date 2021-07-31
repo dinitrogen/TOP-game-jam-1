@@ -584,230 +584,230 @@ let levels = [
         ]
     },
 
-    // Level 3 - Fire
-        {
-        id: 21,
-        name: "3-1",
-        type: 'level',
-        mapId: 2,
-        tileColor: 'red',
-        fontColor: 'white',
-        dungeonBorder: 'border-4',
-        bgMusic: 'lava-dungeon',
-        enemy: 'fireball',
-        enemyCount: 1,
-        loopTime: 0,
-        time: 60,
-        notes: [
-            {letter: 'C', octave: '3', duration: 1},
-            {letter: 'D', octave: '3', duration: 1},
-            {letter: 'E', octave: '3', duration: 1},
-        ]
-    },
+    // // Level 3 - Fire
+    //     {
+    //     id: 21,
+    //     name: "3-1",
+    //     type: 'level',
+    //     mapId: 2,
+    //     tileColor: 'red',
+    //     fontColor: 'white',
+    //     dungeonBorder: 'border-4',
+    //     bgMusic: 'lava-dungeon',
+    //     enemy: 'fireball',
+    //     enemyCount: 1,
+    //     loopTime: 0,
+    //     time: 60,
+    //     notes: [
+    //         {letter: 'C', octave: '3', duration: 1},
+    //         {letter: 'D', octave: '3', duration: 1},
+    //         {letter: 'E', octave: '3', duration: 1},
+    //     ]
+    // },
 
-    {
-        id: 30.5,
-        name: "3-B",
-        type: 'boss',
-        mapId: 0,
-        tileColor: 'red',
-        fontColor: 'white',
-        bgMusic: 'boss-theme-b',
-        dungeonBorder: 'border-4',
-        enemy: 'badguy',
-        enemyCount: 1,
-        loopTime: 0,
-        time: 200,
-        notes: [],
-        bossLife: 5,
-        bossNoteImg: 'note-red',
-        chords: [
-            {
-                name: "C minor",
-                chordNotes: [
-                    {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'C', octave: '5', duration: 1},
-                ]
-            },
-            {
-                name: "D major",
-                chordNotes: [
-                    {letter: 'D', octave: '4', duration: 1},
-                    {letter: 'F#', octave: '4', duration: 1},
-                    {letter: 'A', octave: '4', duration: 1},
-                ]
-            },
-            {
-                name: "A major",
-                chordNotes: [
-                    {letter: 'A', octave: '4', duration: 1},
-                    {letter: 'C#', octave: '5', duration: 1},
-                    {letter: 'E', octave: '4', duration: 1},
-                ]
-            },
-            {
-                name: "Eb major",
-                chordNotes: [
-                    {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'Bb', octave: '4', duration: 1},
-                ]
-            }
-        ]
-    },
+    // {
+    //     id: 30.5,
+    //     name: "3-B",
+    //     type: 'boss',
+    //     mapId: 0,
+    //     tileColor: 'red',
+    //     fontColor: 'white',
+    //     bgMusic: 'boss-theme-b',
+    //     dungeonBorder: 'border-4',
+    //     enemy: 'badguy',
+    //     enemyCount: 1,
+    //     loopTime: 0,
+    //     time: 200,
+    //     notes: [],
+    //     bossLife: 5,
+    //     bossNoteImg: 'note-red',
+    //     chords: [
+    //         {
+    //             name: "C minor",
+    //             chordNotes: [
+    //                 {letter: 'Eb', octave: '4', duration: 1},
+    //                 {letter: 'G', octave: '4', duration: 1},
+    //                 {letter: 'C', octave: '5', duration: 1},
+    //             ]
+    //         },
+    //         {
+    //             name: "D major",
+    //             chordNotes: [
+    //                 {letter: 'D', octave: '4', duration: 1},
+    //                 {letter: 'F#', octave: '4', duration: 1},
+    //                 {letter: 'A', octave: '4', duration: 1},
+    //             ]
+    //         },
+    //         {
+    //             name: "A major",
+    //             chordNotes: [
+    //                 {letter: 'A', octave: '4', duration: 1},
+    //                 {letter: 'C#', octave: '5', duration: 1},
+    //                 {letter: 'E', octave: '4', duration: 1},
+    //             ]
+    //         },
+    //         {
+    //             name: "Eb major",
+    //             chordNotes: [
+    //                 {letter: 'Eb', octave: '4', duration: 1},
+    //                 {letter: 'G', octave: '4', duration: 1},
+    //                 {letter: 'Bb', octave: '4', duration: 1},
+    //             ]
+    //         }
+    //     ]
+    // },
 
-    // Level 4 - Haunted
-    {
-        id: 31,
-        name: "4-1",
-        type: 'level',
-        mapId: 3,
-        tileColor: 'black',
-        fontColor: 'white',
-        dungeonBorder: 'border-5',
-        bgMusic: 'candlelight-dungeon',
-        enemy: 'ghost',
-        enemyCount: 1,
-        loopTime: 0,
-        time: 60,
-        notes: [
-            {letter: 'C#', octave: '3', duration: 1},
-            {letter: 'D#', octave: '3', duration: 1},
-            {letter: 'F#', octave: '3', duration: 1},
-        ]
-    },
+    // // Level 4 - Haunted
+    // {
+    //     id: 31,
+    //     name: "4-1",
+    //     type: 'level',
+    //     mapId: 3,
+    //     tileColor: 'black',
+    //     fontColor: 'white',
+    //     dungeonBorder: 'border-5',
+    //     bgMusic: 'candlelight-dungeon',
+    //     enemy: 'ghost',
+    //     enemyCount: 1,
+    //     loopTime: 0,
+    //     time: 60,
+    //     notes: [
+    //         {letter: 'C#', octave: '3', duration: 1},
+    //         {letter: 'D#', octave: '3', duration: 1},
+    //         {letter: 'F#', octave: '3', duration: 1},
+    //     ]
+    // },
 
-    {
-        id: 40.5,
-        name: "4-B",
-        type: 'boss',
-        mapId: 0,
-        tileColor: 'black',
-        fontColor: 'white',
-        bgMusic: 'boss-theme-b',
-        dungeonBorder: 'border-5',
-        enemy: 'badguy',
-        enemyCount: 1,
-        loopTime: 0,
-        time: 200,
-        notes: [],
-        bossLife: 5,
-        bossNoteImg: 'note-purple',
-        chords: [
-            {
-                name: "C minor",
-                chordNotes: [
-                    {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'C', octave: '5', duration: 1},
-                ]
-            },
-            {
-                name: "D major",
-                chordNotes: [
-                    {letter: 'D', octave: '4', duration: 1},
-                    {letter: 'F#', octave: '4', duration: 1},
-                    {letter: 'A', octave: '4', duration: 1},
-                ]
-            },
-            {
-                name: "A major",
-                chordNotes: [
-                    {letter: 'A', octave: '4', duration: 1},
-                    {letter: 'C#', octave: '5', duration: 1},
-                    {letter: 'E', octave: '4', duration: 1},
-                ]
-            },
-            {
-                name: "Eb major",
-                chordNotes: [
-                    {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'Bb', octave: '4', duration: 1},
-                ]
-            }
+    // {
+    //     id: 40.5,
+    //     name: "4-B",
+    //     type: 'boss',
+    //     mapId: 0,
+    //     tileColor: 'black',
+    //     fontColor: 'white',
+    //     bgMusic: 'boss-theme-b',
+    //     dungeonBorder: 'border-5',
+    //     enemy: 'badguy',
+    //     enemyCount: 1,
+    //     loopTime: 0,
+    //     time: 200,
+    //     notes: [],
+    //     bossLife: 5,
+    //     bossNoteImg: 'note-purple',
+    //     chords: [
+    //         {
+    //             name: "C minor",
+    //             chordNotes: [
+    //                 {letter: 'Eb', octave: '4', duration: 1},
+    //                 {letter: 'G', octave: '4', duration: 1},
+    //                 {letter: 'C', octave: '5', duration: 1},
+    //             ]
+    //         },
+    //         {
+    //             name: "D major",
+    //             chordNotes: [
+    //                 {letter: 'D', octave: '4', duration: 1},
+    //                 {letter: 'F#', octave: '4', duration: 1},
+    //                 {letter: 'A', octave: '4', duration: 1},
+    //             ]
+    //         },
+    //         {
+    //             name: "A major",
+    //             chordNotes: [
+    //                 {letter: 'A', octave: '4', duration: 1},
+    //                 {letter: 'C#', octave: '5', duration: 1},
+    //                 {letter: 'E', octave: '4', duration: 1},
+    //             ]
+    //         },
+    //         {
+    //             name: "Eb major",
+    //             chordNotes: [
+    //                 {letter: 'Eb', octave: '4', duration: 1},
+    //                 {letter: 'G', octave: '4', duration: 1},
+    //                 {letter: 'Bb', octave: '4', duration: 1},
+    //             ]
+    //         }
 
-        ]
-            // TODO: update chords
+    //     ]
+    //         // TODO: update chords
             
-    },
+    // },
 
-    // Level 5 - Fortress?
-    {
-        id: 41,
-        name: "5-1",
-        type: 'level',
-        mapId: 5,
-        tileColor: 'brown',
-        fontColor: 'white',
-        dungeonBorder: 'border-1',
-        bgMusic: 'fortress-dungeon',
-        enemy: 'soldier',
-        enemyCount: 2,
-        loopTime: 0,
-        time: 60,
-        notes: [
-            {letter: 'F#', octave: '3', duration: 1},
-            {letter: 'B', octave: '4', duration: 1},
-            {letter: 'D', octave: '5', duration: 1},
-        ]
-    },
+    // // Level 5 - Fortress?
+    // {
+    //     id: 41,
+    //     name: "5-1",
+    //     type: 'level',
+    //     mapId: 5,
+    //     tileColor: 'brown',
+    //     fontColor: 'white',
+    //     dungeonBorder: 'border-1',
+    //     bgMusic: 'fortress-dungeon',
+    //     enemy: 'soldier-b',
+    //     enemyCount: 2,
+    //     loopTime: 0,
+    //     time: 60,
+    //     notes: [
+    //         {letter: 'F#', octave: '3', duration: 1},
+    //         {letter: 'B', octave: '4', duration: 1},
+    //         {letter: 'D', octave: '5', duration: 1},
+    //     ]
+    // },
 
-    {
-        id: 50.5,
-        name: "5-B",
-        type: 'boss',
-        mapId: 0,
-        tileColor: 'brown',
-        fontColor: 'white',
-        bgMusic: 'boss-theme-b',
-        dungeonBorder: 'border-1',
-        enemy: 'badguy',
-        enemyCount: 1,
-        loopTime: 0,
-        time: 200,
-        notes: [],
-        bossLife: 5,
-        bossNoteImg: 'note-blue',
-        chords: [
-            {
-                name: "C minor",
-                chordNotes: [
-                    {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'C', octave: '5', duration: 1},
-                ]
-            },
-            {
-                name: "D major",
-                chordNotes: [
-                    {letter: 'D', octave: '4', duration: 1},
-                    {letter: 'F#', octave: '4', duration: 1},
-                    {letter: 'A', octave: '4', duration: 1},
-                ]
-            },
-            {
-                name: "A major",
-                chordNotes: [
-                    {letter: 'A', octave: '4', duration: 1},
-                    {letter: 'C#', octave: '5', duration: 1},
-                    {letter: 'E', octave: '4', duration: 1},
-                ]
-            },
-            {
-                name: "Eb major",
-                chordNotes: [
-                    {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'Bb', octave: '4', duration: 1},
-                ]
-            }
+    // {
+    //     id: 50.5,
+    //     name: "5-B",
+    //     type: 'boss',
+    //     mapId: 0,
+    //     tileColor: 'brown',
+    //     fontColor: 'white',
+    //     bgMusic: 'boss-theme-b',
+    //     dungeonBorder: 'border-1',
+    //     enemy: 'badguy',
+    //     enemyCount: 1,
+    //     loopTime: 0,
+    //     time: 200,
+    //     notes: [],
+    //     bossLife: 5,
+    //     bossNoteImg: 'note-blue',
+    //     chords: [
+    //         {
+    //             name: "C minor",
+    //             chordNotes: [
+    //                 {letter: 'Eb', octave: '4', duration: 1},
+    //                 {letter: 'G', octave: '4', duration: 1},
+    //                 {letter: 'C', octave: '5', duration: 1},
+    //             ]
+    //         },
+    //         {
+    //             name: "D major",
+    //             chordNotes: [
+    //                 {letter: 'D', octave: '4', duration: 1},
+    //                 {letter: 'F#', octave: '4', duration: 1},
+    //                 {letter: 'A', octave: '4', duration: 1},
+    //             ]
+    //         },
+    //         {
+    //             name: "A major",
+    //             chordNotes: [
+    //                 {letter: 'A', octave: '4', duration: 1},
+    //                 {letter: 'C#', octave: '5', duration: 1},
+    //                 {letter: 'E', octave: '4', duration: 1},
+    //             ]
+    //         },
+    //         {
+    //             name: "Eb major",
+    //             chordNotes: [
+    //                 {letter: 'Eb', octave: '4', duration: 1},
+    //                 {letter: 'G', octave: '4', duration: 1},
+    //                 {letter: 'Bb', octave: '4', duration: 1},
+    //             ]
+    //         }
 
-        ]
-            // TODO: update chords
+    //     ]
+    //         // TODO: update chords
             
-    },
+    // },
 
     // Final Boss
     {

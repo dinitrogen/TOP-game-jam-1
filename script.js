@@ -220,7 +220,12 @@ function loadGameScreen() {
         spellChargedText.textContent = '';
         spellChargeNotes = [];
         life = 5;
-        startNewLevel(levels[levelIndex]);
+        if (levels[levelIndex].type === 'finalBoss') {
+            
+            loadFinalBossStage();
+        } else {
+            startNewLevel(levels[levelIndex]);
+        }
     });
     continueButtonDiv.appendChild(continueButton);
 
@@ -1837,6 +1842,7 @@ function loadGameScreen() {
 
     function loadFinalBossStage() {
         endGameOverlay.style.display = 'none';
+        gameOverStatus = false;
         activeTileIndex = 0;
         enemyTileIndices = [];
         finalBossTileIndex = Math.floor((gridArea / 2) - (gridSize / 2));
@@ -2007,7 +2013,12 @@ function loadGameScreen() {
         
         continueGameStatus = false;
         easyModeStatus = gameState.easyModeStatus;
-        levelIndex = gameState.levelIndex;
+        // If on the final boss, load that level and not the ending screen
+        if (gameState.levelIndex === levels.length - 1) {
+            levelIndex = gameState.levelIndex - 1;
+        } else {
+            levelIndex = gameState.levelIndex;
+        }
         score = gameState.score;
         scoreMultiplier = gameState.multiplier;
         multiplierCharge = gameState.multiplierCharge
