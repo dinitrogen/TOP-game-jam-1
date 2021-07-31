@@ -8,6 +8,7 @@ let gameState = {
     multiplierCharge: 0,
     consecutiveAnswers: 0,
     longestNoteStreak: 0,
+    bossNoteIndices: []
 };
 
 let highScores = [
@@ -26,16 +27,17 @@ let highNoteStreaks = [
     {name: 'EEE', score: 10}
 ];
 
+
+// Reset everything except player name
 function resetGameState() {
-    gameState = {
-        playerName: 'Player',
-        easyModeStatus: false,
-        levelIndex: 1,
-        score: 0,
-        multiplier: 1,
-        consecutiveAnswers: 0,
-        longestNoteStreak: 0,
-    };
+        gameState.easyModeStatus = false;
+        gameState.levelIndex = 1;
+        gameState.score = 0;
+        gameState.multiplier = 1;
+        gameState.multiplierCharge = 0;
+        gameState.consecutiveAnswers = 0;
+        gameState.longestNoteStreak = 0;
+        gameState.bossNoteIndices = [];
 }
 
 function resetScores() {
@@ -82,7 +84,7 @@ function saveHighScores() {
 }
 
 
-function saveGameData(easyModeStatus, index, score, multiplier, multiplierCharge, consecAns, noteStreak) {
+function saveGameData(easyModeStatus, index, score, multiplier, multiplierCharge, consecAns, noteStreak, bossNoteIndices) {
     gameState.easyModeStatus = easyModeStatus
     gameState.levelIndex = index;
     gameState.score = score;
@@ -90,12 +92,16 @@ function saveGameData(easyModeStatus, index, score, multiplier, multiplierCharge
     gameState.multiplierCharge = multiplierCharge;
     gameState.consecutiveAnswers = consecAns;
     gameState.longestNoteStreak = noteStreak;
+    gameState.bossNoteIndices = bossNoteIndices;
     saveGameState();
     console.log('Game saved');
 }
 
 
 function updateHighScores(score) {
+    if (localStorage.getItem('myHighScores')) {
+        loadHighScores();  
+    }
     for (let i = 0; i < highScores.length; i++) {
         if (score >= highScores[i].score) {
             let newHighScore = {name: gameState.playerName, score: score};
@@ -108,6 +114,9 @@ function updateHighScores(score) {
 }
 
 function updateHighNoteStreaks(noteStreak) {
+    if (localStorage.getItem('myHighNoteStreaks')) {
+        loadHighNoteStreaks();  
+    }
     for (let i = 0; i < highNoteStreaks.length; i++) {
         if (noteStreak >= highNoteStreaks[i].score) {
             let newHighNoteStreak = {name: gameState.playerName, score: noteStreak};

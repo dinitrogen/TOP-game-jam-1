@@ -217,6 +217,8 @@ function loadGameScreen() {
         multiplierText.textContent = `${scoreMultiplier}X`;
         noteStreakDiv.textContent = 'Note streak: 0';
         levelIndex = levels.findIndex(level => level.id === continueLevel);
+        spellChargedText.textContent = '';
+        spellChargeNotes = [];
         life = 5;
         startNewLevel(levels[levelIndex]);
     });
@@ -246,6 +248,8 @@ function loadGameScreen() {
             multiplierText.textContent = `${scoreMultiplier}X`;
             noteStreakDiv.textContent = 'Note streak: 0';
             bossNoteDisplay.textContent = '';
+            spellChargedText.textContent = '';
+            spellChargeNotes = [];
             life = 5;
             levelIndex = 1;
             startNewLevel(levels[levelIndex]);
@@ -1149,7 +1153,7 @@ function loadGameScreen() {
         scoreMultiplier = 1;
         consecutiveAnswers = 0;
         longestNoteStreak = 0;
-        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, multiplierCharge, consecutiveAnswers, longestNoteStreak);
+        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, multiplierCharge, consecutiveAnswers, longestNoteStreak, bossNoteIndices);
     }
 
     function displayEndingScreen() {
@@ -1172,7 +1176,9 @@ function loadGameScreen() {
         saveHighScores();
 
         // Prevent save scumming
+        // localStorage.removeItem('myGameState');
         resetGameState();
+        saveGameState();
     }
 
     function levelComplete(level) {
@@ -1202,6 +1208,8 @@ function loadGameScreen() {
         document.getElementById(`tile${bossTileIndex}`).classList.add('hasBossNote');
     }
 
+    let bossNoteIndices = [];
+
     function getBossNote() {
 
         score = score + 2000;
@@ -1216,8 +1224,24 @@ function loadGameScreen() {
         bossNote.setAttribute('type', 'image/svg+xml');
         bossNote.setAttribute('class', 'bossNoteCollect');
         bossNoteDisplay.appendChild(bossNote);
+        
+        bossNoteIndices.push(levelIndex);
 
         showStairs();
+    }
+
+    // Update the inventory display with all notes player has collected on a saved game.
+    function updateBossNoteDisplay() {
+        bossNoteDisplay.innerText = '';
+        for (let i = 0; i < gameState.bossNoteIndices.length; i++) {
+            let levelIndex = bossNoteIndices[i];
+            let bossNoteImg = levels[levelIndex].bossNoteImg;
+            let bossNote = document.createElement('object');
+            bossNote.setAttribute('data', `./img/map-icons/${bossNoteImg}.svg`);
+            bossNote.setAttribute('type', 'image/svg+xml');
+            bossNote.setAttribute('class', 'bossNoteCollect');
+            bossNoteDisplay.appendChild(bossNote);
+        }
     }
 
     function showStairs() {
@@ -1254,7 +1278,7 @@ function loadGameScreen() {
         stairsOn = false;
         
         // Update progress of the current game and save to local storage
-        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, multiplierCharge, consecutiveAnswers, longestNoteStreak);
+        saveGameData(easyModeStatus,levelIndex, score, scoreMultiplier, multiplierCharge, consecutiveAnswers, longestNoteStreak, bossNoteIndices);
 
         levelIndex++;
 
@@ -1843,6 +1867,7 @@ function loadGameScreen() {
         generateNotesList(gridArea);
         populateMap(gridArea);
         setTileColor(levels[levelIndex]);
+        updateLifeBar(life);
         // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
@@ -1951,7 +1976,14 @@ function loadGameScreen() {
         spellBarBorder.innerHTML = '';
         bossDisplay.innerHTML = '';
 
-        // TODO: return to title button.
+        const exitPracticeButton = document.createElement('button');
+        exitPracticeButton.classList.add('gameButton');
+        exitPracticeButton.textContent = 'Exit Practice Mode';
+        exitPracticeButton.addEventListener('click', () => {
+            window.location.reload();
+        });
+        leftContent.appendChild(exitPracticeButton);
+
     }
 
     function updateScoreDisplays() {
@@ -1981,7 +2013,9 @@ function loadGameScreen() {
         multiplierCharge = gameState.multiplierCharge
         consecutiveAnswers = gameState.consecutiveAnswers;
         longestNoteStreak = gameState.longestNoteStreak;
+        bossNoteIndices = gameState.bossNoteIndices;
         updateScoreDisplays();
+        updateBossNoteDisplay();
         goToNextLevel();
 
     // Start a new game in practice or normal mode
@@ -2130,6 +2164,7 @@ function loadNameInputScreen() {
         saveGameState();
         document.getElementById('startButton').setAttribute('disabled', 'true');
         document.getElementById('returnButton').setAttribute('disabled', 'true');
+        nameInput.setAttribute('disabled', 'true');
         playBackgroundAudioOnce('new-game').then(() => {
             loadGameScreen();
         });
