@@ -2047,8 +2047,13 @@ function loadGameScreen() {
     var flip = new Konami(function() { 
         let tiles = document.getElementsByClassName('gameTile');
         for (let i = 0; i < tiles.length; i++) {
+            tiles[i].classList.remove('wall-top');
+            tiles[i].classList.remove('wall-bottom');
+            tiles[i].classList.remove('wall-left');
+            tiles[i].classList.remove('wall-right');
             tiles[i].classList.add('flip');
-        }   
+        }
+        placeWalls(0);
     });
 }
 
