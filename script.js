@@ -1491,12 +1491,15 @@ function loadGameScreen() {
 
         });
 
+        root.style.setProperty('--heroSVG', 'url(./img/map-icons/hero-wand.svg');
+
         if (levels[levelIndex].type === 'boss') {
             let bossTile = document.getElementById(`tile${bossTileIndex}`);
             if (spellCastTiles.includes(bossTile)) {
                 setTimeout(function () {
                     spellCastTiles.forEach(function (tile) {
                         tile.classList.remove('spellCast');
+                        root.style.setProperty('--heroSVG', 'url(./img/map-icons/hero.svg');
                     });
                     damageBoss();
                 }, 200);
@@ -1504,6 +1507,7 @@ function loadGameScreen() {
                 setTimeout(function () {
                     spellCastTiles.forEach(function (tile) {
                         tile.classList.remove('spellCast');
+                        root.style.setProperty('--heroSVG', 'url(./img/map-icons/hero.svg');
                     });
                 }, 200);
             }
@@ -1512,6 +1516,7 @@ function loadGameScreen() {
             setTimeout(function () {
                 spellCastTiles.forEach(function (tile) {
                     tile.classList.remove('spellCast');
+                    root.style.setProperty('--heroSVG', 'url(./img/map-icons/hero.svg');
                 });
             }, 200);
 
