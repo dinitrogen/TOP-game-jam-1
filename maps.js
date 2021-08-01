@@ -126,27 +126,51 @@ let maps = [
         walls: [
             {
                 type: 'vertical',
-                length: 8,
+                length: 3,
                 startX: 1,
                 startY: 1
             },
             {
                 type: 'vertical',
-                length: 8,
+                length: 4,
+                startX: 1,
+                startY: 5
+            },
+            {
+                type: 'vertical',
+                length: 4,
                 startX: 3,
                 startY: 1
             },
             {
                 type: 'vertical',
-                length: 8,
+                length: 3,
+                startX: 3,
+                startY: 6
+            },
+            {
+                type: 'vertical',
+                length: 3,
                 startX: 5,
                 startY: 1
             },
             {
                 type: 'vertical',
-                length: 8,
+                length: 4,
+                startX: 5,
+                startY: 5
+            },
+            {
+                type: 'vertical',
+                length: 4,
                 startX: 7,
                 startY: 1
+            },
+            {
+                type: 'vertical',
+                length: 3,
+                startX: 7,
+                startY: 6
             },
             {
                 type: 'horizontal',
@@ -276,15 +300,15 @@ let maps = [
         walls: [
             {
                 type: 'vertical',
-                length: 7,
+                length: 6,
                 startX: 0,
-                startY: 1
+                startY: 2
             },
             {
                 type: 'vertical',
-                length: 5,
+                length: 4,
                 startX: 2,
-                startY: 3
+                startY: 4
             },
             {
                 type: 'vertical',
@@ -300,14 +324,14 @@ let maps = [
             },
             {
                 type: 'vertical',
-                length: 7,
+                length: 6,
                 startX: 7,
-                startY: 1
+                startY: 2
             },
             {
                 type: 'horizontal',
-                length: 7,
-                startX: 1,
+                length: 5,
+                startX: 2,
                 startY: 0
             },
             {
