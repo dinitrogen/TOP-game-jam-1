@@ -27,6 +27,7 @@ body, html, #content {
     right: 0;
     height: 100%;
     background-color: rgb(202, 202, 202);
+    cursor: url(./img/map-icons/cursor-arrow.svg), auto;
 }
 
 .howToPlayScreenContent, .highScoresScreenContent {
@@ -128,13 +129,14 @@ body, html, #content {
     font-size: 20px;
     border: none;
     background-color: transparent;
-    margin: 10px;
+    margin: 10px auto;
+
+
 }
 
 .gameButton:hover {
     color: white;
-    cursor: pointer;
-    /* cursor: url(./img/map-icons/cursor-pointer.svg); */
+    cursor: url(./img/map-icons/cursor-pointer.svg), auto;
     
 }
 
@@ -576,6 +578,7 @@ body, html, #content {
 .gameOverButton:hover {
     font-size: 36px;
     color: yellow;
+    cursor: url(./img/map-icons/cursor-pointer.svg), auto;
 }
 
 .backToTitleScreenDiv {
