@@ -49,6 +49,10 @@ let notesLibrary = [
     { note: 'Db', octave: 5, noteRef: 'Db5', svgName: 'treble-d5-flat' },
     { note: 'D', octave: 5, noteRef: 'D5', svgName: 'treble-d5' },
     { note: 'D#', octave: 5, noteRef: 'D#5', svgName: 'treble-d5-sharp' },
+    { note: 'Eb', octave: 5, noteRef: 'Eb5', svgName: 'treble-e5-flat' },
+    { note: 'E', octave: 5, noteRef: 'E5', svgName: 'treble-e5' },
+    { note: 'F', octave: 5, noteRef: 'F5', svgName: 'treble-f5' },
+    { note: 'F#', octave: 5, noteRef: 'F#5', svgName: 'treble-f5-sharp' },
     
 ];
 

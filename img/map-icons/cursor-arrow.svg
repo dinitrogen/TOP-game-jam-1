@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="100"
+   height="180"
+   viewBox="0 0 26.458332 47.625"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (ce6663b3b7, 2021-05-25)"
+   sodipodi:docname="cursor-arrow.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="true"
+     width="110.00001px"
+     units="px"
+     borderlayer="true"
+     inkscape:showpageshadow="false"
+     scale-x="1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-nodes="true"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="-21.743534"
+     inkscape:cy="45.785164"
+     inkscape:window-width="1348"
+     inkscape:window-height="1016"
+     inkscape:window-x="72"
+     inkscape:window-y="27"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     height="200px"
+     showguides="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid9"
+       empspacing="1"
+       spacingy="2.6458335"
+       spacingx="2.6458335"
+       dotted="true"
+       originx="-23.812502"
+       originy="-15.875002"
+       visible="true"
+       enabled="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 21.166666 : 1"
+       inkscape:vp_y="0 : 999.99999 : 0"
+       inkscape:vp_z="52.916664 : 21.166666 : 1"
+       inkscape:persp3d-origin="26.458332 : 12.347222 : 1"
+       id="perspective20505" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-23.812502,-15.875002)">
+    <path
+       id="rect964-975-853-2-62-5-9"
+       style="fill:#000000;stroke-width:0.264591"
+       d="m 23.812502,15.875002 v 2.645835 2.645833 2.645833 2.645834 2.645832 2.645833 2.645835 2.645833 2.645833 2.645833 2.645834 2.645833 2.645833 h 2.645833 2.645833 V 47.625002 H 26.458335 V 44.97917 42.333336 39.687502 37.04167 34.395837 31.750002 29.104169 26.458337 23.812503 21.16667 h 2.645833 v -2.645833 h -2.645833 v -2.645835 z m 5.291666,5.291668 v 2.645833 h 2.645834 V 21.16667 Z m 2.645834,2.645833 v 2.645834 h 2.645833 v -2.645834 z m 2.645833,2.645834 v 2.645832 h 2.645833 v -2.645832 z m 2.645833,2.645832 v 2.645833 h 2.645834 v -2.645833 z m 2.645834,2.645833 v 2.645835 h 2.645833 v -2.645835 z m 2.645833,2.645835 v 2.645833 h 2.645833 v -2.645833 z m 2.645833,2.645833 v 2.645833 h -2.645833 -2.645833 v 2.645833 2.645834 h 2.645833 v -2.645834 h 2.645833 2.645833 V 39.687502 37.04167 Z m -2.645833,7.9375 v 2.645833 2.645833 h 2.645833 V 47.625002 44.97917 Z m 2.645833,5.291666 v 2.645834 2.645833 h 2.645833 V 52.91667 50.270836 Z m 2.645833,5.291666 v 2.645834 2.645833 h 2.645834 v -2.645833 -2.645834 z m 0,5.291666 h -2.645833 -2.645833 v 2.645834 h 2.645833 2.645833 z m -5.291666,0 v -2.645833 -2.645833 h -2.645833 v 2.645833 2.645833 z M 39.687502,55.562502 V 52.91667 50.270836 h -2.645834 v 2.645834 2.645833 z M 37.041668,50.270836 V 47.625002 44.97917 h -2.645833 v 2.645833 2.645833 z M 34.395835,44.97917 v -2.645834 h -2.645833 v 2.645834 z m -2.645833,0 h -2.645834 v 2.645833 h 2.645834 z" />
+    <path
+       id="rect964-975-853-2-62-481-813-5"
+       style="fill:#ffffff;stroke-width:1.00003"
+       d="m 40,10 v 10 10 10 10 10 10 10 10 10 10 H 50 V 100 H 60 V 90 h 10 v 10 h 10 v 10 10 h 10 v 10 10 h 10 v 10 10 h 10 10 V 150 140 H 110 V 130 120 H 100 V 110 100 H 90 V 90 80 h 10 10 V 70 H 100 V 60 H 90 V 50 H 80 V 40 H 70 V 30 H 60 V 20 H 50 V 10 Z"
+       transform="matrix(0.26458333,0,0,0.26458333,15.874999,18.520834)" />
+  </g>
+</svg>

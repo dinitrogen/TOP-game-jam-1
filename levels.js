@@ -157,13 +157,12 @@ let levels = [
         time: 90,
         notes: [
             {letter: 'E', octave: '4', duration: 1},
-            {letter: 'F', octave: '4', duration: 1},
+            {letter: 'F', octave: '5', duration: 1},
             {letter: 'G', octave: '4', duration: 1},
             {letter: 'A', octave: '4', duration: 1},
             {letter: 'B', octave: '4', duration: 1},
             {letter: 'C', octave: '5', duration: 1},
             {letter: 'D', octave: '5', duration: 1},
-            {letter: 'E', octave: '4', duration: 1},
 
         ]
     },
@@ -189,8 +188,6 @@ let levels = [
             {letter: 'B', octave: '4', duration: 1},
             {letter: 'D', octave: '5', duration: 1},
             {letter: 'D', octave: '4', duration: 1},
-            {letter: 'F', octave: '4', duration: 1},
-            {letter: 'A', octave: '4', duration: 1},
 
         ]
     },
@@ -216,7 +213,7 @@ let levels = [
             {letter: 'C', octave: '5', duration: 1},
             {letter: 'Eb', octave: '4', duration: 1},
             {letter: 'D', octave: '5', duration: 1},
-            {letter: 'G', octave: '4', duration: 1}
+
         ]
     },
 
@@ -238,9 +235,9 @@ let levels = [
             {letter: 'C#', octave: '5', duration: 1},
             {letter: 'E', octave: '4', duration: 1},
             {letter: 'F', octave: '4', duration: 1},
-            {letter: 'E', octave: '4', duration: 1},
+            {letter: 'E', octave: '5', duration: 1},
             {letter: 'Eb', octave: '4', duration: 1},
-            {letter: 'D', octave: '4', duration: 1},
+            {letter: 'D', octave: '5', duration: 1},
             {letter: 'Db', octave: '4', duration: 1},
             {letter: 'C', octave: '4', duration: 1}
         ]
@@ -355,8 +352,8 @@ let levels = [
             {letter: 'F#', octave: '4', duration: 1},
             {letter: 'A#', octave: '4', duration: 1},
             {letter: 'C#', octave: '4', duration: 1},
-            {letter: 'F#', octave: '4', duration: 1},
-            {letter: 'E', octave: '4', duration: 1},
+            {letter: 'F#', octave: '5', duration: 1},
+            {letter: 'E', octave: '5', duration: 1},
         ]
     },
 
@@ -401,10 +398,10 @@ let levels = [
             {letter: 'C', octave: '4', duration: 1},
             {letter: 'Eb', octave: '4', duration: 1},
             {letter: 'Gb', octave: '4', duration: 1},
-            {letter: 'Eb', octave: '4', duration: 1},
+            {letter: 'Eb', octave: '5', duration: 1},
             {letter: 'Gb', octave: '4', duration: 1},
             {letter: 'Eb', octave: '4', duration: 1},
-            {letter: 'C', octave: '4', duration: 1},
+            {letter: 'C', octave: '5', duration: 1},
         ]
     },
 
@@ -425,7 +422,7 @@ let levels = [
             {letter: 'E', octave: '4', duration: 1},
             {letter: 'F#', octave: '4', duration: 1},
             {letter: 'G#', octave: '4', duration: 1},
-            {letter: 'F#', octave: '4', duration: 1},
+            {letter: 'F#', octave: '5', duration: 1},
             {letter: 'G#', octave: '4', duration: 1},
             {letter: 'A', octave: '4', duration: 1},
             {letter: 'B', octave: '4', duration: 1},
@@ -452,7 +449,7 @@ let levels = [
             {letter: 'B', octave: '4', duration: 1},
             {letter: 'Bb', octave: '4', duration: 1},
             {letter: 'Gb', octave: '4', duration: 1},
-            {letter: 'Eb', octave: '4', duration: 1},
+            {letter: 'Eb', octave: '5', duration: 1},
         ]
     },
 
@@ -500,9 +497,9 @@ let levels = [
             {letter: 'A', octave: '4', duration: 1},
             {letter: 'Ab', octave: '4', duration: 1},
             {letter: 'G', octave: '4', duration: 1},
-            {letter: 'F#', octave: '4', duration: 1},
+            {letter: 'F#', octave: '5', duration: 1},
             {letter: 'F', octave: '4', duration: 1},
-            {letter: 'E', octave: '4', duration: 1},
+
         ]
     },
 
@@ -548,7 +545,7 @@ let levels = [
         bossLife: 5,
         bossNoteImg: 'note-orange',
         chords: [
-            // TODO: update chords
+ 
             {
                 name: "C minor",
                 chordNotes: [
@@ -619,8 +616,9 @@ let levels = [
         time: 60,
         notes: [
             {letter: 'C', octave: '3', duration: 1},
-            {letter: 'D', octave: '3', duration: 1},
-            {letter: 'E', octave: '3', duration: 1},
+            {letter: 'F', octave: '3', duration: 1},
+            {letter: 'G', octave: '3', duration: 1},
+            {letter: 'G', octave: '2', duration: 1},
         ]
     },
     {
@@ -637,9 +635,10 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'C', octave: '3', duration: 1},
+            {letter: 'B', octave: '2', duration: 1},
+            {letter: 'G', octave: '3', duration: 1},
             {letter: 'D', octave: '3', duration: 1},
-            {letter: 'E', octave: '3', duration: 1},
+            {letter: 'A', octave: '3', duration: 1},
         ]
     },
     {
@@ -657,8 +656,10 @@ let levels = [
         time: 60,
         notes: [
             {letter: 'C', octave: '3', duration: 1},
-            {letter: 'D', octave: '3', duration: 1},
             {letter: 'E', octave: '3', duration: 1},
+            {letter: 'A', octave: '2', duration: 1},
+            {letter: 'G', octave: '2', duration: 1},
+            {letter: 'B', octave: '3', duration: 1},
         ]
     },
     {
@@ -673,10 +674,13 @@ let levels = [
         enemy: 'fireball',
         enemyCount: 1,
         loopTime: 0,
-        time: 60,
+        time: 80,
         notes: [
-            {letter: 'C', octave: '3', duration: 1},
+            {letter: 'E', octave: '3', duration: 1},
             {letter: 'D', octave: '3', duration: 1},
+            {letter: 'C', octave: '3', duration: 1},
+            {letter: 'G', octave: '3', duration: 1},
+            {letter: 'F', octave: '3', duration: 1},
             {letter: 'E', octave: '3', duration: 1},
         ]
     },
@@ -695,8 +699,9 @@ let levels = [
         time: 60,
         notes: [
             {letter: 'C', octave: '3', duration: 1},
-            {letter: 'D', octave: '3', duration: 1},
-            {letter: 'E', octave: '3', duration: 1},
+            {letter: 'Eb', octave: '3', duration: 1},
+            {letter: 'F', octave: '3', duration: 1},
+            {letter: 'Bb', octave: '3', duration: 1},
         ]
     },
     {
@@ -709,13 +714,14 @@ let levels = [
         dungeonBorder: 'border-4',
         bgMusic: 'lava-dungeon',
         enemy: 'fireball',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'C', octave: '3', duration: 1},
-            {letter: 'D', octave: '3', duration: 1},
-            {letter: 'E', octave: '3', duration: 1},
+            {letter: 'G', octave: '2', duration: 1},
+            {letter: 'Bb', octave: '3', duration: 1},
+            {letter: 'Eb', octave: '3', duration: 1},
+            {letter: 'Gb', octave: '3', duration: 1},
         ]
     },
     {
@@ -728,13 +734,15 @@ let levels = [
         dungeonBorder: 'border-4',
         bgMusic: 'lava-dungeon',
         enemy: 'fireball',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'C', octave: '3', duration: 1},
-            {letter: 'D', octave: '3', duration: 1},
+            {letter: 'F', octave: '3', duration: 1},
+            {letter: 'D#', octave: '3', duration: 1},
             {letter: 'E', octave: '3', duration: 1},
+            {letter: 'Eb', octave: '3', duration: 1},
+            {letter: 'C#', octave: '3', duration: 1},
         ]
     },
     {
@@ -747,13 +755,16 @@ let levels = [
         dungeonBorder: 'border-4',
         bgMusic: 'lava-dungeon',
         enemy: 'fireball',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 60,
         notes: [
             {letter: 'C', octave: '3', duration: 1},
-            {letter: 'D', octave: '3', duration: 1},
             {letter: 'E', octave: '3', duration: 1},
+            {letter: 'D', octave: '3', duration: 1},
+            {letter: 'F', octave: '3', duration: 1},
+            {letter: 'Eb', octave: '3', duration: 1},
+            {letter: 'C', octave: '3', duration: 1},
         ]
     },
     {
@@ -766,13 +777,16 @@ let levels = [
         dungeonBorder: 'border-4',
         bgMusic: 'lava-dungeon',
         enemy: 'fireball',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'C', octave: '3', duration: 1},
             {letter: 'D', octave: '3', duration: 1},
+            {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'A', octave: '3', duration: 1},
             {letter: 'E', octave: '3', duration: 1},
+            {letter: 'G#', octave: '3', duration: 1},
+            {letter: 'B', octave: '3', duration: 1},
         ]
     },
     {
@@ -793,35 +807,35 @@ let levels = [
         bossNoteImg: 'note-red',
         chords: [
             {
-                name: "C minor",
+                name: "C major",
                 chordNotes: [
-                    {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'C', octave: '5', duration: 1},
+                    {letter: 'C', octave: '3', duration: 1},
+                    {letter: 'E', octave: '3', duration: 1},
+                    {letter: 'G', octave: '3', duration: 1},
                 ]
             },
             {
-                name: "D major",
+                name: "G minor",
                 chordNotes: [
-                    {letter: 'D', octave: '4', duration: 1},
-                    {letter: 'F#', octave: '4', duration: 1},
-                    {letter: 'A', octave: '4', duration: 1},
+                    {letter: 'G', octave: '2', duration: 1},
+                    {letter: 'Bb', octave: '3', duration: 1},
+                    {letter: 'D', octave: '3', duration: 1},
                 ]
             },
             {
                 name: "A major",
                 chordNotes: [
-                    {letter: 'A', octave: '4', duration: 1},
-                    {letter: 'C#', octave: '5', duration: 1},
-                    {letter: 'E', octave: '4', duration: 1},
+                    {letter: 'A', octave: '3', duration: 1},
+                    {letter: 'C#', octave: '3', duration: 1},
+                    {letter: 'E', octave: '3', duration: 1},
                 ]
             },
             {
-                name: "Eb major",
+                name: "Db major",
                 chordNotes: [
-                    {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'Bb', octave: '4', duration: 1},
+                    {letter: 'Db', octave: '3', duration: 1},
+                    {letter: 'F', octave: '3', duration: 1},
+                    {letter: 'Ab', octave: '3', duration: 1},
                 ]
             }
         ]
@@ -861,9 +875,10 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'C#', octave: '3', duration: 1},
-            {letter: 'D#', octave: '3', duration: 1},
-            {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'D', octave: '3', duration: 1},
+            {letter: 'Db', octave: '3', duration: 1},
+            {letter: 'E', octave: '3', duration: 1},
+            {letter: 'Eb', octave: '3', duration: 1},
         ]
     },
     {
@@ -880,9 +895,10 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
+            {letter: 'G', octave: '3', duration: 1},
             {letter: 'C#', octave: '3', duration: 1},
-            {letter: 'D#', octave: '3', duration: 1},
-            {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'Eb', octave: '3', duration: 1},
+            {letter: 'A#', octave: '3', duration: 1},
         ]
     },
     {
@@ -897,11 +913,14 @@ let levels = [
         enemy: 'ghost',
         enemyCount: 1,
         loopTime: 0,
-        time: 60,
+        time: 80,
         notes: [
-            {letter: 'C#', octave: '3', duration: 1},
-            {letter: 'D#', octave: '3', duration: 1},
-            {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'B', octave: '3', duration: 1},
+            {letter: 'Bb', octave: '3', duration: 1},
+            {letter: 'A', octave: '3', duration: 1},
+            {letter: 'Ab', octave: '3', duration: 1},
+            {letter: 'G', octave: '3', duration: 1},
+            {letter: 'Gb', octave: '3', duration: 1},
         ]
     },
     {
@@ -916,11 +935,13 @@ let levels = [
         enemy: 'ghost',
         enemyCount: 1,
         loopTime: 0,
-        time: 60,
+        time: 80,
         notes: [
             {letter: 'C#', octave: '3', duration: 1},
             {letter: 'D#', octave: '3', duration: 1},
             {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'G#', octave: '3', duration: 1},
+            {letter: 'A#', octave: '3', duration: 1},
         ]
     },
     {
@@ -937,9 +958,12 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'C#', octave: '3', duration: 1},
-            {letter: 'D#', octave: '3', duration: 1},
-            {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'Bb', octave: '3', duration: 1},
+            {letter: 'Ab', octave: '3', duration: 1},
+            {letter: 'Gb', octave: '3', duration: 1},
+            {letter: 'Eb', octave: '3', duration: 1},
+            {letter: 'Db', octave: '3', duration: 1},
+            {letter: 'Bb', octave: '2', duration: 1},
         ]
     },
     {
@@ -952,13 +976,16 @@ let levels = [
         dungeonBorder: 'border-5',
         bgMusic: 'candlelight-dungeon',
         enemy: 'ghost',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'C#', octave: '3', duration: 1},
-            {letter: 'D#', octave: '3', duration: 1},
-            {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'G', octave: '3', duration: 1},
+            {letter: 'Eb', octave: '3', duration: 1},
+            {letter: 'C', octave: '3', duration: 1},
+            {letter: 'B', octave: '3', duration: 1},
+            {letter: 'Db', octave: '3', duration: 1},
+            {letter: 'G', octave: '2', duration: 1},
         ]
     },
     {
@@ -971,13 +998,16 @@ let levels = [
         dungeonBorder: 'border-5',
         bgMusic: 'candlelight-dungeon',
         enemy: 'ghost',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
-        time: 60,
+        time: 80,
         notes: [
+            {letter: 'Gb', octave: '2', duration: 1},
+            {letter: 'Bb', octave: '2', duration: 1},
+            {letter: 'G', octave: '3', duration: 1},
+            {letter: 'A', octave: '2', duration: 1},
             {letter: 'C#', octave: '3', duration: 1},
-            {letter: 'D#', octave: '3', duration: 1},
-            {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'E', octave: '3', duration: 1},
         ]
     },
     {
@@ -990,13 +1020,16 @@ let levels = [
         dungeonBorder: 'border-5',
         bgMusic: 'candlelight-dungeon',
         enemy: 'ghost',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
-        time: 60,
+        time: 80,
         notes: [
-            {letter: 'C#', octave: '3', duration: 1},
-            {letter: 'D#', octave: '3', duration: 1},
+            {letter: 'A#', octave: '2', duration: 1},
+            {letter: 'D', octave: '3', duration: 1},
+            {letter: 'F', octave: '3', duration: 1},
             {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'D#', octave: '3', duration: 1},
+            {letter: 'Db', octave: '3', duration: 1},
         ]
     },
     {
@@ -1009,13 +1042,16 @@ let levels = [
         dungeonBorder: 'border-5',
         bgMusic: 'candlelight-dungeon',
         enemy: 'ghost',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'C#', octave: '3', duration: 1},
-            {letter: 'D#', octave: '3', duration: 1},
+            {letter: 'B', octave: '3', duration: 1},
             {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'Db', octave: '3', duration: 1},
+            {letter: 'Gb', octave: '3', duration: 1},
+            {letter: 'C#', octave: '3', duration: 1},
+            {letter: 'E', octave: '3', duration: 1},
         ]
     },
     {
@@ -1036,44 +1072,51 @@ let levels = [
         bossNoteImg: 'note-purple',
         chords: [
             {
-                name: "C minor",
+                name: "Db major",
                 chordNotes: [
-                    {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'C', octave: '5', duration: 1},
+                    {letter: 'Db', octave: '3', duration: 1},
+                    {letter: 'F', octave: '3', duration: 1},
+                    {letter: 'Ab', octave: '3', duration: 1},
                 ]
             },
             {
-                name: "D major",
+                name: "Ab major",
                 chordNotes: [
-                    {letter: 'D', octave: '4', duration: 1},
-                    {letter: 'F#', octave: '4', duration: 1},
-                    {letter: 'A', octave: '4', duration: 1},
+                    {letter: 'Ab', octave: '2', duration: 1},
+                    {letter: 'C', octave: '3', duration: 1},
+                    {letter: 'Eb', octave: '3', duration: 1},
                 ]
             },
             {
-                name: "A major",
+                name: "E minor",
                 chordNotes: [
-                    {letter: 'A', octave: '4', duration: 1},
-                    {letter: 'C#', octave: '5', duration: 1},
-                    {letter: 'E', octave: '4', duration: 1},
+                    {letter: 'E', octave: '3', duration: 1},
+                    {letter: 'G', octave: '3', duration: 1},
+                    {letter: 'B', octave: '3', duration: 1},
                 ]
             },
             {
-                name: "Eb major",
+                name: "B minor",
                 chordNotes: [
-                    {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'Bb', octave: '4', duration: 1},
+                    {letter: 'B', octave: '2', duration: 1},
+                    {letter: 'D', octave: '3', duration: 1},
+                    {letter: 'F#', octave: '3', duration: 1},
+                ]
+            },
+            {
+                name: "C# minor",
+                chordNotes: [
+                    {letter: 'C#', octave: '3', duration: 1},
+                    {letter: 'E', octave: '3', duration: 1},
+                    {letter: 'G#', octave: '3', duration: 1},
                 ]
             }
 
         ]
-            // TODO: update chords
             
     },
 
-    // Level 5 - Fortress?
+    // Level 5 - Fortress
     {
         id: 41,
         name: "5-1",
@@ -1088,9 +1131,9 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'F#', octave: '3', duration: 1},
-            {letter: 'B', octave: '4', duration: 1},
-            {letter: 'D', octave: '5', duration: 1},
+            {letter: 'C', octave: '4', duration: 1},
+            {letter: 'C', octave: '3', duration: 1},
+            {letter: 'C', octave: '5', duration: 1},
         ]
     },
     {
@@ -1107,9 +1150,10 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'G', octave: '2', duration: 1},
             {letter: 'B', octave: '4', duration: 1},
-            {letter: 'D', octave: '5', duration: 1},
+            {letter: 'D', octave: '3', duration: 1},
+            {letter: 'F', octave: '4', duration: 1},
         ]
     },
     {
@@ -1126,9 +1170,10 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'F#', octave: '3', duration: 1},
-            {letter: 'B', octave: '4', duration: 1},
-            {letter: 'D', octave: '5', duration: 1},
+            {letter: 'Bb', octave: '2', duration: 1},
+            {letter: 'C#', octave: '4', duration: 1},
+            {letter: 'Eb', octave: '3', duration: 1},
+            {letter: 'G#', octave: '4', duration: 1},
         ]
     },
     {
@@ -1145,9 +1190,12 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'F#', octave: '3', duration: 1},
-            {letter: 'B', octave: '4', duration: 1},
-            {letter: 'D', octave: '5', duration: 1},
+            {letter: 'Eb', octave: '5', duration: 1},
+            {letter: 'Db', octave: '3', duration: 1},
+            {letter: 'C', octave: '5', duration: 1},
+            {letter: 'F', octave: '3', duration: 1},
+            {letter: 'Bb', octave: '3', duration: 1},
+            {letter: 'C#', octave: '3', duration: 1},
         ]
     },
     {
@@ -1164,9 +1212,13 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
+            {letter: 'A', octave: '2', duration: 1},
+            {letter: 'A', octave: '4', duration: 1},
+            {letter: 'B', octave: '2', duration: 1},
+            {letter: 'D#', octave: '3', duration: 1},
+            {letter: 'D', octave: '4', duration: 1},
             {letter: 'F#', octave: '3', duration: 1},
-            {letter: 'B', octave: '4', duration: 1},
-            {letter: 'D', octave: '5', duration: 1},
+            {letter: 'Gb', octave: '3', duration: 1},
         ]
     },
     {
@@ -1183,9 +1235,12 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'F#', octave: '3', duration: 1},
-            {letter: 'B', octave: '4', duration: 1},
-            {letter: 'D', octave: '5', duration: 1},
+            {letter: 'D', octave: '4', duration: 1},
+            {letter: 'A', octave: '4', duration: 1},
+            {letter: 'B', octave: '3', duration: 1},
+            {letter: 'C#', octave: '3', duration: 1},
+            {letter: 'E', octave: '5', duration: 1},
+            {letter: 'Gb', octave: '2', duration: 1},
         ]
     },
     {
@@ -1202,9 +1257,12 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'F#', octave: '3', duration: 1},
-            {letter: 'B', octave: '4', duration: 1},
-            {letter: 'D', octave: '5', duration: 1},
+            {letter: 'Eb', octave: '5', duration: 1},
+            {letter: 'D#', octave: '3', duration: 1},
+            {letter: 'Ab', octave: '2', duration: 1},
+            {letter: 'F#', octave: '5', duration: 1},
+            {letter: 'C', octave: '4', duration: 1},
+            {letter: 'B', octave: '3', duration: 1},
         ]
     },
     {
@@ -1221,9 +1279,12 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'F#', octave: '3', duration: 1},
-            {letter: 'B', octave: '4', duration: 1},
-            {letter: 'D', octave: '5', duration: 1},
+            {letter: 'A#', octave: '2', duration: 1},
+            {letter: 'A#', octave: '4', duration: 1},
+            {letter: 'Db', octave: '3', duration: 1},
+            {letter: 'D#', octave: '3', duration: 1},
+            {letter: 'F', octave: '4', duration: 1},
+            {letter: 'G#', octave: '3', duration: 1},
         ]
     },
     {
@@ -1240,9 +1301,13 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'F#', octave: '3', duration: 1},
-            {letter: 'B', octave: '4', duration: 1},
             {letter: 'D', octave: '5', duration: 1},
+            {letter: 'A', octave: '3', duration: 1},
+            {letter: 'B', octave: '2', duration: 1},
+            {letter: 'C#', octave: '5', duration: 1},
+            {letter: 'Db', octave: '3', duration: 1},
+            {letter: 'G', octave: '2', duration: 1},
+            {letter: 'E', octave: '4', duration: 1},
         ]
     },
     {
@@ -1259,9 +1324,13 @@ let levels = [
         loopTime: 0,
         time: 60,
         notes: [
-            {letter: 'F#', octave: '3', duration: 1},
-            {letter: 'B', octave: '4', duration: 1},
+            {letter: 'F', octave: '4', duration: 1},
+            {letter: 'Bb', octave: '3', duration: 1},
+            {letter: 'A#', octave: '2', duration: 1},
+            {letter: 'C', octave: '5', duration: 1},
             {letter: 'D', octave: '5', duration: 1},
+            {letter: 'F#', octave: '3', duration: 1},
+            {letter: 'G#', octave: '2', duration: 1},
         ]
     },
 
@@ -1283,35 +1352,43 @@ let levels = [
         bossNoteImg: 'note-blue',
         chords: [
             {
-                name: "C minor",
+                name: "C diminished",
                 chordNotes: [
+                    {letter: 'C', octave: '3', duration: 1},
                     {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'C', octave: '5', duration: 1},
+                    {letter: 'Gb', octave: '4', duration: 1},
                 ]
             },
             {
                 name: "D major",
                 chordNotes: [
-                    {letter: 'D', octave: '4', duration: 1},
+                    {letter: 'D', octave: '3', duration: 1},
                     {letter: 'F#', octave: '4', duration: 1},
                     {letter: 'A', octave: '4', duration: 1},
                 ]
             },
             {
-                name: "A major",
+                name: "G augmented",
                 chordNotes: [
-                    {letter: 'A', octave: '4', duration: 1},
-                    {letter: 'C#', octave: '5', duration: 1},
-                    {letter: 'E', octave: '4', duration: 1},
+                    {letter: 'G', octave: '3', duration: 1},
+                    {letter: 'B', octave: '3', duration: 1},
+                    {letter: 'D#', octave: '4', duration: 1},
                 ]
             },
             {
-                name: "Eb major",
+                name: "A major 7",
                 chordNotes: [
-                    {letter: 'Eb', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'Bb', octave: '4', duration: 1},
+                    {letter: 'A', octave: '3', duration: 1},
+                    {letter: 'C#', octave: '4', duration: 1},
+                    {letter: 'G#', octave: '4', duration: 1},
+                ]
+            },
+            {
+                name: "F minor b7",
+                chordNotes: [
+                    {letter: 'F', octave: '3', duration: 1},
+                    {letter: 'Ab', octave: '4', duration: 1},
+                    {letter: 'Eb', octave: '5', duration: 1},
                 ]
             }
 
@@ -1336,26 +1413,34 @@ let levels = [
         notes: [],
         chords: [
             {
-                name: "C major",
+                name: "B minor",
                 chordNotes: [
-                    {letter: 'C', octave: '4', duration: 1},
-                    {letter: 'E', octave: '4', duration: 1},
-                    {letter: 'G', octave: '4', duration: 1},
+                    {letter: 'B', octave: '3', duration: 1},
+                    {letter: 'D', octave: '4', duration: 1},
+                    {letter: 'F#', octave: '4', duration: 1},
                 ]
             },
             {
-                name: "F major",
+                name: "A major",
                 chordNotes: [
-                    {letter: 'F', octave: '4', duration: 1},
-                    {letter: 'A', octave: '4', duration: 1},
-                    {letter: 'C', octave: '5', duration: 1},
+                    {letter: 'A', octave: '3', duration: 1},
+                    {letter: 'C#', octave: '4', duration: 1},
+                    {letter: 'E', octave: '4', duration: 1},
+                ]
+            },
+            {
+                name: "F# major",
+                chordNotes: [
+                    {letter: 'F#', octave: '3', duration: 1},
+                    {letter: 'A#', octave: '3', duration: 1},
+                    {letter: 'C#', octave: '4', duration: 1},
                 ]
             },
             {
                 name: "G major",
                 chordNotes: [
-                    {letter: 'G', octave: '4', duration: 1},
-                    {letter: 'B', octave: '4', duration: 1},
+                    {letter: 'G', octave: '2', duration: 1},
+                    {letter: 'B', octave: '3', duration: 1},
                     {letter: 'D', octave: '5', duration: 1},
                 ]
             }
@@ -1363,13 +1448,13 @@ let levels = [
             
         ],
         finalChord: [
-            {letter: 'C', octave: '4', duration: 1},
-            {letter: 'E', octave: '4', duration: 1},
-            {letter: 'G', octave: '4', duration: 1},
-            {letter: 'Bb', octave: '4', duration: 1},
-            {letter: 'C', octave: '5', duration: 1},
+            {letter: 'B', octave: '2', duration: 1},
+            {letter: 'D', octave: '4', duration: 1},
+            {letter: 'F#', octave: '4', duration: 1},
+            {letter: 'A', octave: '4', duration: 1},
+            {letter: 'B', octave: '4', duration: 1},
         ],
-        finalChordName: 'Cb7'
+        finalChordName: 'B minor b7'
 
     },
 

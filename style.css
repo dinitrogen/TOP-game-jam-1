@@ -133,6 +133,9 @@ body, html, #content {
 
 .gameButton:hover {
     color: white;
+    cursor: pointer;
+    /* cursor: url(./img/map-icons/cursor-pointer.svg); */
+    
 }
 
 #gameScreenContent {
