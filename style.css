@@ -776,6 +776,10 @@ body, html, #content {
     animation: blink 0.1s infinite;
 }
 
+.hintTile {
+    animation: blink 0.9s infinite;
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
