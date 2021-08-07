@@ -2102,6 +2102,22 @@ function createStartButtonDiv() {
     return startButtonDiv;
 }
 
+function createCreditsButtonDiv() {
+    const startButtonDiv = document.createElement('div');
+    startButtonDiv.classList.add('creditsButtonDiv');
+    const startButton = document.createElement('button');
+    startButton.setAttribute('id', 'creditsButton');
+    startButton.setAttribute('class', 'gameButton');
+    const startButtonText = document.createElement('span');
+    startButtonText.textContent = 'Credits';
+    startButton.addEventListener('click', () => {
+        loadCreditsScreen();
+    });
+    startButton.appendChild(startButtonText);
+    startButtonDiv.appendChild(startButton);
+    return startButtonDiv;
+}
+
 function createNewGameButtonDiv() {
     const newGameButtonDiv = document.createElement('div');
     newGameButtonDiv.classList.add('newGameButtonDiv');
@@ -2251,6 +2267,61 @@ function loadNameInputScreen() {
 
 }
 
+function loadCreditsScreen() {
+    const creditsDisplayDiv = document.createElement('div');
+    creditsDisplayDiv.classList.add('newGameButtonDiv');
+    
+    const createdByText = document.createElement('div');
+    createdByText.classList.add('creditsTitle');
+    createdByText.textContent = 'Created By:';
+
+    const dinitrogenText = document.createElement('div');
+    dinitrogenText.classList.add('creditsText');
+    dinitrogenText.textContent = 'Don Knobloch (dinitrogen)';
+
+    const khandyText = document.createElement('div');
+    khandyText.classList.add('creditsText');
+    khandyText.textContent = 'Kevin Handy (khandy)';
+
+    const mzeoliText = document.createElement('div');
+    mzeoliText.classList.add('creditsText');
+    mzeoliText.textContent = 'Matt Zeoli (mzeoli)';
+
+
+    const specialThanksTitle = document.createElement('div');
+    specialThanksTitle.classList.add('creditsTitle');
+    specialThanksTitle.textContent = 'Special Thanks:';
+
+    const specialThanksText = document.createElement('div');
+    specialThanksText.classList.add('creditsText');
+    specialThanksText.textContent = 'Elly K., Daniel Brummel & Ryen Slegr';
+
+    creditsDisplayDiv.appendChild(createdByText);
+    creditsDisplayDiv.appendChild(dinitrogenText);
+    creditsDisplayDiv.appendChild(khandyText);
+    creditsDisplayDiv.appendChild(mzeoliText);
+    creditsDisplayDiv.appendChild(specialThanksTitle);
+    creditsDisplayDiv.appendChild(specialThanksText);
+
+    const content = document.getElementById('content');
+    content.textContent = '';
+    content.innerHTML = '';
+    const creditsScreenContent = document.createElement('div');
+    creditsScreenContent.classList.add('creditsScreenContent');
+    const titleLogoDiv = createTitleLogoDiv();
+    const spacerDiv = createSpacerDiv();
+    const footerDiv = createFooterDiv();
+    const returnButton = createReturnButton();
+
+    creditsScreenContent.appendChild(titleLogoDiv);
+    creditsScreenContent.appendChild(creditsDisplayDiv);
+    creditsScreenContent.appendChild(returnButton);
+    creditsScreenContent.appendChild(spacerDiv);
+    creditsScreenContent.appendChild(footerDiv);
+
+    content.appendChild(creditsScreenContent);
+}
+
 function createPracticeModeButton() {
     const practiceModeButton = document.createElement('button');
     practiceModeButton.classList.add('gameButton');
@@ -2373,11 +2444,13 @@ function loadNewGameScreen() {
     const optionsButton = createHighScoresButton();
     const spacerDiv = createSpacerDiv();
     const footerDiv = createFooterDiv();
+    const creditsButtonDiv = createCreditsButtonDiv();
 
     newGameButtonDiv.appendChild(continueButtonDiv);
     newGameButtonDiv.appendChild(practiceModeButton);
     newGameButtonDiv.appendChild(howToPlayButton);
     newGameButtonDiv.appendChild(optionsButton);
+    newGameButtonDiv.appendChild(creditsButtonDiv);
 
     content.appendChild(newGameScreenContent);
     newGameScreenContent.appendChild(titleLogoDiv);
