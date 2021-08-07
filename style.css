@@ -167,25 +167,29 @@ body, html, #content {
     flex-grow: 1;
 }
 
-#levelDisplay, #levelNameDisplay, .noteStreakDiv {
+#levelDisplay, #levelNameDisplay, #scoreDisplay, .noteStreakDiv, .spellChargedTextDiv {
     font-size: 20px;
     font-family: "Press Start 2P";
+    padding: 10px 0px 10px 0px;
 }
 
-#scoreDisplay {
+.multiplierHeader {
     font-size: 20px;
     font-family: "Press Start 2P";
+    padding: 20px 0px 0px 0px;
 }
+
 
 .multiplierDiv {
     display: inline-flex;
     font-size: 20px;
     font-family: "Press Start 2P";
+    padding: 10px 0px 10px 0px;
 }
 
 .multiplierText {
     padding-left: 10px;
-    padding-top: 5px;
+    padding-top: 3px;
 }
 
 .multiplierBorder {
@@ -212,7 +216,7 @@ body, html, #content {
 }
 
 .levelProgressDiv {
-    padding-top: 20px;
+    padding: 10px 0px 10px 0px;
     display: block;
     font-size: 20px;
     font-family: "Press Start 2P";
@@ -246,15 +250,12 @@ body, html, #content {
 }
 
 
-#lifeDisplay {
+#lifeDisplay, #spellDisplay, #bossDisplay {
+    padding: 10px 0px 10px 0px;
     font-size: 20px;
     font-family: "Press Start 2P";
 }
 
-#spellDisplay {
-    font-size: 20px;
-    font-family: "Press Start 2P";
-}
 
 .spellBarBorder {
     width: 200px;
@@ -283,10 +284,6 @@ body, html, #content {
     animation: blink 0.25s infinite;
 }
 
-#bossDisplay {
-    font-size: 20px;
-    font-family: "Press Start 2P";
-}
 
 .bossBarBorder {
     width: 200px;
@@ -312,6 +309,7 @@ body, html, #content {
 }
 
 .staffDiv {
+    padding: 15px 0px 0px 0px;
     width: 200px;
     font-size: 20px;
     font-family: "Press Start 2P";
