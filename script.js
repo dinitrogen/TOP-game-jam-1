@@ -48,6 +48,9 @@ function loadGameScreen() {
     scoreTotal.textContent = 'Score: 0';
     scoreDisplay.appendChild(scoreTotal);
 
+    const multiplierHeader = document.createElement('div');
+    multiplierHeader.classList.add('multiplierHeader');
+    multiplierHeader.textContent = 'Multiplier:';
     const multiplierDiv = document.createElement('div');
     multiplierDiv.classList.add('multiplierDiv');
     const multiplierBorder = document.createElement('div');
@@ -114,9 +117,11 @@ function loadGameScreen() {
     spellBarEmpty.appendChild(spellBarFill);
     spellDisplay.appendChild(spellBarBorder);
     
+    const spellChargedTextDiv = document.createElement('div');
+    spellChargedTextDiv.classList.add('spellChargedTextDiv');
     const spellChargedText = document.createElement('div');
     spellChargedText.classList.add('spellChargedText');
-    levelProgressDiv.appendChild(spellChargedText);
+    spellChargedTextDiv.appendChild(spellChargedText);
 
     const bossDisplay = document.createElement('div');
     bossDisplay.setAttribute('id', 'bossDisplay');
@@ -160,15 +165,17 @@ function loadGameScreen() {
     const content = document.getElementById('content');
     content.textContent = '';
 
-    leftContent.appendChild(logo);
+    // leftContent.appendChild(logo);
     leftContent.appendChild(levelDisplay);
     leftContent.appendChild(levelNameDisplay);
     leftContent.appendChild(scoreDisplay);
+    leftContent.appendChild(multiplierHeader);
     leftContent.appendChild(multiplierDiv);
     leftContent.appendChild(noteStreakDiv);
-    leftContent.appendChild(staffDiv);
     leftContent.appendChild(levelProgressDiv);
     leftContent.appendChild(bossNoteDisplay);
+    leftContent.appendChild(staffDiv);
+    leftContent.appendChild(spellChargedTextDiv);
     // leftContent.appendChild(resultDisplay);
 
     centerContent.appendChild(timerDisplay);
