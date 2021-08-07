@@ -508,6 +508,7 @@ function loadGameScreen() {
                         populateMap(gridArea);
                         placeRandomLocks(gridArea, 1);
                         updateStaffDiv(correctAnswer, correctOctave);
+                        highlightAnswers();
                     }
 
                 } else {
@@ -530,6 +531,7 @@ function loadGameScreen() {
                         let octave = `${levels[levelIndex].notes[noteIndex].octave}`;
                         updateStaffDiv(correctAnswer, octave);
                         updateLevelProgressBar();
+                        highlightAnswers();
                     }
 
                 }
@@ -965,6 +967,10 @@ function loadGameScreen() {
 
             if (tile.classList.contains('correct')) {
                 tile.classList.remove('correct');
+            }
+
+            if (tile.classList.contains('hintTile')) {
+                tile.classList.remove('hintTile');
             }
         }
     }
@@ -1578,6 +1584,7 @@ function loadGameScreen() {
             populateMap(gridArea);
             placeRandomLocks(gridArea, 1);
             updateStaffDiv(correctAnswer, correctOctave);
+            highlightAnswers();
 
         } else {
             for (let i = 0; i < gridArea; i++) {
@@ -1763,6 +1770,9 @@ function loadGameScreen() {
             startTimer();
         }
 
+        //Enable hints
+        highlightAnswers();
+
         updateLevelProgressBar();
 
     }
@@ -1827,6 +1837,9 @@ function loadGameScreen() {
         if (!easyModeStatus) {
             startTimer();
         }
+
+        //Enable hints
+        highlightAnswers();
     }
 
     function loadFinalBossStage() {
@@ -1886,6 +1899,9 @@ function loadGameScreen() {
         if (!easyModeStatus) {
             startTimer();
         }
+
+        //Enable hints
+        highlightAnswers();
     }
 
     function startNewGame() {
@@ -1936,6 +1952,9 @@ function loadGameScreen() {
         if (!easyModeStatus) {
             startTimer();
         }
+
+        //Enable hints
+        highlightAnswers();
     }
 
     function startPracticeMode() {
@@ -1995,6 +2014,27 @@ function loadGameScreen() {
         let root = document.querySelector(':root');
         root.style.setProperty('--multiplierFill', multiplierFill);
 
+    }
+
+    let hintTimer;
+
+    // Hint feature: highlight correct answers
+    function highlightAnswers() {
+        stopHintTimer();
+        if (easyModeStatus) {
+            hintTimer = setTimeout(function() {
+                for (let i = 0; i < gridArea; i++) {
+                    let tile = document.getElementById(`tile${i}`);
+                    if (tile.textContent === correctAnswer) {
+                        tile.classList.add('hintTile');
+                    }
+                }
+            }, 8000)
+        }
+    }
+
+    function stopHintTimer() {
+        clearTimeout(hintTimer);
     }
 
 
@@ -2125,7 +2165,7 @@ function loadDifficultySettings() {
 
     const easyModeButton = document.createElement('button');
     easyModeButton.classList.add('gameButton');
-    easyModeButton.textContent = 'Easy (No timer, but score multipliers are disabled)';
+    easyModeButton.textContent = 'Easy (Hints enabled, no timer, but no score multipliers)';
     easyModeButton.addEventListener('click', () => {
         easyModeStatus = true;      
         loadNameInputScreen();
