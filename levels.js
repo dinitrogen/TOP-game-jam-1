@@ -544,7 +544,7 @@ let levels = [
         loopTime: 0,
         time: 200,
         notes: [],
-        bossLife: 5,
+        bossLife: 4,
         bossNoteImg: 'note-orange',
         chords: [
  
@@ -805,7 +805,7 @@ let levels = [
         loopTime: 0,
         time: 200,
         notes: [],
-        bossLife: 5,
+        bossLife: 4,
         bossNoteImg: 'note-red',
         chords: [
             {

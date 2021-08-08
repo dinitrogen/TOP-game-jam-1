@@ -63,7 +63,7 @@ function loadHowToPlayScreen() {
     ring.setAttribute('class', 'ring');
 
     const ringText = document.createElement('span');
-    ringText.textContent = ' : Protect against one hit or wrong note';
+    ringText.textContent = ' : Protects against one hit or wrong note';
 
     let bossNote = document.createElement('object');
     bossNote.setAttribute('data', `./img/map-icons/note-blue.svg`);
@@ -71,7 +71,7 @@ function loadHowToPlayScreen() {
     bossNote.setAttribute('class', 'bossNote');
 
     const bossNoteText = document.createElement('span');
-    bossNoteText.textContent = ' : Collect to restore music to the world!';
+    bossNoteText.textContent = ' : Collect the five Pentatonic shards!';
 
     const heartDiv = document.createElement('div');
     heartDiv.appendChild(heart);

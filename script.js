@@ -729,7 +729,7 @@ function loadGameScreen() {
         score = score + 200 * scoreMultiplier;
         scoreTotal.textContent = `Score: ${score}`;
 
-        playSoundEffect('item-pickup');
+        playSoundEffect('ring-pickup');
         if (hasRing === false) {
             let ring = document.createElement('object');
             ring.setAttribute('data', `./img/map-icons/ring.svg`);
