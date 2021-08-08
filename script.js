@@ -1116,6 +1116,11 @@ function loadGameScreen() {
         multiplierText.textContent = `1X`;
         noteStreakDiv.textContent = `Note streak: ${consecutiveAnswers}`;
 
+        root.style.setProperty('--heroSVG', 'url(./img/map-icons/hero-damage.svg');
+        
+        setTimeout(function() {
+            root.style.setProperty('--heroSVG', 'url(./img/map-icons/hero.svg');
+        }, 300);
 
         playSoundEffect('hero-damage');
         life--;

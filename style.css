@@ -620,6 +620,7 @@ body, html, #content {
 }
 
 
+
 .hero {
     background: var(--heroSVG);
     background-color: var(--tileColor);
@@ -632,6 +633,7 @@ body, html, #content {
     -o-animation: fadeIn 1s;
     -ms-animation: fadeIn 1s;
 }
+
 
 .enemy {
     background: var(--enemySVG);

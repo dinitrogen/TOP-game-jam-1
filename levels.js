@@ -85,7 +85,7 @@ let levels = [
         dungeonBorder: 'border-1',
         bgMusic: 'dungeon-a',
         enemy: 'snake',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 1.7,
         time: 60,
         notes: [
@@ -108,14 +108,16 @@ let levels = [
         dungeonBorder: 'border-1',
         bgMusic: 'dungeon-a',
         enemy: 'snake',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 1.7,
         time: 60,
         notes: [
             {letter: 'F', octave: '4', duration: 1},
             {letter: 'A', octave: '4', duration: 1},
-            {letter: 'C', octave: '4', duration: 1},
-            {letter: 'A', octave: '4', duration: 1},
+            {letter: 'C', octave: '5', duration: 1},
+            {letter: 'G', octave: '4', duration: 1},
+            {letter: 'B', octave: '4', duration: 1},
+            {letter: 'D', octave: '5', duration: 1},
         ]
     },
 
@@ -367,7 +369,7 @@ let levels = [
         dungeonBorder: 'border-2',
         bgMusic: 'tone-raider',
         enemy: 'mummy',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 80,
         notes: [
@@ -391,7 +393,7 @@ let levels = [
         dungeonBorder: 'border-2',
         bgMusic: 'tone-raider',
         enemy: 'mummy',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 80,
         notes: [
@@ -651,7 +653,7 @@ let levels = [
         dungeonBorder: 'border-4',
         bgMusic: 'lava-dungeon',
         enemy: 'fireball',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 60,
         notes: [
@@ -672,7 +674,7 @@ let levels = [
         dungeonBorder: 'border-4',
         bgMusic: 'lava-dungeon',
         enemy: 'fireball',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 80,
         notes: [
@@ -911,7 +913,7 @@ let levels = [
         dungeonBorder: 'border-5',
         bgMusic: 'candlelight-dungeon',
         enemy: 'ghost',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 80,
         notes: [
@@ -933,7 +935,7 @@ let levels = [
         dungeonBorder: 'border-5',
         bgMusic: 'candlelight-dungeon',
         enemy: 'ghost',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 80,
         notes: [
@@ -1186,7 +1188,7 @@ let levels = [
         dungeonBorder: 'border-1',
         bgMusic: 'fortress-dungeon',
         enemy: 'soldier-b',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 60,
         notes: [
@@ -1208,7 +1210,7 @@ let levels = [
         dungeonBorder: 'border-1',
         bgMusic: 'fortress-dungeon',
         enemy: 'soldier-b',
-        enemyCount: 1,
+        enemyCount: 2,
         loopTime: 0,
         time: 60,
         notes: [
