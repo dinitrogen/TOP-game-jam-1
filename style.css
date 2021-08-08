@@ -388,6 +388,16 @@ body, html, #content {
     padding-top: 10px;
 }
 
+
+.ring {
+    height: 35px;
+    padding-top: 15px;
+}
+
+#ringDisplay {
+    padding-top: 10px;
+}
+
 .bossNote {
     height: 40px;
     padding-top: 10px;

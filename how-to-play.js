@@ -28,7 +28,7 @@ function loadHowToPlayScreen() {
     directionsHeader.textContent = 'INSTRUCTIONS';
 
     const directionsText = document.createElement('p');
-    directionsText.textContent = 'Navigate Zemis through each floor of the dungeon before time expires. Select the corresponding letter of the music note displayed on the musical staff to progress. You will lose a life if you select a wrong note, or get hit by an enemy. Useful items will sometimes appear to help you on your adventure. Playing well will increase the score multiplier and maximize your score!'
+    directionsText.textContent = 'Navigate Zemis through each floor of the dungeon before time expires. Select the corresponding letter of the music note displayed on the musical staff to progress. You will lose a life if you select a wrong note, or get hit by an enemy. Useful items will sometimes appear to help you on your adventure. Playing well will increase the score multiplier and maximize your score!';
     
     const howToPlayItemDiv = document.createElement('div');
     howToPlayItemDiv.classList.add('howToPlayItemDiv');
@@ -39,7 +39,7 @@ function loadHowToPlayScreen() {
     heart.setAttribute('class', 'mapHeart');
 
     const heartText = document.createElement('span');
-    heartText.textContent = ' : Restore one life'
+    heartText.textContent = ' : Restore one life';
 
     let key = document.createElement('object');
     key.setAttribute('data', `./img/map-icons/key.svg`);
@@ -47,7 +47,7 @@ function loadHowToPlayScreen() {
     key.setAttribute('class', 'mapKey');
 
     const keyText = document.createElement('span');
-    keyText.textContent = ' : Unlock a door (orange tile)'
+    keyText.textContent = ' : Unlock a door (orange tile)';
 
     let stopwatch = document.createElement('object');
     stopwatch.setAttribute('data', `./img/map-icons/stopwatch.svg`);
@@ -55,7 +55,15 @@ function loadHowToPlayScreen() {
     stopwatch.setAttribute('class', 'stopwatch');
 
     const stopwatchText = document.createElement('span');
-    stopwatchText.textContent = ' : Restore some time'
+    stopwatchText.textContent = ' : Restore some time';
+
+    let ring = document.createElement('object');
+    ring.setAttribute('data', `./img/map-icons/ring.svg`);
+    ring.setAttribute('type', 'image/svg+xml');
+    ring.setAttribute('class', 'ring');
+
+    const ringText = document.createElement('span');
+    ringText.textContent = ' : Protect against one hit or wrong note';
 
     let bossNote = document.createElement('object');
     bossNote.setAttribute('data', `./img/map-icons/note-blue.svg`);
@@ -63,7 +71,7 @@ function loadHowToPlayScreen() {
     bossNote.setAttribute('class', 'bossNote');
 
     const bossNoteText = document.createElement('span');
-    bossNoteText.textContent = ' : Collect to restore music to the world!'
+    bossNoteText.textContent = ' : Collect to restore music to the world!';
 
     const heartDiv = document.createElement('div');
     heartDiv.appendChild(heart);
@@ -77,6 +85,10 @@ function loadHowToPlayScreen() {
     stopwatchDiv.appendChild(stopwatch);
     stopwatchDiv.appendChild(stopwatchText);
     
+    const ringDiv = document.createElement('div');
+    ringDiv.appendChild(ring);
+    ringDiv.appendChild(ringText);
+
     const bossNoteDiv = document.createElement('div');
     bossNoteDiv.appendChild(bossNote);
     bossNoteDiv.appendChild(bossNoteText);
@@ -84,6 +96,7 @@ function loadHowToPlayScreen() {
     howToPlayItemDiv.appendChild(heartDiv);
     howToPlayItemDiv.appendChild(keyDiv);
     howToPlayItemDiv.appendChild(stopwatchDiv);
+    howToPlayItemDiv.appendChild(ringDiv);
     howToPlayItemDiv.appendChild(bossNoteDiv);
     
     howToPlayScreenContent.appendChild(howToPlayHeader);
