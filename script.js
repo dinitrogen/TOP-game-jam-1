@@ -99,6 +99,9 @@ function loadGameScreen() {
     const keyDisplay = document.createElement('div');
     keyDisplay.setAttribute('id', 'keyDisplay');
 
+    const ringDisplay = document.createElement('div');
+    ringDisplay.setAttribute('id', 'ringDisplay');
+
     const bossNoteDisplay = document.createElement('div');
     bossNoteDisplay.classList.add('bossNoteDisplay');
 
@@ -186,6 +189,7 @@ function loadGameScreen() {
     rightContent.appendChild(spellDisplay);
     rightContent.appendChild(bossDisplay);
     rightContent.appendChild(keyDisplay);
+    rightContent.appendChild(ringDisplay);
 
 
     gameScreenContent.appendChild(leftContent);
@@ -477,6 +481,10 @@ function loadGameScreen() {
                 getStopwatch();
                 activeTile.classList.remove('hasStopwatch');
                 activeTile.textContent = ' ';
+            } else if (activeTile.classList.contains('hasRing')) {
+                getRing();
+                activeTile.classList.remove('hasRing');
+                activeTile.textContent = ' ';
             } else if (activeTile.classList.contains('correct')) {
 
                 if (levels[levelIndex].type === 'practice') {
@@ -549,6 +557,8 @@ function loadGameScreen() {
                 // resultDisplay.textContent = 'Wrong!';
                 if (levels[levelIndex].type === 'practice') {
                     return;
+                } else if (hasRing) {
+                    useRing();
                 } else {
                     decreaseLife();
                 }
@@ -703,9 +713,45 @@ function loadGameScreen() {
         }
 
         if (activeTileIndex === enemyTileIndex) {
-            decreaseLife();
-            resetEnemyPosition(enemyTileIndex, i, arr);
+            if (hasRing) {
+                resetEnemyPosition(enemyTileIndex, i, arr);
+                useRing();
+            } else {
+                decreaseLife();
+                resetEnemyPosition(enemyTileIndex, i, arr);
+            }
         }
+    }
+
+    let hasRing = false;
+
+    function getRing() {
+        score = score + 200 * scoreMultiplier;
+        scoreTotal.textContent = `Score: ${score}`;
+
+        playSoundEffect('item-pickup');
+        if (hasRing === false) {
+            let ring = document.createElement('object');
+            ring.setAttribute('data', `./img/map-icons/ring.svg`);
+            ring.setAttribute('type', 'image/svg+xml');
+            ring.setAttribute('class', 'key');
+            ringDisplay.appendChild(ring);
+            
+            let root = document.querySelector(':root');
+            root.style.setProperty('--heroSVG', 'url(./img/map-icons/hero-shield.svg');
+            
+            hasRing = true;
+        }
+    }
+
+    function useRing() {
+        ringDisplay.removeChild(ringDisplay.firstChild);
+        let root = document.querySelector(':root');
+        root.style.setProperty('--heroSVG', 'url(./img/map-icons/hero.svg');
+        hasRing = false;
+        playSoundEffect('boss-defeated');
+        // TODO remove ring and/or player graphic
+        // play ring sound
     }
 
     function decideFinalBossMove(tileIndex) {
@@ -924,12 +970,20 @@ function loadGameScreen() {
             notesList[3] = getRandomNote();
         }
 
-        for (let i = 4; i < numTiles; i++) {
+        // Generate shield ring only on standard levels (not bosses)
+        num = rollDice(3);
+        if (levels[levelIndex].type === 'level' && num === 1) {
+            notesList[4] = 'R';
+        } else {
+            notesList[4] = getRandomNote();
+        }
+
+        for (let i = 5; i < numTiles; i++) {
             notesList[i] = " ";
         }
 
         // Change the i increment to adjust how populated the map is
-        for (let i = 4; i < numTiles; i = i + 7) {
+        for (let i = 5; i < numTiles; i = i + 7) {
             notesList[i] = getRandomNote();
         }
 
@@ -972,6 +1026,10 @@ function loadGameScreen() {
                 tile.classList.remove('hasStopwatch');
             }
 
+            if (tile.classList.contains('hasRing')) {
+                tile.classList.remove('hasRing');
+            }
+
             if (tile.classList.contains('correct')) {
                 tile.classList.remove('correct');
             }
@@ -1010,6 +1068,15 @@ function loadGameScreen() {
                 document.getElementById(`tile${i}`).innerHTML = '';
                 document.getElementById(`tile${i}`).appendChild(stopwatch)
                 document.getElementById(`tile${i}`).classList.add('hasStopwatch');
+
+            } else if (notesList[i] === 'R') {
+                let ring = document.createElement('object');
+                ring.setAttribute('data', `./img/map-icons/ring.svg`);
+                ring.setAttribute('type', 'image/svg+xml');
+                ring.setAttribute('class', 'ring');
+                document.getElementById(`tile${i}`).innerHTML = '';
+                document.getElementById(`tile${i}`).appendChild(ring)
+                document.getElementById(`tile${i}`).classList.add('hasRing');
 
             } else {
                 let tile = document.getElementById(`tile${i}`);
@@ -1742,6 +1809,7 @@ function loadGameScreen() {
         let root = document.querySelector(':root');
         root.style.setProperty('--spellChargeFill', '0%');
         root.style.setProperty('--bossLifeFill', '0%');
+        root.style.setProperty('--heroSVG', 'url(./img/map-icons/hero.svg');
 
         activeTileIndex = 0;
         enemyTileIndices = [];
@@ -1765,6 +1833,8 @@ function loadGameScreen() {
         // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
+        hasRing = false;
+        ringDisplay.innerHTML = '';
         scoreTotal.textContent = `Score: ${score}`;
         levelDisplay.textContent = `Level ${levels[levelIndex].name}`;
         updateLifeBar(life);
@@ -1835,6 +1905,8 @@ function loadGameScreen() {
 
         haveKey = false;
         keyDisplay.innerHTML = '';
+        hasRing = false;
+        ringDisplay.innerHTML = '';
         renderEnemySprite(bossTileIndex);
         renderHeroSprite(activeTileIndex);
 
@@ -1844,6 +1916,7 @@ function loadGameScreen() {
         root.style.setProperty('--bossLifeFill', '100%');
         root.style.setProperty('--levelProgressFill', '0%');
         spellBarFill.classList.remove('blink');
+        root.style.setProperty('--heroSVG', 'url(./img/map-icons/hero.svg');
 
         playBackgroundAudioLoop(levels[levelIndex].bgMusic);
         if (!easyModeStatus) {
@@ -1893,6 +1966,8 @@ function loadGameScreen() {
         // resultDisplay.textContent = '';
         haveKey = false;
         keyDisplay.innerHTML = '';
+        hasRing = false;
+        ringDisplay.innerHTML = '';
         scoreTotal.textContent = `Score: ${score}`;
 
         // renderEnemySprite(finalBossTileIndex);
@@ -1905,7 +1980,9 @@ function loadGameScreen() {
         root.style.setProperty('--bossLifeFill', '100%');
         root.style.setProperty('--levelProgressFill', '0%');
         root.style.setProperty('--spellChargeFill', '0%');
+        root.style.setProperty('--heroSVG', 'url(./img/map-icons/hero.svg');
         spellBarFill.classList.remove('blink');
+
 
         playBackgroundAudioLoop(levels[levelIndex].bgMusic);
         if (!easyModeStatus) {
