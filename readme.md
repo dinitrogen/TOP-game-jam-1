@@ -18,6 +18,7 @@ An easy mode is also availble which eliminates the timer and enables a hint syst
 
 ### Controls
 Arrow keys: Move
+
 Space bar: Select letter / Pickup item / Cast spell
 
 ### Listen to the Soundtrack
